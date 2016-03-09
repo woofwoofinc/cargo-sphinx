@@ -6,8 +6,8 @@ Basically it runs following tasks:
 
 * Check if current working directory is git clean
 * Read version from Cargo.toml, remove prerelease extension and commit if necessary
-* Create a git tag for this version
 * Run `cargo publish`
+* Create a git tag for this version
 * Bump version for next development cycle
 * `git push`
 
