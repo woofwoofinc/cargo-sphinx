@@ -4,6 +4,8 @@ version = "0.1.4-pre"
 authors = ["Ning Sun <sunng@about.me>"]
 license = "MIT/Apache-2.0"
 description = "cargo release command"
+keywords = ["cargo"]
+repository = "https://github.com/sunng87/cargo-release"
 
 [dependencies]
 toml = "0.1.27"
