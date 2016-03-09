@@ -1,6 +1,6 @@
 [root]
 name = "cargo-release"
-version = "0.1.4"
+version = "0.1.5-pre"
 dependencies = [
  "clap 2.1.2 (registry+git://crates.mirrors.ustc.edu.cn/index)",
  "quick-error 0.1.4 (registry+git://crates.mirrors.ustc.edu.cn/index)",
