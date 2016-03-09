@@ -78,11 +78,6 @@ version = "0.2.5"
 source = "registry+git://crates.mirrors.ustc.edu.cn/index"
 
 [[package]]
-name = "rustc-serialize"
-version = "0.3.18"
-source = "registry+git://crates.mirrors.ustc.edu.cn/index"
-
-[[package]]
 name = "semver"
 version = "0.2.3"
 source = "registry+git://crates.mirrors.ustc.edu.cn/index"
@@ -99,9 +94,6 @@ source = "registry+git://crates.mirrors.ustc.edu.cn/index"
 name = "toml"
 version = "0.1.27"
 source = "registry+git://crates.mirrors.ustc.edu.cn/index"
-dependencies = [
- "rustc-serialize 0.3.18 (registry+git://crates.mirrors.ustc.edu.cn/index)",
-]
 
 [[package]]
 name = "utf8-ranges"
