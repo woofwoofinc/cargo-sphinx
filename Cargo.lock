@@ -2,6 +2,7 @@
 name = "cargo-release"
 version = "0.1.4-pre"
 dependencies = [
+ "clap 2.1.2 (registry+git://crates.mirrors.ustc.edu.cn/index)",
  "quick-error 0.1.4 (registry+git://crates.mirrors.ustc.edu.cn/index)",
  "regex 0.1.55 (registry+git://crates.mirrors.ustc.edu.cn/index)",
  "semver 0.2.3 (registry+git://crates.mirrors.ustc.edu.cn/index)",
@@ -14,6 +15,27 @@ version = "0.5.1"
 source = "registry+git://crates.mirrors.ustc.edu.cn/index"
 dependencies = [
  "memchr 0.1.10 (registry+git://crates.mirrors.ustc.edu.cn/index)",
+]
+
+[[package]]
+name = "ansi_term"
+version = "0.7.2"
+source = "registry+git://crates.mirrors.ustc.edu.cn/index"
+
+[[package]]
+name = "bitflags"
+version = "0.4.0"
+source = "registry+git://crates.mirrors.ustc.edu.cn/index"
+
+[[package]]
+name = "clap"
+version = "2.1.2"
+source = "registry+git://crates.mirrors.ustc.edu.cn/index"
+dependencies = [
+ "ansi_term 0.7.2 (registry+git://crates.mirrors.ustc.edu.cn/index)",
+ "bitflags 0.4.0 (registry+git://crates.mirrors.ustc.edu.cn/index)",
+ "strsim 0.4.0 (registry+git://crates.mirrors.ustc.edu.cn/index)",
+ "vec_map 0.4.0 (registry+git://crates.mirrors.ustc.edu.cn/index)",
 ]
 
 [[package]]
@@ -69,6 +91,11 @@ dependencies = [
 ]
 
 [[package]]
+name = "strsim"
+version = "0.4.0"
+source = "registry+git://crates.mirrors.ustc.edu.cn/index"
+
+[[package]]
 name = "toml"
 version = "0.1.27"
 source = "registry+git://crates.mirrors.ustc.edu.cn/index"
@@ -79,5 +106,10 @@ dependencies = [
 [[package]]
 name = "utf8-ranges"
 version = "0.1.3"
+source = "registry+git://crates.mirrors.ustc.edu.cn/index"
+
+[[package]]
+name = "vec_map"
+version = "0.4.0"
 source = "registry+git://crates.mirrors.ustc.edu.cn/index"
 

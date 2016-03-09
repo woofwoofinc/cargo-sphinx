@@ -4,9 +4,11 @@
 extern crate regex;
 extern crate toml;
 extern crate semver;
+extern crate clap;
 
 use std::process::exit;
 
+use clap::App;
 use semver::Identifier;
 
 mod config;
@@ -20,7 +22,7 @@ fn execute() -> Result<i32, error::FatalError> {
     // STEP 0: Check if working directory is clean
     if !try!(git::status()) {
         println!("Uncommitted changes detected, please commit before release");
-        return Ok(128);
+        return Ok(101);
     }
 
     // STEP 1: Read version from Cargo.toml and remove
@@ -44,13 +46,13 @@ fn execute() -> Result<i32, error::FatalError> {
         let commit_msg = format!("(cargo-release) version {}", new_version_string);
         if !try!(git::commit_all(&commit_msg)) {
             // commit failed, abort release
-            return Ok(128);
+            return Ok(102);
         }
     }
 
     // STEP 3: cargo publish
     if !try!(cargo::publish()) {
-        return Ok(128);
+        return Ok(103);
     }
 
     // STEP 4: Tag
@@ -58,7 +60,7 @@ fn execute() -> Result<i32, error::FatalError> {
     let tag_message = format!("(cargo-release) version {}", current_version);
     if !try!(git::tag(&current_version, &tag_message)) {
         // tag failed, abort release
-        return Ok(128);
+        return Ok(104);
     }
 
     // STEP 5: bump version
@@ -71,17 +73,24 @@ fn execute() -> Result<i32, error::FatalError> {
     let commit_msg = format!("(cargo-release) start next development cycle {}",
                              updated_version_string);
     if !try!(git::commit_all(&commit_msg)) {
-        return Ok(128);
+        return Ok(105);
     }
 
     // STEP 6: git push
     if !try!(git::push()) {
-        return Ok(128);
+        return Ok(106);
     }
     Ok(0)
 }
 
 fn main() {
+    let _ = App::new("cargo release")
+        .version(env!("CARGO_PKG_VERSION"))
+        .author("Ning Sun <sunng@about.me>")
+        .about("Cargo subcommand for you to smooth your release process.")
+        // TODO: .args_from_usage("")
+        .get_matches();
+
     match execute() {
         Ok(code) => exit(code),
         Err(e) => {
