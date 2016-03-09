@@ -1,5 +1,7 @@
 # cargo release
 
+[![](http://meritbadge.herokuapp.com/cargo-release)](https://crates.io/crates/cargo-release)
+
 This a script standardize release of cargo project for you.
 
 Basically it runs following tasks:
