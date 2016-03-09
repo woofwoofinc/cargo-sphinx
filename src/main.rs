@@ -18,10 +18,7 @@ mod cargo;
 fn execute() -> Result<i32, error::FatalError> {
 
     // STEP 0: Check if working directory is clean
-    let git_clean = try!(git::status());
-    if git_clean {
-        println!("Working directory is clean");
-    } else {
+    if !try!(git::status()) {
         println!("Uncommitted changes detected, please commit before release");
         return Ok(128);
     }
