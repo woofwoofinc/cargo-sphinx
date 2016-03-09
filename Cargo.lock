@@ -1,6 +1,6 @@
 [root]
 name = "cargo-release"
-version = "0.1.4-pre"
+version = "0.1.4"
 dependencies = [
  "clap 2.1.2 (registry+git://crates.mirrors.ustc.edu.cn/index)",
  "quick-error 0.1.4 (registry+git://crates.mirrors.ustc.edu.cn/index)",
@@ -53,7 +53,7 @@ dependencies = [
 
 [[package]]
 name = "nom"
-version = "1.2.1"
+version = "1.2.2"
 source = "registry+git://crates.mirrors.ustc.edu.cn/index"
 
 [[package]]
@@ -82,7 +82,7 @@ name = "semver"
 version = "0.2.3"
 source = "registry+git://crates.mirrors.ustc.edu.cn/index"
 dependencies = [
- "nom 1.2.1 (registry+git://crates.mirrors.ustc.edu.cn/index)",
+ "nom 1.2.2 (registry+git://crates.mirrors.ustc.edu.cn/index)",
 ]
 
 [[package]]
