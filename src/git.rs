@@ -14,8 +14,8 @@ pub fn commit_all(msg: &str) -> Result<bool, FatalError> {
     call(vec!["git", "commit", "-am", msg])
 }
 
-pub fn tag(name: &str) -> Result<bool, FatalError> {
-    call(vec!["git", "tag", name])
+pub fn tag(name: &str, msg: &str) -> Result<bool, FatalError> {
+    call(vec!["git", "tag", "-a", name, "-m", msg])
 }
 
 pub fn push() -> Result<bool, FatalError> {

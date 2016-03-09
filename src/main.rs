@@ -58,7 +58,8 @@ fn execute() -> Result<i32, error::FatalError> {
 
     // STEP 4: Tag
     let current_version = version.to_string();
-    if !try!(git::tag(&current_version)) {
+    let tag_message = format!("(cargo-release) version {}", current_version);
+    if !try!(git::tag(&current_version, &tag_message)) {
         // tag failed, abort release
         return Ok(128);
     }
