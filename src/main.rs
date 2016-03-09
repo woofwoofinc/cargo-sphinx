@@ -41,6 +41,8 @@ fn execute() -> Result<i32, error::FatalError> {
         version.pre.clear();
         let new_version_string = version.to_string();
         try!(config::rewrite_cargo_version(&new_version_string));
+        // sync Cargo.toml and Cargo.lock
+        try!(cargo::update());
 
         let commit_msg = format!("(cargo-release) version {}", new_version_string);
         if !try!(git::commit_all(&commit_msg)) {
@@ -67,6 +69,7 @@ fn execute() -> Result<i32, error::FatalError> {
     println!("Starting next development cycle {}", version);
     let updated_version_string = version.to_string();
     try!(config::rewrite_cargo_version(&updated_version_string));
+    try!(cargo::update());
     let commit_msg = format!("(cargo-release) start next development cycle {}",
                              updated_version_string);
     if !try!(git::commit_all(&commit_msg)) {
