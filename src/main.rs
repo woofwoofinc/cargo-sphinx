@@ -49,15 +49,15 @@ fn execute() -> Result<i32, error::FatalError> {
         }
     }
 
-    // STEP 3: Tag
-    let current_version = version.to_string();
-    if !try!(git::tag(&current_version)) {
-        // tag failed, abort release
+    // STEP 3: cargo publish
+    if !try!(cargo::publish()) {
         return Ok(128);
     }
 
-    // STEP 4: cargo publish
-    if !try!(cargo::publish()) {
+    // STEP 4: Tag
+    let current_version = version.to_string();
+    if !try!(git::tag(&current_version)) {
+        // tag failed, abort release
         return Ok(128);
     }
 
