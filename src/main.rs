@@ -39,6 +39,29 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
         .unwrap();
 
     // STEP 2: Remove pre extension, save and commit
+    match args.value_of("level") {
+        Some(level) => {
+            match level {
+                "major" => {
+                    version.increment_major();
+                },
+                "minor" => {
+                    version.increment_minor();
+                },
+                "patch" => {
+                    version.increment_patch();
+                },
+                _ => {
+                    panic!("Invalid level: {}", level);
+                }
+            }
+        },
+        None => {
+            version.pre.clear();
+        }
+    }
+
+    //FIXME: support version bump level
     if version.is_prerelease() {
         version.pre.clear();
         let new_version_string = version.to_string();
@@ -107,6 +130,7 @@ fn main() {
         .author("Ning Sun <sunng@about.me>")
         .about("Cargo subcommand for you to smooth your release process.")
         .args_from_usage("
+        -l=[level] 'Release level: bumpping major|minor|patch version on release or removing prerelease extensions by default'
         [dry-run]... --dry-run 'Donot actually change anything.'")
         .get_matches();
 
