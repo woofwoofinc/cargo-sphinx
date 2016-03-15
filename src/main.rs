@@ -44,8 +44,6 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
         let new_version_string = version.to_string();
         if !dry_run {
             try!(config::rewrite_cargo_version(&new_version_string));
-            // sync Cargo.toml and Cargo.lock
-            try!(cargo::update());
         }
 
         let commit_msg = format!("(cargo-release) version {}", new_version_string);
@@ -81,7 +79,6 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
     let updated_version_string = version.to_string();
     if !dry_run {
         try!(config::rewrite_cargo_version(&updated_version_string));
-        try!(cargo::update());
     }
     let commit_msg = format!("(cargo-release) start next development cycle {}",
                              updated_version_string);
