@@ -65,10 +65,17 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
     }
 
     // STEP 4: Tag
+    let root = try!(git::top_level());
+    let rel_path = try!(cmd::relative_path_for(&root));
+
     let current_version = version.to_string();
-    let tag_message = format!("(cargo-release) version {}", current_version);
+    let tag_name = rel_path.clone().map_or_else(|| current_version.clone(),
+                                                |x| format!("{}-{}", x, current_version));
+
+    let tag_message = format!("(cargo-release) {} version {}",
+                              rel_path.unwrap_or("".to_owned()), current_version);
     if !dry_run {
-        if !try!(git::tag(&current_version, &tag_message)) {
+        if !try!(git::tag(&tag_name, &tag_message)) {
             // tag failed, abort release
             return Ok(104);
         }

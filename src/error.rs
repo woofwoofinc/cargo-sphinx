@@ -1,4 +1,5 @@
 use std::io::{Error as IOError};
+use std::string::FromUtf8Error;
 use semver::SemVerError;
 
 quick_error! {
@@ -13,6 +14,10 @@ quick_error! {
             description("Invalid cargo file format")
         }
         SemVerError(err: SemVerError) {
+            from()
+            cause(err)
+        }
+        FromUtf8Error(err: FromUtf8Error) {
             from()
             cause(err)
         }
