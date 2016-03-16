@@ -38,9 +38,41 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
         .and_then(|f| config::parse_version(f).ok())
         .unwrap();
 
-    // STEP 2: Remove pre extension, save and commit
-    if version.is_prerelease() {
-        version.pre.clear();
+    // STEP 2: update current version, save and commit
+    let mut need_commit = false;
+    match args.value_of("level") {
+        Some(level) => {
+            match level {
+                "major" => {
+                    version.increment_major();
+                    need_commit = true;
+                },
+                "minor" => {
+                    version.increment_minor();
+                    need_commit = true
+                },
+                "patch" => {
+                    if !version.is_prerelease() {
+                        version.increment_patch();
+                    } else {
+                        version.pre.clear();
+                    }
+                     need_commit = true
+                },
+                _ => {
+                    panic!("Invalid level: {}", level);
+                }
+            }
+        },
+        None => {
+            if version.is_prerelease() {
+                version.pre.clear();
+                need_commit = true;
+            }
+        }
+    }
+
+    if need_commit {
         let new_version_string = version.to_string();
         if !dry_run {
             try!(config::rewrite_cargo_version(&new_version_string));
@@ -54,6 +86,8 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
                 // commit failed, abort release
                 return Ok(102);
             }
+        } else {
+            println!("{}", commit_msg);
         }
     }
 
@@ -114,6 +148,7 @@ fn main() {
         .author("Ning Sun <sunng@about.me>")
         .about("Cargo subcommand for you to smooth your release process.")
         .args_from_usage("
+        -l, --level=[level] 'Release level: bumpping major|minor|patch version on release or removing prerelease extensions by default'
         [dry-run]... --dry-run 'Donot actually change anything.'")
         .get_matches();
 
