@@ -8,7 +8,7 @@ extern crate clap;
 
 use std::process::exit;
 
-use clap::{App, ArgMatches};
+use clap::{App, ArgMatches, SubCommand};
 use semver::Identifier;
 
 mod config;
@@ -141,19 +141,22 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
 
 fn main() {
     let matches = App::new("cargo release")
-        .version(env!("CARGO_PKG_VERSION"))
-        .author("Ning Sun <sunng@about.me>")
-        .about("Cargo subcommand for you to smooth your release process.")
-        .args_from_usage("
-        -l, --level=[level] 'Release level: bumpping major|minor|patch version on release or removing prerelease extensions by default'
-        [dry-run]... --dry-run 'Donot actually change anything.'")
+    .subcommand(SubCommand::with_name("release")
+                .version(env!("CARGO_PKG_VERSION"))
+                .author("Ning Sun <sunng@about.me>")
+                .about("Cargo subcommand for you to smooth your release process.")
+                .args_from_usage("
+                    -l, --level=[level] 'Release level: bumpping major|minor|patch version on release or removing prerelease extensions by default'
+                    [dry-run]... --dry-run 'Donot actually change anything.'"))
         .get_matches();
 
-    match execute(&matches) {
-        Ok(code) => exit(code),
-        Err(e) => {
-            println!("Fatal: {}", e);
-            exit(128);
+    if let Some(ref release_matches) = matches.subcommand_matches("release") {
+        match execute(release_matches) {
+            Ok(code) => exit(code),
+            Err(e) => {
+                println!("Fatal: {}", e);
+                exit(128);
+            }
         }
     }
 }
