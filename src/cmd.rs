@@ -1,4 +1,4 @@
-use std::process::{Command};
+use std::process::Command;
 use std::env::current_dir;
 
 use error::FatalError;
@@ -10,7 +10,9 @@ pub fn call(command: Vec<&str>) -> Result<bool, FatalError> {
     let mut cmd = Command::new(cmd_name);
 
     for arg in iter {
-        cmd.arg(arg);
+        if arg.len() > 0 {
+            cmd.arg(arg);
+        }
     }
 
     let mut child = try!(cmd.spawn().map_err(FatalError::from));
