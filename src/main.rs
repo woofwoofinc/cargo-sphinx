@@ -101,13 +101,14 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
     // STEP 4: Tag
     let root = try!(git::top_level());
     let rel_path = try!(cmd::relative_path_for(&root));
+    let tag_prefix = args.value_of("tag-prefix").or(rel_path.as_ref().map(|t| t.as_ref()));
 
     let current_version = version.to_string();
-    let tag_name = rel_path.clone().map_or_else(|| current_version.clone(),
-                                                |x| format!("{}-{}", x, current_version));
+    let tag_name = tag_prefix.as_ref().map_or_else(|| current_version.clone(),
+                                                   |x| format!("{}{}", x, current_version));
 
     let tag_message = format!("(cargo-release) {} version {}",
-                              rel_path.unwrap_or("".to_owned()),
+                              tag_prefix.unwrap_or(""),
                               current_version);
     if !dry_run {
         if !try!(git::tag(&tag_name, &tag_message, sign)) {
@@ -147,7 +148,8 @@ static USAGE: &'static str = "-l, --level=[level] 'Release level: bumpping major
                     \
                               [sign]... --sign 'Sign git commit and tag'
                     \
-                              [dry-run]... --dry-run 'Donot actually change anything.'";
+                              [dry-run]... --dry-run 'Donot actually change anything.'
+                              --tag-prefix=[tag-prefix] 'Prefix of git tag'";
 
 fn main() {
     let matches = App::new("cargo release")
