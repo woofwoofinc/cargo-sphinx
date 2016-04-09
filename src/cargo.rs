@@ -1,10 +1,10 @@
 use cmd::call;
 use error::FatalError;
 
-pub fn publish() -> Result<bool, FatalError> {
-    call(vec!["cargo", "publish"])
+pub fn publish(dry_run: bool) -> Result<bool, FatalError> {
+    call(vec!["cargo", "publish"], dry_run)
 }
 
-pub fn update() -> Result<bool, FatalError> {
-    call(vec!["cargo", "update"])
+pub fn update(dry_run: bool) -> Result<bool, FatalError> {
+    call(vec!["cargo", "update"], dry_run)
 }

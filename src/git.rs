@@ -12,7 +12,7 @@ pub fn status() -> Result<bool, FatalError> {
     Ok(output.status.success())
 }
 
-pub fn commit_all(msg: &str, sign: bool) -> Result<bool, FatalError> {
+pub fn commit_all(msg: &str, sign: bool, dry_run: bool) -> Result<bool, FatalError> {
     call(vec!["git",
               "commit",
               if sign {
@@ -21,10 +21,11 @@ pub fn commit_all(msg: &str, sign: bool) -> Result<bool, FatalError> {
                   ""
               },
               "-am",
-              msg])
+              msg],
+         dry_run)
 }
 
-pub fn tag(name: &str, msg: &str, sign: bool) -> Result<bool, FatalError> {
+pub fn tag(name: &str, msg: &str, sign: bool, dry_run: bool) -> Result<bool, FatalError> {
     call(vec!["git",
               "tag",
               "-a",
@@ -35,11 +36,12 @@ pub fn tag(name: &str, msg: &str, sign: bool) -> Result<bool, FatalError> {
                   "-s"
               } else {
                   ""
-              }])
+              }],
+         dry_run)
 }
 
-pub fn push() -> Result<bool, FatalError> {
-    call(vec!["git", "push", "--follow-tags"])
+pub fn push(dry_run: bool) -> Result<bool, FatalError> {
+    call(vec!["git", "push", "--follow-tags"], dry_run)
 }
 
 pub fn top_level() -> Result<String, FatalError> {

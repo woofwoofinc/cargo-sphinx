@@ -81,21 +81,15 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
         }
 
         let commit_msg = format!("(cargo-release) version {}", new_version_string);
-        if !dry_run {
-            if !try!(git::commit_all(&commit_msg, sign)) {
-                // commit failed, abort release
-                return Ok(102);
-            }
-        } else {
-            println!("{}", commit_msg);
+        if !try!(git::commit_all(&commit_msg, sign, dry_run)) {
+            // commit failed, abort release
+            return Ok(102);
         }
     }
 
     // STEP 3: cargo publish
-    if !dry_run {
-        if !try!(cargo::publish()) {
-            return Ok(103);
-        }
+    if !try!(cargo::publish(dry_run)) {
+        return Ok(103);
     }
 
     // STEP 4: Tag
@@ -110,11 +104,10 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
     let tag_message = format!("(cargo-release) {} version {}",
                               tag_prefix.unwrap_or(""),
                               current_version);
-    if !dry_run {
-        if !try!(git::tag(&tag_name, &tag_message, sign)) {
-            // tag failed, abort release
-            return Ok(104);
-        }
+
+    if !try!(git::tag(&tag_name, &tag_message, sign, dry_run)) {
+        // tag failed, abort release
+        return Ok(104);
     }
 
     // STEP 5: bump version
@@ -127,39 +120,33 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
     }
     let commit_msg = format!("(cargo-release) start next development cycle {}",
                              updated_version_string);
-    if !dry_run {
-        if !try!(git::commit_all(&commit_msg, sign)) {
-            return Ok(105);
-        }
+
+    if !try!(git::commit_all(&commit_msg, sign, dry_run)) {
+        return Ok(105);
     }
 
     // STEP 6: git push
-    if !dry_run {
-        if !try!(git::push()) {
-            return Ok(106);
-        }
+    if !try!(git::push(dry_run)) {
+        return Ok(106);
     }
 
     Ok(0)
 }
 
-static USAGE: &'static str = "-l, --level=[level] 'Release level: bumpping major|minor|patch \
-                              version on release or removing prerelease extensions by default'
-                    \
-                              [sign]... --sign 'Sign git commit and tag'
-                    \
-                              [dry-run]... --dry-run 'Donot actually change anything.'
+static USAGE: &'static str = "-l, --level=[level] 'Release level: bumpping major|minor|patch version on release or removing prerelease extensions by default'
+                             [sign]... --sign 'Sign git commit and tag'
+                             [dry-run]... --dry-run 'Do not actually change anything.'
                               --tag-prefix=[tag-prefix] 'Prefix of git tag'";
 
 fn main() {
-    let matches = App::new("cargo release")
-                      .subcommand(SubCommand::with_name("release")
-                                      .version(env!("CARGO_PKG_VERSION"))
-                                      .author("Ning Sun <sunng@about.me>")
-                                      .about("Cargo subcommand for you to smooth your release \
-                                              process.")
-                                      .args_from_usage(USAGE))
-                      .get_matches();
+    let matches =
+        App::new("cargo release")
+            .subcommand(SubCommand::with_name("release")
+                            .version(env!("CARGO_PKG_VERSION"))
+                            .author("Ning Sun <sunng@about.me>")
+                            .about("Cargo subcommand for you to smooth your release process.")
+                            .args_from_usage(USAGE))
+            .get_matches();
 
     if let Some(ref release_matches) = matches.subcommand_matches("release") {
         match execute(release_matches) {

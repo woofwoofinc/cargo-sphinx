@@ -3,7 +3,11 @@ use std::env::current_dir;
 
 use error::FatalError;
 
-pub fn call(command: Vec<&str>) -> Result<bool, FatalError> {
+pub fn call(command: Vec<&str>, dry_run: bool) -> Result<bool, FatalError> {
+    if dry_run {
+        println!("{}", command.join(" "));
+        return Ok(true);
+    }
     let mut iter = command.iter();
     let cmd_name = iter.next().unwrap();
 
