@@ -1,6 +1,6 @@
 [package]
 name = "cargo-release"
-version = "0.2.2-pre"
+version = "0.3.0"
 authors = ["Ning Sun <sunng@about.me>"]
 license = "MIT/Apache-2.0"
 description = "cargo release command"
