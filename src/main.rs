@@ -138,7 +138,7 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
 static USAGE: &'static str = "-l, --level=[level] 'Release level: bumpping major|minor|patch version on release or removing prerelease extensions by default'
                              [sign]... --sign 'Sign git commit and tag'
                              [dry-run]... --dry-run 'Do not actually change anything.'
-                              --tag-prefix=[tag-prefix] 'Prefix of git tag'";
+                              --tag-prefix=[tag-prefix] 'Prefix of git tag, note that this will override default prefix based on sub-directory ";
 
 fn main() {
     let matches =
