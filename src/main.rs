@@ -21,6 +21,7 @@ mod cargo;
 fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
     let dry_run = args.occurrences_of("dry-run") > 0;
     let sign = args.occurrences_of("sign") > 0;
+    let upload_doc = args.occurrences_of("upload-doc") > 0;
 
     // STEP 0: Check if working directory is clean
     if !try!(git::status()) {
@@ -92,7 +93,21 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
         return Ok(103);
     }
 
-    // STEP 4: Tag
+    // STEP 4: upload doc
+    if upload_doc {
+        try!(cargo::doc(dry_run));
+
+        try!(git::init("target/doc/", dry_run));
+        try!(git::add_all("target/doc/", dry_run));
+        let default_remote = try!(git::origin_url());
+        try!(git::force_push("target/doc/",
+                             default_remote.trim(),
+                             "master:gh-pages",
+                             dry_run));
+    }
+
+
+    // STEP 5: Tag
     let root = try!(git::top_level());
     let rel_path = try!(cmd::relative_path_for(&root));
     let tag_prefix = args.value_of("tag-prefix")
@@ -102,7 +117,7 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
     let current_version = version.to_string();
     let tag_name = tag_prefix.as_ref().map_or_else(|| current_version.clone(),
                                                    |x| format!("{}{}", x, current_version));
-    // FIXME: tag name
+
     let tag_message = format!("(cargo-release) {} version {}",
                               rel_path.clone().unwrap_or("".to_owned()),
                               current_version);
@@ -112,7 +127,7 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
         return Ok(104);
     }
 
-    // STEP 5: bump version
+    // STEP 6: bump version
     version.increment_patch();
     version.pre.push(Identifier::AlphaNumeric("pre".to_owned()));
     println!("Starting next development cycle {}", version);
@@ -127,7 +142,7 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
         return Ok(105);
     }
 
-    // STEP 6: git push
+    // STEP 7: git push
     if !try!(git::push(dry_run)) {
         return Ok(106);
     }
@@ -138,6 +153,7 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
 static USAGE: &'static str = "-l, --level=[level] 'Release level: bumpping major|minor|patch version on release or removing prerelease extensions by default'
                              [sign]... --sign 'Sign git commit and tag'
                              [dry-run]... --dry-run 'Do not actually change anything.'
+                             [upload-doc]... --upload-doc 'Upload rust document to gh-pages branch'
                               --tag-prefix=[tag-prefix] 'Prefix of git tag, note that this will override default prefix based on sub-directory ";
 
 fn main() {
