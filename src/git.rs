@@ -12,17 +12,18 @@ pub fn status() -> Result<bool, FatalError> {
     Ok(output.status.success())
 }
 
-pub fn commit_all(msg: &str, sign: bool, dry_run: bool) -> Result<bool, FatalError> {
-    call(vec!["git",
-              "commit",
-              if sign {
-                  "-S"
-              } else {
-                  ""
-              },
-              "-am",
-              msg],
-         dry_run)
+pub fn commit_all(dir: &str, msg: &str, sign: bool, dry_run: bool) -> Result<bool, FatalError> {
+    call_on_path(vec!["git",
+                      "commit",
+                      if sign {
+                          "-S"
+                      } else {
+                          ""
+                      },
+                      "-am",
+                      msg],
+                 dir,
+                 dry_run)
 }
 
 pub fn tag(name: &str, msg: &str, sign: bool, dry_run: bool) -> Result<bool, FatalError> {

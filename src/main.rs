@@ -82,7 +82,7 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
         }
 
         let commit_msg = format!("(cargo-release) version {}", new_version_string);
-        if !try!(git::commit_all(&commit_msg, sign, dry_run)) {
+        if !try!(git::commit_all(".", &commit_msg, sign, dry_run)) {
             // commit failed, abort release
             return Ok(102);
         }
@@ -97,13 +97,13 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
     if upload_doc {
         try!(cargo::doc(dry_run));
 
-        try!(git::init("target/doc/", dry_run));
-        try!(git::add_all("target/doc/", dry_run));
+        let doc_path = "target/doc/";
+
+        try!(git::init(doc_path, dry_run));
+        try!(git::add_all(doc_path, dry_run));
+        try!(git::commit_all(doc_path, "(cargo-release) generate docs", sign, dry_run));
         let default_remote = try!(git::origin_url());
-        try!(git::force_push("target/doc/",
-                             default_remote.trim(),
-                             "master:gh-pages",
-                             dry_run));
+        try!(git::force_push(doc_path, default_remote.trim(), "master:gh-pages", dry_run));
     }
 
 
@@ -138,7 +138,7 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
     let commit_msg = format!("(cargo-release) start next development cycle {}",
                              updated_version_string);
 
-    if !try!(git::commit_all(&commit_msg, sign, dry_run)) {
+    if !try!(git::commit_all(".", &commit_msg, sign, dry_run)) {
         return Ok(105);
     }
 
