@@ -95,6 +95,7 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
 
     // STEP 4: upload doc
     if upload_doc {
+        println!("Building and exporting docs to github pages.");
         try!(cargo::doc(dry_run));
 
         let doc_path = "target/doc/";
@@ -130,12 +131,12 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
     // STEP 6: bump version
     version.increment_patch();
     version.pre.push(Identifier::AlphaNumeric("pre".to_owned()));
-    println!("Starting next development cycle {}", version);
+    println!("Starting next development iteration {}", version);
     let updated_version_string = version.to_string();
     if !dry_run {
         try!(config::rewrite_cargo_version(&updated_version_string));
     }
-    let commit_msg = format!("(cargo-release) start next development cycle {}",
+    let commit_msg = format!("(cargo-release) start next development iteration {}",
                              updated_version_string);
 
     if !try!(git::commit_all(".", &commit_msg, sign, dry_run)) {
