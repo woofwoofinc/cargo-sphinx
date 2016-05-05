@@ -29,10 +29,34 @@ Basically it runs following tasks:
 
 Use `-l [level]` or `--level [level]` to specify a release level.
 
-* By default, cargo release removes prerelease extension (0.1.0-pre -> 0.1.0)
-* If level is `patch` and current version is a prerelease, it behaves like default; if current version has no extension, it bumps patch version (0.1.0 -> 0.1.1)
+* By default, cargo release removes prerelease extension; if there is
+no prerelease extension, the current version will be used (0.1.0-pre
+-> 0.1.0, 0.1.0 -> 0.1.0)
+* If level is `patch` and current version is a prerelease, it behaves
+like default; if current version has no extension, it bumps patch
+version (0.1.0 -> 0.1.1)
 * If level is `minor`, it bumps minor version (0.1.0-pre -> 0.2.0)
 * If level is `major`, it bumps major version (0.1.0-pre -> 1.0.0)
+
+### Signing your git commit and tag
+
+Use `--sign` option to GPG sign your release commits and
+tags. [Further
+information](https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work)
+
+### Upload rust doc to github pages
+
+By using `--upload-doc` option, cargo-release will generate rustdoc
+during release process, and commit the doc directory to `gh-pages`
+branch. So you can access your rust doc at
+https://YOUR-GITHUB-USERNAME.github.io/YOUR-REPOSITORY-NAME/YOUR-CRATE-NAME
+
+Currently only github pages is supported.
+
+#### WARNING
+
+This option will override your existed `gh-pages` branch,
+use it at your own risk.
 
 ## License
 
