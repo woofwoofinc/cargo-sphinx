@@ -2,13 +2,15 @@
 
 [![](http://meritbadge.herokuapp.com/cargo-release)](https://crates.io/crates/cargo-release)
 
-This a script standardize release of cargo project for you.
+This a script standardize release process of cargo project for you.
 
 Basically it runs following tasks:
 
 * Check if current working directory is git clean
-* Read version from Cargo.toml, remove prerelease extension and commit if necessary
+* Read version from Cargo.toml, remove prerelease extension, bump
+  version and commit if necessary
 * Run `cargo publish`
+* Generate rustdoc and push to gh-pages optionally
 * Create a git tag for this version
 * Bump version for next development cycle
 * `git push`
@@ -57,6 +59,18 @@ Currently only github pages is supported.
 
 This option will override your existed `gh-pages` branch,
 use it at your own risk.
+
+### Tag prefix
+
+For single-crate repository, we will use version number as git tag
+name.
+
+For multi-crate repository, the subdirectory name will be used as tag
+name. For example, when releasing serde_macros 0.7.0 in serde-rs/serde
+repo, a tag named as `serde_macros-0.7.0` will be created.
+
+You can always override this behavior by using `--tag-prefix <prefix>`
+option.
 
 ## License
 
