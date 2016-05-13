@@ -23,6 +23,7 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
     let sign = args.occurrences_of("sign") > 0;
     let upload_doc = args.occurrences_of("upload-doc") > 0;
     let git_remote = args.value_of("push-remote").unwrap_or("origin");
+    let doc_branch = args.value_of("doc-branch").unwrap_or("gh-pages");
 
     // STEP 0: Check if working directory is clean
     if !try!(git::status()) {
@@ -105,7 +106,11 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
         try!(git::add_all(doc_path, dry_run));
         try!(git::commit_all(doc_path, "(cargo-release) generate docs", sign, dry_run));
         let default_remote = try!(git::origin_url());
-        try!(git::force_push(doc_path, default_remote.trim(), "master:gh-pages", dry_run));
+
+        let mut refspec = String::from("master:");
+        refspec.push_str(doc_branch);
+
+        try!(git::force_push(doc_path, default_remote.trim(), &refspec, dry_run));
     }
 
 
@@ -157,8 +162,8 @@ static USAGE: &'static str = "-l, --level=[level] 'Release level: bumpping major
                              [dry-run]... --dry-run 'Do not actually change anything.'
                              [upload-doc]... --upload-doc 'Upload rust document to gh-pages branch'
                              --push-remote=[push-remote] 'Git remote to push'
-
-                              --tag-prefix=[tag-prefix] 'Prefix of git tag, note that this will override default prefix based on sub-directory ";
+                             --doc-branch=[doc-branch] 'Git branch to push documentation on'
+                             --tag-prefix=[tag-prefix] 'Prefix of git tag, note that this will override default prefix based on sub-directory ";
 
 fn main() {
     let matches =
