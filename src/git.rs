@@ -41,8 +41,8 @@ pub fn tag(name: &str, msg: &str, sign: bool, dry_run: bool) -> Result<bool, Fat
          dry_run)
 }
 
-pub fn push(dry_run: bool) -> Result<bool, FatalError> {
-    call(vec!["git", "push", "--follow-tags"], dry_run)
+pub fn push(remote: &str, dry_run: bool) -> Result<bool, FatalError> {
+    call(vec!["git", "push", remote, "--follow-tags"], dry_run)
 }
 
 pub fn top_level() -> Result<String, FatalError> {
