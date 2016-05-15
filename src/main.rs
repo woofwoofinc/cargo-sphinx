@@ -97,7 +97,7 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
 
     // STEP 4: upload doc
     if upload_doc {
-        println!("Building and exporting docs to github pages.");
+        println!("Building and exporting docs.");
         try!(cargo::doc(dry_run));
 
         let doc_path = "target/doc/";
