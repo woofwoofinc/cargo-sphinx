@@ -78,6 +78,8 @@ option.
 In case your `origin` is not writable, you can specify custom remote
 by `--push-remote` to set the remote to push.
 
+Use `--skip-push` if you do not plan to push to anywhere for now.
+
 ## License
 
 Licensed under either of

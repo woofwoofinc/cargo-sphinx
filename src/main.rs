@@ -24,6 +24,7 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
     let upload_doc = args.occurrences_of("upload-doc") > 0;
     let git_remote = args.value_of("push-remote").unwrap_or("origin");
     let doc_branch = args.value_of("doc-branch").unwrap_or("gh-pages");
+    let skip_push = args.occurrences_of("skip-push") > 0;
 
     // STEP 0: Check if working directory is clean
     if !try!(git::status()) {
@@ -150,8 +151,10 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
     }
 
     // STEP 7: git push
-    if !try!(git::push(git_remote, dry_run)) {
-        return Ok(106);
+    if !skip_push {
+        if !try!(git::push(git_remote, dry_run)) {
+            return Ok(106);
+        }
     }
 
     Ok(0)
@@ -162,6 +165,7 @@ static USAGE: &'static str = "-l, --level=[level] 'Release level: bumpping major
                              [dry-run]... --dry-run 'Do not actually change anything.'
                              [upload-doc]... --upload-doc 'Upload rust document to gh-pages branch'
                              --push-remote=[push-remote] 'Git remote to push'
+                             [skip-push]... --skip-push 'Do not run git push in the last step'
                              --doc-branch=[doc-branch] 'Git branch to push documentation on'
                              --tag-prefix=[tag-prefix] 'Prefix of git tag, note that this will override default prefix based on sub-directory ";
 
