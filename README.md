@@ -53,11 +53,12 @@ during release process, and commit the doc directory to `gh-pages`
 branch. So you can access your rust doc at
 https://YOUR-GITHUB-USERNAME.github.io/YOUR-REPOSITORY-NAME/YOUR-CRATE-NAME
 
-Currently only github pages is supported.
+If your hosting service uses different branch for pages, you can use
+`--doc-branch` to customize the branch we push docs to.
 
 #### WARNING
 
-This option will override your existed `gh-pages` branch,
+This option will override your existed doc branch,
 use it at your own risk.
 
 ### Tag prefix
@@ -71,6 +72,11 @@ repo, a tag named as `serde_macros-0.7.0` will be created.
 
 You can always override this behavior by using `--tag-prefix <prefix>`
 option.
+
+### Custom remote to push
+
+In case your `origin` is not writable, you can specify custom remote
+by `--push-remote` to set the remote to push.
 
 ## License
 
