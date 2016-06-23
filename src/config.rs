@@ -26,15 +26,24 @@ fn save_to_file(path: &Path, content: &str) -> io::Result<()> {
 pub fn parse_cargo_config() -> Result<Table, FatalError> {
     let cargo_file_path = Path::new("Cargo.toml");
 
-    let cargo_file_content = try!(load_from_file(&cargo_file_path)
-                                  .map_err(FatalError::from));
+    let cargo_file_content = try!(load_from_file(&cargo_file_path).map_err(FatalError::from));
 
     let mut parser = Parser::new(&cargo_file_content);
 
     match parser.parse() {
         Some(toml) => Ok(toml),
-        None => Err(FatalError::InvalidCargoFileFormat)
+        None => Err(FatalError::InvalidCargoFileFormat),
     }
+}
+
+pub fn get_release_config<'a>(config: &'a Table, key: &str) -> Option<&'a Value> {
+    config.get("package")
+          .and_then(|f| f.as_table())
+          .and_then(|f| f.get("metadata"))
+          .and_then(|f| f.as_table())
+          .and_then(|f| f.get("release"))
+          .and_then(|f| f.as_table())
+          .and_then(|f| f.get(key))
 }
 
 pub fn save_cargo_config(config: &Table) -> Result<(), FatalError> {
@@ -109,4 +118,16 @@ pub fn rewrite_cargo_version(version: &str) -> Result<(), FatalError> {
 
 pub fn parse_version(version: &str) -> Result<Version, FatalError> {
     Version::parse(version).map_err(|e| FatalError::from(e))
+}
+
+#[test]
+fn test_release_config() {
+    if let Ok(cargo_file) = parse_cargo_config() {
+        assert!(get_release_config(&cargo_file, "sign-tag")
+                    .and_then(|f| f.as_bool())
+                    .unwrap_or(false));
+    } else {
+        panic!("paser cargo file failed");
+    }
+
 }

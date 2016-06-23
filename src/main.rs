@@ -19,12 +19,33 @@ mod git;
 mod cargo;
 
 fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
+    let cargo_file = try!(config::parse_cargo_config());
+
     let dry_run = args.occurrences_of("dry-run") > 0;
-    let sign = args.occurrences_of("sign") > 0;
-    let upload_doc = args.occurrences_of("upload-doc") > 0;
-    let git_remote = args.value_of("push-remote").unwrap_or("origin");
-    let doc_branch = args.value_of("doc-branch").unwrap_or("gh-pages");
-    let skip_push = args.occurrences_of("skip-push") > 0;
+    let sign = args.occurrences_of("sign") > 0 ||
+               config::get_release_config(&cargo_file, "sign-tag")
+                   .and_then(|f| f.as_bool())
+                   .unwrap_or(false);
+    let upload_doc = args.occurrences_of("upload-doc") > 0 ||
+                     config::get_release_config(&cargo_file, "upload-doc")
+                         .and_then(|f| f.as_bool())
+                         .unwrap_or(false);
+    let git_remote = args.value_of("push-remote")
+                         .or_else(|| {
+                             config::get_release_config(&cargo_file, "push-remote")
+                                 .and_then(|f| f.as_str())
+                         })
+                         .unwrap_or("origin");
+    let doc_branch = args.value_of("doc-branch")
+                         .or_else(|| {
+                             config::get_release_config(&cargo_file, "doc-branch")
+                                 .and_then(|f| f.as_str())
+                         })
+                         .unwrap_or("gh-pages");
+    let skip_push = args.occurrences_of("skip-push") > 0 ||
+                    config::get_release_config(&cargo_file, "disable-push")
+                        .and_then(|f| f.as_bool())
+                        .unwrap_or(false);
 
     // STEP 0: Check if working directory is clean
     if !try!(git::status()) {
@@ -35,14 +56,12 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
     }
 
     // STEP 1: Read version from Cargo.toml and remove
-    let result = try!(config::parse_cargo_config());
-
-    let mut version = result.get("package")
-                            .and_then(|f| f.as_table())
-                            .and_then(|f| f.get("version"))
-                            .and_then(|f| f.as_str())
-                            .and_then(|f| config::parse_version(f).ok())
-                            .unwrap();
+    let mut version = cargo_file.get("package")
+                                .and_then(|f| f.as_table())
+                                .and_then(|f| f.get("version"))
+                                .and_then(|f| f.as_str())
+                                .and_then(|f| config::parse_version(f).ok())
+                                .unwrap();
 
     // STEP 2: update current version, save and commit
     let mut need_commit = false;
