@@ -47,6 +47,21 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
                         .and_then(|f| f.as_bool())
                         .unwrap_or(false);
 
+    let pre_release_commit_msg = config::get_release_config(&cargo_file,
+                                                            "pre-release-commit-message")
+                                     .and_then(|f| f.as_str())
+                                     .unwrap_or("(cargo-release) version {}");
+    let pro_release_commit_msg =
+        config::get_release_config(&cargo_file, "pro-release-commit-message")
+            .and_then(|f| f.as_str())
+            .unwrap_or("(cargo-release) start next development iteration {}");
+    let tag_msg = config::get_release_config(&cargo_file, "tag-message")
+                      .and_then(|f| f.as_str())
+                      .unwrap_or("(cargo-release) {} version {}");
+    let doc_commit_msg = config::get_release_config(&cargo_file, "doc-commit-message")
+                             .and_then(|f| f.as_str())
+                             .unwrap_or("(cargo-release) generate docs");
+
     // STEP 0: Check if working directory is clean
     if !try!(git::status()) {
         println!("Uncommitted changes detected, please commit before release");
@@ -103,7 +118,8 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
             try!(config::rewrite_cargo_version(&new_version_string));
         }
 
-        let commit_msg = format!("(cargo-release) version {}", new_version_string);
+        let commit_msg = String::from(pre_release_commit_msg)
+                             .replace("{{version}}", &new_version_string);
         if !try!(git::commit_all(".", &commit_msg, sign, dry_run)) {
             // commit failed, abort release
             return Ok(102);
@@ -124,7 +140,7 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
 
         try!(git::init(doc_path, dry_run));
         try!(git::add_all(doc_path, dry_run));
-        try!(git::commit_all(doc_path, "(cargo-release) generate docs", sign, dry_run));
+        try!(git::commit_all(doc_path, doc_commit_msg, sign, dry_run));
         let default_remote = try!(git::origin_url());
 
         let mut refspec = String::from("master:");
@@ -145,9 +161,9 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
     let tag_name = tag_prefix.as_ref().map_or_else(|| current_version.clone(),
                                                    |x| format!("{}{}", x, current_version));
 
-    let tag_message = format!("(cargo-release) {} version {}",
-                              rel_path.clone().unwrap_or("".to_owned()),
-                              current_version);
+    let tag_message = String::from(tag_msg)
+                          .replace("{{module}}", &rel_path.unwrap_or("".to_owned()))
+                          .replace("{{version}}", &current_version);
 
     if !try!(git::tag(&tag_name, &tag_message, sign, dry_run)) {
         // tag failed, abort release
@@ -162,8 +178,8 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
     if !dry_run {
         try!(config::rewrite_cargo_version(&updated_version_string));
     }
-    let commit_msg = format!("(cargo-release) start next development iteration {}",
-                             updated_version_string);
+    let commit_msg = String::from(pro_release_commit_msg)
+                         .replace("{{version}}", &updated_version_string);
 
     if !try!(git::commit_all(".", &commit_msg, sign, dry_run)) {
         return Ok(105);
