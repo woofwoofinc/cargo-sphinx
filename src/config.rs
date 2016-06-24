@@ -10,6 +10,16 @@ use regex::Regex;
 
 use error::FatalError;
 
+pub static SIGN_TAG: &'static str = "sign-tag";
+pub static UPLOAD_DOC: &'static str = "upload-doc";
+pub static PUSH_REMOTE: &'static str = "push-remote";
+pub static DOC_BRANCH: &'static str = "doc-branch";
+pub static DISABLE_PUSH: &'static str = "disable-push";
+pub static PRE_RELEASE_COMMIT_MESSAGE: &'static str = "pre-release-commit-message";
+pub static PRO_RELEASE_COMMIT_MESSAGE: &'static str = "pro-release-commit-message";
+pub static TAG_MESSAGE: &'static str = "tag-message";
+pub static DOC_COMMIT_MESSAGE: &'static str = "doc-commit-message";
+
 fn load_from_file(path: &Path) -> io::Result<String> {
     let mut file = try!(File::open(path));
     let mut s = String::new();
@@ -44,6 +54,38 @@ pub fn get_release_config<'a>(config: &'a Table, key: &str) -> Option<&'a Value>
           .and_then(|f| f.get("release"))
           .and_then(|f| f.as_table())
           .and_then(|f| f.get(key))
+}
+
+pub fn verify_release_config(config: &Table) -> Option<Vec<&str>> {
+    let valid_keys = vec![SIGN_TAG,
+                          UPLOAD_DOC,
+                          PUSH_REMOTE,
+                          DOC_BRANCH,
+                          DISABLE_PUSH,
+                          PRE_RELEASE_COMMIT_MESSAGE,
+                          PRO_RELEASE_COMMIT_MESSAGE,
+                          TAG_MESSAGE,
+                          DOC_COMMIT_MESSAGE];
+    if let Some(ref r) = config.get("package")
+                               .and_then(|f| f.as_table())
+                               .and_then(|f| f.get("metadata"))
+                               .and_then(|f| f.as_table())
+                               .and_then(|f| f.get("release"))
+                               .and_then(|f| f.as_table()) {
+        let mut invalid_keys = Vec::new();
+        for i in r.keys() {
+            if !valid_keys.contains(&i.as_ref()) {
+                invalid_keys.push(i.as_ref());
+            }
+        }
+        if invalid_keys.is_empty() {
+            None
+        } else {
+            Some(invalid_keys)
+        }
+    } else {
+        None
+    }
 }
 
 pub fn save_cargo_config(config: &Table) -> Result<(), FatalError> {

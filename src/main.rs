@@ -21,44 +21,53 @@ mod cargo;
 fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
     let cargo_file = try!(config::parse_cargo_config());
 
+    // step -1
+    if let Some(invalid_keys) = config::verify_release_config(&cargo_file) {
+        for i in invalid_keys {
+            println!("Unknown config key \"{}\" found for [package.metadata.release]",
+                     i);
+        }
+        return Ok(109);
+    }
+
     let dry_run = args.occurrences_of("dry-run") > 0;
     let sign = args.occurrences_of("sign") > 0 ||
-               config::get_release_config(&cargo_file, "sign-tag")
+               config::get_release_config(&cargo_file, config::SIGN_TAG)
                    .and_then(|f| f.as_bool())
                    .unwrap_or(false);
     let upload_doc = args.occurrences_of("upload-doc") > 0 ||
-                     config::get_release_config(&cargo_file, "upload-doc")
+                     config::get_release_config(&cargo_file, config::UPLOAD_DOC)
                          .and_then(|f| f.as_bool())
                          .unwrap_or(false);
     let git_remote = args.value_of("push-remote")
                          .or_else(|| {
-                             config::get_release_config(&cargo_file, "push-remote")
+                             config::get_release_config(&cargo_file, config::PUSH_REMOTE)
                                  .and_then(|f| f.as_str())
                          })
                          .unwrap_or("origin");
     let doc_branch = args.value_of("doc-branch")
                          .or_else(|| {
-                             config::get_release_config(&cargo_file, "doc-branch")
+                             config::get_release_config(&cargo_file, config::DOC_BRANCH)
                                  .and_then(|f| f.as_str())
                          })
                          .unwrap_or("gh-pages");
     let skip_push = args.occurrences_of("skip-push") > 0 ||
-                    config::get_release_config(&cargo_file, "disable-push")
+                    config::get_release_config(&cargo_file, config::DISABLE_PUSH)
                         .and_then(|f| f.as_bool())
                         .unwrap_or(false);
 
     let pre_release_commit_msg = config::get_release_config(&cargo_file,
-                                                            "pre-release-commit-message")
+                                                            config::PRE_RELEASE_COMMIT_MESSAGE)
                                      .and_then(|f| f.as_str())
                                      .unwrap_or("(cargo-release) version {}");
     let pro_release_commit_msg =
-        config::get_release_config(&cargo_file, "pro-release-commit-message")
+        config::get_release_config(&cargo_file, config::PRO_RELEASE_COMMIT_MESSAGE)
             .and_then(|f| f.as_str())
             .unwrap_or("(cargo-release) start next development iteration {}");
-    let tag_msg = config::get_release_config(&cargo_file, "tag-message")
+    let tag_msg = config::get_release_config(&cargo_file, config::TAG_MESSAGE)
                       .and_then(|f| f.as_str())
                       .unwrap_or("(cargo-release) {} version {}");
-    let doc_commit_msg = config::get_release_config(&cargo_file, "doc-commit-message")
+    let doc_commit_msg = config::get_release_config(&cargo_file, config::DOC_COMMIT_MESSAGE)
                              .and_then(|f| f.as_str())
                              .unwrap_or("(cargo-release) generate docs");
 

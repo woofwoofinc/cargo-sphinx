@@ -1,4 +1,4 @@
-use std::io::{Error as IOError};
+use std::io::Error as IOError;
 use std::string::FromUtf8Error;
 use semver::SemVerError;
 
@@ -12,6 +12,10 @@ quick_error! {
         InvalidCargoFileFormat {
             display("Invalid cargo file format")
             description("Invalid cargo file format")
+        }
+        InvalidCargoConfigKeys {
+            display("Invalid cargo-release config item found")
+            description("Invalid cargo-release config item found")
         }
         SemVerError(err: SemVerError) {
             from()
