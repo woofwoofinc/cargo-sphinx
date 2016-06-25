@@ -32,7 +32,7 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
 
     let dry_run = args.occurrences_of("dry-run") > 0;
     let sign = args.occurrences_of("sign") > 0 ||
-               config::get_release_config(&cargo_file, config::SIGN_TAG)
+               config::get_release_config(&cargo_file, config::SIGN_COMMIT)
                    .and_then(|f| f.as_bool())
                    .unwrap_or(false);
     let upload_doc = args.occurrences_of("upload-doc") > 0 ||

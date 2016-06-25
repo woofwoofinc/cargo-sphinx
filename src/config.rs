@@ -10,7 +10,7 @@ use regex::Regex;
 
 use error::FatalError;
 
-pub static SIGN_TAG: &'static str = "sign-tag";
+pub static SIGN_COMMIT: &'static str = "sign-commit";
 pub static UPLOAD_DOC: &'static str = "upload-doc";
 pub static PUSH_REMOTE: &'static str = "push-remote";
 pub static DOC_BRANCH: &'static str = "doc-branch";
@@ -57,7 +57,7 @@ pub fn get_release_config<'a>(config: &'a Table, key: &str) -> Option<&'a Value>
 }
 
 pub fn verify_release_config(config: &Table) -> Option<Vec<&str>> {
-    let valid_keys = vec![SIGN_TAG,
+    let valid_keys = vec![SIGN_COMMIT,
                           UPLOAD_DOC,
                           PUSH_REMOTE,
                           DOC_BRANCH,
