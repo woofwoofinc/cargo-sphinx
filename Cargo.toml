@@ -15,5 +15,5 @@ regex = "0.1.55"
 clap = "2.1.2"
 
 [package.metadata.release]
-sign-tag = true
+sign-commit = true
 upload-doc = true

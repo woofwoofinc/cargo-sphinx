@@ -59,14 +59,14 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
     let pre_release_commit_msg = config::get_release_config(&cargo_file,
                                                             config::PRE_RELEASE_COMMIT_MESSAGE)
                                      .and_then(|f| f.as_str())
-                                     .unwrap_or("(cargo-release) version {}");
+                                     .unwrap_or("(cargo-release) version {{version}}");
     let pro_release_commit_msg =
         config::get_release_config(&cargo_file, config::PRO_RELEASE_COMMIT_MESSAGE)
             .and_then(|f| f.as_str())
-            .unwrap_or("(cargo-release) start next development iteration {}");
+            .unwrap_or("(cargo-release) start next development iteration {{version}}");
     let tag_msg = config::get_release_config(&cargo_file, config::TAG_MESSAGE)
                       .and_then(|f| f.as_str())
-                      .unwrap_or("(cargo-release) {} version {}");
+                      .unwrap_or("(cargo-release) {{prefix}} version {{version}}");
     let doc_commit_msg = config::get_release_config(&cargo_file, config::DOC_COMMIT_MESSAGE)
                              .and_then(|f| f.as_str())
                              .unwrap_or("(cargo-release) generate docs");
