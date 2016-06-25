@@ -171,7 +171,7 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
                                                    |x| format!("{}{}", x, current_version));
 
     let tag_message = String::from(tag_msg)
-                          .replace("{{module}}", &rel_path.unwrap_or("".to_owned()))
+                          .replace("{{prefix}}", tag_prefix.as_ref().unwrap_or(&"".to_owned()))
                           .replace("{{version}}", &current_version);
 
     if !try!(git::tag(&tag_name, &tag_message, sign, dry_run)) {
