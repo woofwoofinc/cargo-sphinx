@@ -2,7 +2,7 @@
 name = "cargo-gh-pages"
 version = "0.1.0"
 authors = ["Ning Sun <sunng@about.me>", "Pascal Hartig <i@passy.me>", "Daithi O Crualaoich <daithi.ocrualaoich@gmail.com>"]
-license = "MIT/Apache-2.0"
+license = "MIT OR Apache-2.0"
 description = "Cargo gh-pages command."
 keywords = ["cargo"]
 repository = "https://github.com/woofwoofinc/cargo-gh-pages"
