@@ -1,23 +1,15 @@
 use std::io::prelude::*;
 use std::io;
-use std::io::BufReader;
-use std::fs::{self, File};
+use std::fs::File;
 use std::path::Path;
 
 use toml::{Parser, Value, Table};
-use semver::Version;
-use regex::Regex;
 
 use error::FatalError;
 
 pub static SIGN_COMMIT: &'static str = "sign-commit";
-pub static UPLOAD_DOC: &'static str = "upload-doc";
 pub static PUSH_REMOTE: &'static str = "push-remote";
 pub static DOC_BRANCH: &'static str = "doc-branch";
-pub static DISABLE_PUSH: &'static str = "disable-push";
-pub static PRE_RELEASE_COMMIT_MESSAGE: &'static str = "pre-release-commit-message";
-pub static PRO_RELEASE_COMMIT_MESSAGE: &'static str = "pro-release-commit-message";
-pub static TAG_MESSAGE: &'static str = "tag-message";
 pub static DOC_COMMIT_MESSAGE: &'static str = "doc-commit-message";
 
 fn load_from_file(path: &Path) -> io::Result<String> {
@@ -25,12 +17,6 @@ fn load_from_file(path: &Path) -> io::Result<String> {
     let mut s = String::new();
     try!(file.read_to_string(&mut s));
     Ok(s)
-}
-
-fn save_to_file(path: &Path, content: &str) -> io::Result<()> {
-    let mut file = try!(File::create(path));
-    try!(file.write_all(&content.as_bytes()));
-    Ok(())
 }
 
 pub fn parse_cargo_config() -> Result<Table, FatalError> {
@@ -58,15 +44,10 @@ pub fn get_release_config<'a>(config: &'a Table, key: &str) -> Option<&'a Value>
 
 pub fn verify_release_config(config: &Table) -> Option<Vec<&str>> {
     let valid_keys = vec![SIGN_COMMIT,
-                          UPLOAD_DOC,
                           PUSH_REMOTE,
                           DOC_BRANCH,
-                          DISABLE_PUSH,
-                          PRE_RELEASE_COMMIT_MESSAGE,
-                          PRO_RELEASE_COMMIT_MESSAGE,
-                          TAG_MESSAGE,
                           DOC_COMMIT_MESSAGE];
-    if let Some(ref r) = config.get("package")
+    if let Some(r) = config.get("package")
                                .and_then(|f| f.as_table())
                                .and_then(|f| f.get("metadata"))
                                .and_then(|f| f.as_table())
@@ -88,88 +69,15 @@ pub fn verify_release_config(config: &Table) -> Option<Vec<&str>> {
     }
 }
 
-pub fn save_cargo_config(config: &Table) -> Result<(), FatalError> {
-    let cargo_file_path = Path::new("Cargo.toml");
-
-    let serialized_data = format!("{}", Value::Table(config.clone()));
-
-    try!(save_to_file(&cargo_file_path, &serialized_data).map_err(FatalError::from));
-    Ok(())
-}
-
-pub fn rewrite_cargo_version(version: &str) -> Result<(), FatalError> {
-    let section_matcher = Regex::new("^\\[.+\\]").unwrap();
-    {
-        let file_in = try!(File::open("Cargo.toml").map_err(FatalError::from));
-        let mut bufreader = BufReader::new(file_in);
-        let mut line = String::new();
-
-        let mut file_out = try!(File::create("Cargo.toml.work").map_err(FatalError::from));
-        let mut in_package = false;
-
-        loop {
-            let b = try!(bufreader.read_line(&mut line).map_err(FatalError::from));
-            if b <= 0 {
-                break;
-            }
-
-            if section_matcher.is_match(&line) {
-                in_package = line.trim() == "[package]";
-            }
-
-            if in_package && line.starts_with("version") {
-                line = format!("version = \"{}\"\n", version);
-            }
-
-            try!(file_out.write_all(line.as_bytes()).map_err(FatalError::from));
-            line.clear();
-        }
-    }
-    try!(fs::rename("Cargo.toml.work", "Cargo.toml"));
-
-    {
-        let file_in = try!(File::open("Cargo.lock").map_err(FatalError::from));
-        let mut bufreader = BufReader::new(file_in);
-        let mut line = String::new();
-
-        let mut file_out = try!(File::create("Cargo.lock.work").map_err(FatalError::from));
-        let mut in_package = false;
-
-        loop {
-            let b = try!(bufreader.read_line(&mut line).map_err(FatalError::from));
-            if b <= 0 {
-                break;
-            }
-
-            if section_matcher.is_match(&line) {
-                in_package = line.trim() == "[root]";
-            }
-
-            if in_package && line.starts_with("version") {
-                line = format!("version = \"{}\"\n", version);
-            }
-
-            try!(file_out.write_all(line.as_bytes()).map_err(FatalError::from));
-            line.clear();
-        }
-    }
-
-    try!(fs::rename("Cargo.lock.work", "Cargo.lock"));
-    Ok(())
-}
-
-pub fn parse_version(version: &str) -> Result<Version, FatalError> {
-    Version::parse(version).map_err(|e| FatalError::from(e))
-}
-
 #[test]
 fn test_release_config() {
     if let Ok(cargo_file) = parse_cargo_config() {
-        assert!(get_release_config(&cargo_file, "sign-tag")
+        // Check sign-commit set to false in Cargo.toml of this repository.
+        assert!(get_release_config(&cargo_file, "sign-commit")
                     .and_then(|f| f.as_bool())
+                    .map(|f| f == false)
                     .unwrap_or(false));
     } else {
-        panic!("paser cargo file failed");
+        panic!("Parse cargo file failed.");
     }
-
 }

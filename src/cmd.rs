@@ -1,5 +1,4 @@
 use std::process::Command;
-use std::env::current_dir;
 
 use error::FatalError;
 
@@ -24,7 +23,7 @@ fn do_call(command: Vec<&str>, path: Option<&str>, dry_run: bool) -> Result<bool
     }
 
     for arg in iter {
-        if arg.len() > 0 {
+        if !arg.is_empty() {
             cmd.arg(arg);
         }
     }
@@ -41,13 +40,4 @@ pub fn call(command: Vec<&str>, dry_run: bool) -> Result<bool, FatalError> {
 
 pub fn call_on_path(command: Vec<&str>, path: &str, dry_run: bool) -> Result<bool, FatalError> {
     do_call(command, Some(path), dry_run)
-}
-
-pub fn relative_path_for(root: &str) -> Result<Option<String>, FatalError> {
-    let pwd = try!(current_dir()).to_str().unwrap().to_owned();
-    if pwd.len() > root.len() {
-        Ok(Some(pwd[root.len()..].to_string()))
-    } else {
-        Ok(None)
-    }
 }
