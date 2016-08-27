@@ -26,8 +26,8 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
     }
 
     // Find parameters or use defaults.
-    let dry_run = args.occurrences_of("dry-run") > 0;
-    let sign = args.occurrences_of("sign") > 0 ||
+    let dry_run = args.is_present("dry-run");
+    let sign = args.is_present("sign") ||
                config::get_release_config(&cargo_file, config::SIGN_COMMIT)
         .and_then(|f| f.as_bool())
         .unwrap_or(false);
@@ -41,7 +41,11 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
             config::get_release_config(&cargo_file, config::DOC_BRANCH).and_then(|f| f.as_str())
         })
         .unwrap_or("gh-pages");
-    let doc_commit_msg = config::get_release_config(&cargo_file, config::DOC_COMMIT_MESSAGE)
+    let doc_commit_msg = args.value_of("doc-commit-message")
+        .or_else(|| {
+            config::get_release_config(&cargo_file, config::DOC_COMMIT_MESSAGE)
+                .and_then(|f| f.as_str())
+        })
         .and_then(|f| f.as_str())
         .unwrap_or("(cargo-gh-pages) Generate docs.");
 
@@ -72,10 +76,6 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
     Ok(0)
 }
 
-static USAGE: &'static str = "[sign]... --sign 'Sign git commit'
-                             [dry-run]... --dry-run 'Do not actually change anything.'
-                             --push-remote=[push-remote] 'Git remote to push'
-                             --doc-branch=[doc-branch] 'Git branch to push documentation on' ";
 
 fn main() {
     let matches = App::new("cargo")
@@ -84,7 +84,11 @@ fn main() {
             .author("Ning Sun <sunng@about.me>")
             .author("Woof Woof, Inc.")
             .about("Cargo subcommand for generating and publishing RustDoc to GitHub Pages.")
-            .args_from_usage(USAGE))
+            .arg_from_usage("--dry-run 'Print commands to execute instead of running'")
+            .arg_from_usage("--sign 'Sign git commit'")
+            .arg_from_usage("--doc-commit-message=[doc-branch] 'Git commit message to use'")
+            .arg_from_usage("--push-remote=[push-remote] 'Git remote for push'")
+            .arg_from_usage("--doc-branch=[doc-branch] 'Git branch to push documentation on'"))
         .get_matches();
 
     if let Some(release_matches) = matches.subcommand_matches("gh-pages") {
