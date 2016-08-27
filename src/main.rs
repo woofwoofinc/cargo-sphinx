@@ -16,7 +16,7 @@ mod cargo;
 fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
     let cargo_file = try!(config::parse_cargo_config());
 
-    // step -1
+    // Verify the TOML configuration if present.
     if let Some(invalid_keys) = config::verify_release_config(&cargo_file) {
         for i in invalid_keys {
             println!("Unknown config key \"{}\" found for [package.metadata.gh-pages]",
@@ -25,6 +25,7 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
         return Ok(109);
     }
 
+    // Find parameters or use defaults.
     let dry_run = args.occurrences_of("dry-run") > 0;
     let sign = args.occurrences_of("sign") > 0 ||
                config::get_release_config(&cargo_file, config::SIGN_COMMIT)
@@ -44,7 +45,7 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
         .and_then(|f| f.as_str())
         .unwrap_or("(cargo-gh-pages) Generate docs.");
 
-    // STEP 0: Check if working directory is clean
+    // Check if working directory is clean.
     if !try!(git::status()) {
         println!("Uncommitted changes detected, please commit before release");
         if !dry_run {
@@ -52,7 +53,7 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
         }
     }
 
-    // STEP 1: upload doc
+    // Generate and upload documentation.
     println!("Building and exporting docs.");
     try!(cargo::doc(dry_run));
 
