@@ -18,9 +18,9 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
 
     // Verify the TOML configuration if present.
     if let Some(invalid_keys) = config::verify_release_config(&cargo_file) {
-        for i in invalid_keys {
+        for invalid_key in invalid_keys {
             println!("Unknown config key \"{}\" found for [package.metadata.gh-pages]",
-                     i);
+                     invalid_key);
         }
         return Ok(109);
     }
