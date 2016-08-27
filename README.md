@@ -87,54 +87,11 @@ Then test with a dry run:
     cargo gh-pages --dry-run
 
 
-Docker
-------
-A [Docker] container definition is provided with installations of the tools
-used to develop Cargo GitHub Pages. To use the container, first install Docker
-if not already available and start a Docker terminal. Then create the container
-by running the following build at the top level of the repository source tree:
 
-    docker build --rm=true -t cargo-gh-pages .
+See further development documentation in the Sphinx documentation for this
+project published at [woofwoofinc.github.io/cargo-gh-pages].
 
-[Docker]: http://docker.io
-
-Once built, an interactive shell can be run in the container using:
-
-    docker run -it -v "$(pwd):/cargo-gh-pages" --workdir=/cargo-gh-pages cargo-gh-pages /bin/bash
-
-The current working directory from the host machine is available as the current
-directory in the container so it is possible to build and test the library as
-described earlier.
-
-    cargo test
-
-
-Travis
-------
-Cargo GitHub Pages is continuously integrated on [Travis CI].
-
-To update encrypted credentials in the `.travis.yml` file, use the
-[Travis command line tool].
-
-    gem install travis
-
-For instance, to update the Slack notification credential:
-
-    travis encrypt "woofwoofinc:<credential>" --add notifications.slack
-
-[Travis CI]: https://travis-ci.org
-[Travis command line tool]: https://docs.travis-ci.com/user/encryption-keys
-
-
-Running Clippy Lints
---------------------
-[Clippy] is a Rust linter. Currently it has to be run manually since Cargo
-GitHub Pages targets Rust stable and Clippy requires Rust nightly. Switching
-versions is easy with `rustup` - use the following to lint the repository:
-
-    rustup run nightly cargo clippy
-
-[Clippy]: https://github.com/Manishearth/rust-clippy
+[woofwoofinc.github.io/cargo-gh-pages]: https://woofwoofinc.github.io/cargo-gh-pages
 
 
 License
