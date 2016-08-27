@@ -19,7 +19,7 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
     // step -1
     if let Some(invalid_keys) = config::verify_release_config(&cargo_file) {
         for i in invalid_keys {
-            println!("Unknown config key \"{}\" found for [package.metadata.release]",
+            println!("Unknown config key \"{}\" found for [package.metadata.gh-pages]",
                      i);
         }
         return Ok(109);
@@ -85,8 +85,7 @@ fn main() {
             .subcommand(SubCommand::with_name("gh-pages")
                             .version(env!("CARGO_PKG_VERSION"))
                             .author("Ning Sun <sunng@about.me>")
-                            .author("Pascal Hartig <i@passy.me>")
-                            .author("Daithi O Crualaoich <daithi.ocrualaoich@gmail.com>")
+                            .author("Woof Woof, Inc.")
                             .about("Cargo subcommand for generating and publishing RustDoc to GitHub Pages.")
                             .args_from_usage(USAGE))
             .get_matches();

@@ -37,7 +37,7 @@ pub fn get_release_config<'a>(config: &'a Table, key: &str) -> Option<&'a Value>
           .and_then(|f| f.as_table())
           .and_then(|f| f.get("metadata"))
           .and_then(|f| f.as_table())
-          .and_then(|f| f.get("release"))
+          .and_then(|f| f.get("gh-pages"))
           .and_then(|f| f.as_table())
           .and_then(|f| f.get(key))
 }
@@ -51,7 +51,7 @@ pub fn verify_release_config(config: &Table) -> Option<Vec<&str>> {
                                .and_then(|f| f.as_table())
                                .and_then(|f| f.get("metadata"))
                                .and_then(|f| f.as_table())
-                               .and_then(|f| f.get("release"))
+                               .and_then(|f| f.get("gh-pages"))
                                .and_then(|f| f.as_table()) {
         let mut invalid_keys = Vec::new();
         for i in r.keys() {
