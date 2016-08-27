@@ -34,25 +34,22 @@ pub fn parse_cargo_config() -> Result<Table, FatalError> {
 
 pub fn get_release_config<'a>(config: &'a Table, key: &str) -> Option<&'a Value> {
     config.get("package")
-          .and_then(|f| f.as_table())
-          .and_then(|f| f.get("metadata"))
-          .and_then(|f| f.as_table())
-          .and_then(|f| f.get("gh-pages"))
-          .and_then(|f| f.as_table())
-          .and_then(|f| f.get(key))
+        .and_then(|f| f.as_table())
+        .and_then(|f| f.get("metadata"))
+        .and_then(|f| f.as_table())
+        .and_then(|f| f.get("gh-pages"))
+        .and_then(|f| f.as_table())
+        .and_then(|f| f.get(key))
 }
 
 pub fn verify_release_config(config: &Table) -> Option<Vec<&str>> {
-    let valid_keys = vec![SIGN_COMMIT,
-                          PUSH_REMOTE,
-                          DOC_BRANCH,
-                          DOC_COMMIT_MESSAGE];
+    let valid_keys = vec![SIGN_COMMIT, PUSH_REMOTE, DOC_BRANCH, DOC_COMMIT_MESSAGE];
     if let Some(r) = config.get("package")
-                               .and_then(|f| f.as_table())
-                               .and_then(|f| f.get("metadata"))
-                               .and_then(|f| f.as_table())
-                               .and_then(|f| f.get("gh-pages"))
-                               .and_then(|f| f.as_table()) {
+        .and_then(|f| f.as_table())
+        .and_then(|f| f.get("metadata"))
+        .and_then(|f| f.as_table())
+        .and_then(|f| f.get("gh-pages"))
+        .and_then(|f| f.as_table()) {
         let mut invalid_keys = Vec::new();
         for i in r.keys() {
             if !valid_keys.contains(&i.as_ref()) {
@@ -74,9 +71,9 @@ fn test_release_config() {
     if let Ok(cargo_file) = parse_cargo_config() {
         // Check sign-commit set to false in Cargo.toml of this repository.
         assert!(get_release_config(&cargo_file, "sign-commit")
-                    .and_then(|f| f.as_bool())
-                    .map(|f| f == false)
-                    .unwrap_or(false));
+            .and_then(|f| f.as_bool())
+            .map(|f| f == false)
+            .unwrap_or(false));
     } else {
         panic!("Parse cargo file failed.");
     }
