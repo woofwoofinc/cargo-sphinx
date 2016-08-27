@@ -46,7 +46,6 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
             config::get_release_config(&cargo_file, config::DOC_COMMIT_MESSAGE)
                 .and_then(|f| f.as_str())
         })
-        .and_then(|f| f.as_str())
         .unwrap_or("(cargo-gh-pages) Generate docs.");
 
     // Check if working directory is clean.
