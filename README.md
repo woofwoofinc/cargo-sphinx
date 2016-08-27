@@ -50,8 +50,7 @@ Include the `--dry-run` option to print all the commands to execute instead of
 performing the generate and upload.
 
 ```
- $ cargo gh-pages --dry-run
-cd .
+$ cargo gh-pages --dry-run
 Building and exporting docs.
 cargo doc --no-deps
 cd target/doc/
@@ -61,7 +60,7 @@ cd target/doc/
 git add .
 cd -
 cd target/doc/
-git commit -S -am (cargo-gh-pages) Generate docs.
+git commit  -am (cargo-gh-pages) Generate docs.
 cd -
 cd target/doc/
 git push -f git@github.com:woofwoofinc/cargo-gh-pages.git master:gh-pages
@@ -79,6 +78,14 @@ not already available. Then build and test the project using:
 [Rust]: https://www.rust-lang.org
 [rustup]: https://www.rustup.rs
 
+Install a development version of the plugin locally from latest source using:
+
+    cargo install
+
+Then test with a dry run:
+
+    cargo gh-pages --dry-run
+
 
 Docker
 ------
@@ -87,13 +94,13 @@ used to develop Cargo GitHub Pages. To use the container, first install Docker
 if not already available and start a Docker terminal. Then create the container
 by running the following build at the top level of the repository source tree:
 
-    docker build --rm=true -t cargo-gp-pages .
+    docker build --rm=true -t cargo-gh-pages .
 
 [Docker]: http://docker.io
 
 Once built, an interactive shell can be run in the container using:
 
-    docker run -it -v "$(pwd):/cargo-gp-pages" --workdir=/cargo-gp-pages cargo-gp-pages /bin/bash
+    docker run -it -v "$(pwd):/cargo-gh-pages" --workdir=/cargo-gh-pages cargo-gh-pages /bin/bash
 
 The current working directory from the host machine is available as the current
 directory in the container so it is possible to build and test the library as
