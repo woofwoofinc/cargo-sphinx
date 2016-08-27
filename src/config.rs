@@ -26,10 +26,8 @@ pub fn parse_cargo_config() -> Result<Table, FatalError> {
 
     let mut parser = Parser::new(&cargo_file_content);
 
-    match parser.parse() {
-        Some(toml) => Ok(toml),
-        None => Err(FatalError::InvalidCargoFileFormat),
-    }
+    parser.parse()
+        .ok_or(FatalError::InvalidCargoFileFormat)
 }
 
 pub fn get_release_config<'a>(config: &'a Table, key: &str) -> Option<&'a Value> {
