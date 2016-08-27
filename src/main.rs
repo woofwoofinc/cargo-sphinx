@@ -28,23 +28,21 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
     let dry_run = args.occurrences_of("dry-run") > 0;
     let sign = args.occurrences_of("sign") > 0 ||
                config::get_release_config(&cargo_file, config::SIGN_COMMIT)
-                   .and_then(|f| f.as_bool())
-                   .unwrap_or(false);
+        .and_then(|f| f.as_bool())
+        .unwrap_or(false);
     let git_remote = args.value_of("push-remote")
-                         .or_else(|| {
-                             config::get_release_config(&cargo_file, config::PUSH_REMOTE)
-                                 .and_then(|f| f.as_str())
-                         })
-                         .unwrap_or("origin");
+        .or_else(|| {
+            config::get_release_config(&cargo_file, config::PUSH_REMOTE).and_then(|f| f.as_str())
+        })
+        .unwrap_or("origin");
     let doc_branch = args.value_of("doc-branch")
-                         .or_else(|| {
-                             config::get_release_config(&cargo_file, config::DOC_BRANCH)
-                                 .and_then(|f| f.as_str())
-                         })
-                         .unwrap_or("gh-pages");
+        .or_else(|| {
+            config::get_release_config(&cargo_file, config::DOC_BRANCH).and_then(|f| f.as_str())
+        })
+        .unwrap_or("gh-pages");
     let doc_commit_msg = config::get_release_config(&cargo_file, config::DOC_COMMIT_MESSAGE)
-                             .and_then(|f| f.as_str())
-                             .unwrap_or("(cargo-gh-pages) Generate docs.");
+        .and_then(|f| f.as_str())
+        .unwrap_or("(cargo-gh-pages) Generate docs.");
 
     // STEP 0: Check if working directory is clean
     if !try!(git::status()) {
@@ -70,7 +68,6 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
 
     try!(git::force_push(doc_path, remote.trim(), &refspec, dry_run));
 
-
     Ok(0)
 }
 
@@ -80,15 +77,14 @@ static USAGE: &'static str = "[sign]... --sign 'Sign git commit'
                              --doc-branch=[doc-branch] 'Git branch to push documentation on' ";
 
 fn main() {
-    let matches =
-        App::new("cargo")
-            .subcommand(SubCommand::with_name("gh-pages")
-                            .version(env!("CARGO_PKG_VERSION"))
-                            .author("Ning Sun <sunng@about.me>")
-                            .author("Woof Woof, Inc.")
-                            .about("Cargo subcommand for generating and publishing RustDoc to GitHub Pages.")
-                            .args_from_usage(USAGE))
-            .get_matches();
+    let matches = App::new("cargo")
+        .subcommand(SubCommand::with_name("gh-pages")
+            .version(env!("CARGO_PKG_VERSION"))
+            .author("Ning Sun <sunng@about.me>")
+            .author("Woof Woof, Inc.")
+            .about("Cargo subcommand for generating and publishing RustDoc to GitHub Pages.")
+            .args_from_usage(USAGE))
+        .get_matches();
 
     if let Some(release_matches) = matches.subcommand_matches("gh-pages") {
         match execute(release_matches) {

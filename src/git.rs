@@ -5,34 +5,26 @@ use error::FatalError;
 
 pub fn status() -> Result<bool, FatalError> {
     let output = try!(Command::new("git")
-                          .arg("diff")
-                          .arg("--exit-code")
-                          .output()
-                          .map_err(FatalError::from));
+        .arg("diff")
+        .arg("--exit-code")
+        .output()
+        .map_err(FatalError::from));
     Ok(output.status.success())
 }
 
 pub fn commit_all(dir: &str, msg: &str, sign: bool, dry_run: bool) -> Result<bool, FatalError> {
-    call_on_path(vec!["git",
-                      "commit",
-                      if sign {
-                          "-S"
-                      } else {
-                          ""
-                      },
-                      "-am",
-                      msg],
+    call_on_path(vec!["git", "commit", if sign { "-S" } else { "" }, "-am", msg],
                  dir,
                  dry_run)
 }
 
 pub fn remote_get_url(remote: &str) -> Result<String, FatalError> {
     let output = try!(Command::new("git")
-                          .arg("remote")
-                          .arg("get-url")
-                          .arg(remote)
-                          .output()
-                          .map_err(FatalError::from));
+        .arg("remote")
+        .arg("get-url")
+        .arg(remote)
+        .output()
+        .map_err(FatalError::from));
     String::from_utf8(output.stdout).map_err(FatalError::from)
 }
 
