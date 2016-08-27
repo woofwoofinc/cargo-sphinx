@@ -6,6 +6,7 @@ license = "MIT OR Apache-2.0"
 description = "Cargo gh-pages command."
 keywords = ["cargo"]
 repository = "https://github.com/woofwoofinc/cargo-gh-pages"
+readme = "README.md"
 
 [dependencies]
 toml = "0.2.0"
