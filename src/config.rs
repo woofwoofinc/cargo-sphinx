@@ -48,7 +48,7 @@ fn as_table(value: Value) -> Option<Table> {
 ///
 /// Parse the `Cargo.toml` file in the current directory and extract the keys
 /// under `package.metadata.gh-pages`. This contains execution parameter
-/// defaults for for the project using this cargo plugin.
+/// defaults for the project using this cargo plugin.
 ///
 pub fn parse_config() -> Result<Table, FatalError> {
     let cargo_file_path = Path::new("Cargo.toml");
@@ -67,7 +67,7 @@ pub fn parse_config() -> Result<Table, FatalError> {
 ///
 /// Get a string property from a `parse_config()` response.
 ///
-pub fn get_string<'a>(table: &'a Table, key: &'static str) -> Option<&'a str> {
+pub fn get_str<'a>(table: &'a Table, key: &'static str) -> Option<&'a str> {
     table.get(key).and_then(|value| value.as_str())
 }
 
@@ -84,8 +84,7 @@ fn test_sign_commit_config() {
     let config: Result<Table, FatalError> = parse_config();
     let table: Table = config.expect("Parse cargo file failed.");
 
-    assert_eq!(table.get("sign-commit").and_then(|f| f.as_bool()),
-               Some(false));
+    assert_eq!(get_bool(&table, "sign-commit"), Some(false));
 }
 
 #[test]
@@ -94,8 +93,7 @@ fn test_push_remote_config() {
     let config: Result<Table, FatalError> = parse_config();
     let table: Table = config.expect("Parse cargo file failed.");
 
-    assert_eq!(table.get("push-remote").and_then(|f| f.as_str()),
-               Some("origin"));
+    assert_eq!(get_str(&table, "push-remote"), Some("origin"));
 }
 
 #[test]
@@ -104,8 +102,7 @@ fn test_doc_branch_config() {
     let config: Result<Table, FatalError> = parse_config();
     let table: Table = config.expect("Parse cargo file failed.");
 
-    assert_eq!(table.get("doc-branch").and_then(|f| f.as_str()),
-               Some("gh-pages"));
+    assert_eq!(get_str(&table, "doc-branch"), Some("gh-pages"));
 }
 
 #[test]
@@ -115,6 +112,6 @@ fn test_doc_commit_message_config() {
     let config: Result<Table, FatalError> = parse_config();
     let table: Table = config.expect("Parse cargo file failed.");
 
-    assert_eq!(table.get("doc-commit-message").and_then(|f| f.as_str()),
+    assert_eq!(get_str(&table, "doc-commit-message"),
                Some("(cargo-gh-pages) Generate docs."));
 }

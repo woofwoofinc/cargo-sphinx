@@ -36,13 +36,13 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
     let sign = args.is_present("sign") ||
                config::get_bool(&properties, config::SIGN_COMMIT).unwrap_or(false);
     let git_remote = args.value_of("push-remote")
-        .or_else(|| config::get_string(&properties, config::PUSH_REMOTE))
+        .or_else(|| config::get_str(&properties, config::PUSH_REMOTE))
         .unwrap_or("origin");
     let doc_branch = args.value_of("doc-branch")
-        .or_else(|| config::get_string(&properties, config::DOC_BRANCH))
+        .or_else(|| config::get_str(&properties, config::DOC_BRANCH))
         .unwrap_or("gh-pages");
     let doc_commit_msg = args.value_of("doc-commit-message")
-        .or_else(|| config::get_string(&properties, config::DOC_COMMIT_MESSAGE))
+        .or_else(|| config::get_str(&properties, config::DOC_COMMIT_MESSAGE))
         .unwrap_or("(cargo-gh-pages) Generate docs.");
 
     // Check if working directory is clean.
