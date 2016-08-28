@@ -1,11 +1,11 @@
 [package]
-name = "cargo-gh-pages"
+name = "cargo-sphinx"
 version = "0.1.0"
 authors = ["Ning Sun <sunng@about.me>", "Pascal Hartig <i@passy.me>", "Daithi O Crualaoich <daithi.ocrualaoich@gmail.com>"]
 license = "MIT OR Apache-2.0"
-description = "Cargo gh-pages command."
+description = "Cargo subcommand for building and publishing Sphinx documentation to GitHub Pages."
 keywords = ["cargo"]
-repository = "https://github.com/woofwoofinc/cargo-gh-pages"
+repository = "https://github.com/woofwoofinc/cargo-sphinx"
 readme = "README.md"
 
 [dependencies]
@@ -13,8 +13,9 @@ toml = "0.2.0"
 quick-error = "1.1.0"
 clap = "2.10.4"
 
-[package.metadata.gh-pages]
+[package.metadata.sphinx]   
+docs-path = "docs"
+commit-message = "(cargo-sphinx) Generate docs."
 sign-commit = false
 push-remote = "origin"
-doc-branch = "gh-pages"
-doc-commit-message = "(cargo-gh-pages) Generate docs."
+push-branch = "gh-pages"

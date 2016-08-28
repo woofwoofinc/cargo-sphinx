@@ -8,28 +8,34 @@ use error::FatalError;
 
 
 ///
-/// `Cargo.toml` key under `package.metadata.gh-pages` for specifying a default
+/// `Cargo.toml` key under `package.metadata.sphinx` for specifying a default
+/// location for the project Sphinx documentation files.
+///
+pub static DOCS_PATH: &'static str = "docs-path";
+
+///
+/// `Cargo.toml` key under `package.metadata.sphinx` for specifying a default
+/// Git commit message for documentation commits.
+///
+pub static COMMIT_MESSAGE: &'static str = "commit-message";
+
+///
+/// `Cargo.toml` key under `package.metadata.sphinx` for specifying a default
 /// boolean value for whether to sign documentation commits.
 ///
 pub static SIGN_COMMIT: &'static str = "sign-commit";
 
 ///
-/// `Cargo.toml` key under `package.metadata.gh-pages` for specifying a default
+/// `Cargo.toml` key under `package.metadata.sphinx` for specifying a default
 /// Git remote name for pushing documentation commits.
 ///
 pub static PUSH_REMOTE: &'static str = "push-remote";
 
 ///
-/// `Cargo.toml` key under `package.metadata.gh-pages` for specifying a default
-/// Git commit message for documentation commits.
+/// `Cargo.toml` key under `package.metadata.sphinx` for specifying a default
+/// branch for pushing documentation commits.
 ///
-pub static DOC_BRANCH: &'static str = "doc-branch";
-
-///
-/// `Cargo.toml` key under `package.metadata.gh-pages` for specifying a default
-/// value for whether to sign documentation commits.
-///
-pub static DOC_COMMIT_MESSAGE: &'static str = "doc-commit-message";
+pub static PUSH_BRANCH: &'static str = "push-branch";
 
 fn load_from_file(path: &Path) -> io::Result<String> {
     let mut file = try!(File::open(path));
@@ -47,8 +53,8 @@ fn as_table(value: Value) -> Option<Table> {
 
 ///
 /// Parse the `Cargo.toml` file in the current directory and extract the keys
-/// under `package.metadata.gh-pages`. This contains execution parameter
-/// defaults for the project using this cargo plugin.
+/// under `package.metadata.sphinx`. This contains execution parameter defaults
+/// for the project using this cargo plugin.
 ///
 pub fn parse_config() -> Result<Table, FatalError> {
     let cargo_file_path = Path::new("Cargo.toml");
@@ -59,9 +65,9 @@ pub fn parse_config() -> Result<Table, FatalError> {
     let toml = parser.parse();
     let package = toml.and_then(|mut table| table.remove("package").and_then(as_table));
     let metadata = package.and_then(|mut table| table.remove("metadata").and_then(as_table));
-    let gh_pages = metadata.and_then(|mut table| table.remove("gh-pages").and_then(as_table));
+    let sphinx = metadata.and_then(|mut table| table.remove("sphinx").and_then(as_table));
 
-    gh_pages.ok_or(FatalError::InvalidCargoFileFormat)
+    sphinx.ok_or(FatalError::InvalidCargoFileFormat)
 }
 
 ///
@@ -76,6 +82,26 @@ pub fn get_str<'a>(table: &'a Table, key: &'static str) -> Option<&'a str> {
 ///
 pub fn get_bool(table: &Table, key: &'static str) -> Option<bool> {
     table.get(key).and_then(|value| value.as_bool())
+}
+
+#[test]
+fn test_docs_path_config() {
+    // Check docs_path is set to "docs" in Cargo.toml of this repository.
+    let config: Result<Table, FatalError> = parse_config();
+    let table: Table = config.expect("Parse cargo file failed.");
+
+    assert_eq!(get_str(&table, "docs-path"), Some("docs"));
+}
+
+#[test]
+fn test_commit_message_config() {
+    // Check commit_message is set to "(cargo-sphinx) Generate docs." in
+    // Cargo.toml of this repository.
+    let config: Result<Table, FatalError> = parse_config();
+    let table: Table = config.expect("Parse cargo file failed.");
+
+    assert_eq!(get_str(&table, "commit-message"),
+               Some("(cargo-sphinx) Generate docs."));
 }
 
 #[test]
@@ -97,21 +123,10 @@ fn test_push_remote_config() {
 }
 
 #[test]
-fn test_doc_branch_config() {
-    // Check doc_branch is set to "gh-pages" in Cargo.toml of this repository.
+fn test_push_branch_config() {
+    // Check push-branch is set to "gh-pages" in Cargo.toml of this repository.
     let config: Result<Table, FatalError> = parse_config();
     let table: Table = config.expect("Parse cargo file failed.");
 
-    assert_eq!(get_str(&table, "doc-branch"), Some("gh-pages"));
-}
-
-#[test]
-fn test_doc_commit_message_config() {
-    // Check doc_commit_message is set to "(cargo-gh-pages) Generate docs." in
-    // Cargo.toml of this repository.
-    let config: Result<Table, FatalError> = parse_config();
-    let table: Table = config.expect("Parse cargo file failed.");
-
-    assert_eq!(get_str(&table, "doc-commit-message"),
-               Some("(cargo-gh-pages) Generate docs."));
+    assert_eq!(get_str(&table, "push-branch"), Some("gh-pages"));
 }

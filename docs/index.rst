@@ -1,5 +1,5 @@
-Cargo GitHub Pages
-==================
+Cargo Sphinx
+============
 
 .. toctree::
    :maxdepth: 2
@@ -7,14 +7,14 @@ Cargo GitHub Pages
 
 Docker
 ------
-A Docker_ container definition is provided with installations of the tools
-used to develop Cargo GitHub Pages. To use the container, first install Docker
-if not already available and start a Docker terminal. Then create the container
-by running the following build at the top level of the repository source tree:
+A Docker_ container definition is provided with installations of the tools used
+to develop Cargo Sphinx. To use the container, first install Docker if not
+already available and start a Docker terminal. Then create the container by
+running the following build at the top level of the repository source tree:
 
 .. code:: bash
 
-    docker build -t cargo-gh-pages .
+    docker build -t cargo-sphinx .
 
 .. _Docker: http://docker.io
 
@@ -26,9 +26,9 @@ Once built, an interactive shell can be run in the container using:
 .. code:: bash
 
     docker run -it \
-         -v "$(pwd):/cargo-gh-pages" \
-         --workdir=/cargo-gh-pages \
-         cargo-gh-pages \
+         -v "$(pwd):/cargo-sphinx" \
+         --workdir=/cargo-sphinx \
+         cargo-sphinx \
          /bin/bash
 
 The current working directory from the host machine is available as the current
@@ -43,8 +43,8 @@ described earlier.
 Running Clippy Lints
 --------------------
 Clippy_ is a Rust linter. Currently it has to be run manually since Cargo
-GitHub Pages targets Rust stable and Clippy requires Rust nightly. Switching
-versions is easy with ``rustup`` - use the following to lint the repository:
+Sphinx targets Rust stable and Clippy requires Rust nightly. Switching versions
+is easy with ``rustup`` - use the following to lint the repository:
 
 .. code:: bash
 
@@ -75,22 +75,22 @@ intermediate shell, use:
 
 .. code:: bash
 
-    docker run -v "$(pwd):/cargo-gh-pages" \
-         --workdir=/cargo-gh-pages/docs \
-         cargo-gh-pages \
+    docker run -v "$(pwd):/cargo-sphinx" \
+         --workdir=/cargo-sphinx/docs \
+         cargo-sphinx \
          make clean html
 
 The compiled document is written to the shared location and is available on the
 host machine under ``docs/_build``. It is published to
-`woofwoofinc.github.io/cargo-gh-pages`_ using `GitHub Pages`_.
+`woofwoofinc.github.io/cargo-sphinx`_ using `GitHub Pages`_.
 
-.. _woofwoofinc.github.io/cargo-gh-pages: https://woofwoofinc.github.io/cargo-gh-pages
+.. _woofwoofinc.github.io/cargo-sphinx: https://woofwoofinc.github.io/cargo-sphinx
 .. _GitHub Pages: https://pages.github.com
 
 
 Travis
 ------
-Cargo GitHub Pages is continuously integrated on `Travis CI`_.
+Cargo Sphinx is continuously integrated on `Travis CI`_.
 
 .. _Travis CI: https://travis-ci.org
 
@@ -132,16 +132,16 @@ build the package:
     cargo clean
     cargo package
 
-Examine the built package under ``target/package/cargo-gh-pages-<version>``.
+Examine the built package under ``target/package/cargo-sphinx-<version>``.
 And when happy to publish:
 
 .. code:: bash
 
     cargo publish
 
-And check out the new update at `crates.io/crates/cargo-gh-pages`_.
+And check out the new update at `crates.io/crates/cargo-sphinx`_.
 
-.. _crates.io/crates/cargo-gh-pages: https://crates.io/crates/cargo-gh-pages
+.. _crates.io/crates/cargo-sphinx: https://crates.io/crates/cargo-sphinx
 
 
 License
