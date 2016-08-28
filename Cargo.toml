@@ -21,3 +21,6 @@ commit-message = "(cargo-sphinx) Generate docs."
 sign-commit = false
 push-remote = "origin"
 push-branch = "gh-pages"
+
+[profile.dev]
+lto = true

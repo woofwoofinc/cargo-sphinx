@@ -23,9 +23,9 @@ use config::Config;
 use error::FatalError;
 use term::color;
 
-fn build(docs_path: &str, dry_run: bool) -> Result<(), FatalError> {
+fn build(docs_path: &str, shell: &mut MultiShell, dry_run: bool) -> Result<(), FatalError> {
     try!(shell.say("Building Sphinx docs.", color::BLUE));
-    try!(call(vec!["make", "clean", "html"], docs_path, dry_run));
+    try!(call(vec!["make", "clean", "html"], docs_path, shell, dry_run));
 
     // A `.nojekyll` file prevents GitHub from ignoring Sphinx CSS files.
     let nojekyll = Path::new(docs_path).join("_build/html/.nojekyll");
@@ -41,20 +41,21 @@ fn publish(docs_path: &str,
            sign: bool,
            push_remote: &str,
            push_branch: &str,
+           shell: &mut MultiShell,
            dry_run: bool)
            -> Result<bool, FatalError> {
-    println!("Publishing Sphinx docs to GitHub Pages.");
+    try!(shell.say("Publishing Sphinx docs to GitHub Pages.", color::BLUE));
     let docs_build_path = format!("{}/_build/html", docs_path);
 
-    try!(git::init(&docs_build_path, dry_run));
-    try!(git::add_all(&docs_build_path, dry_run));
-    try!(git::commit_all(&docs_build_path, commit_msg, sign, dry_run));
+    try!(git::init(&docs_build_path, shell, dry_run));
+    try!(git::add_all(&docs_build_path, shell, dry_run));
+    try!(git::commit_all(&docs_build_path, commit_msg, sign, shell, dry_run));
     let remote = try!(git::remote_get_url(push_remote));
 
     let mut refspec = String::from("master:");
     refspec.push_str(push_branch);
 
-    git::force_push(docs_path, remote.trim(), &refspec, dry_run)
+    git::force_push(docs_path, remote.trim(), &refspec, shell, dry_run)
 }
 
 fn execute(args: &ArgMatches, cargo_config: &CargoConfig) -> Result<i32, FatalError> {
@@ -95,6 +96,7 @@ fn execute(args: &ArgMatches, cargo_config: &CargoConfig) -> Result<i32, FatalEr
                      sign,
                      push_remote,
                      push_branch,
+                     &mut *cargo_config.shell(),
                      dry_run));
     }
 
