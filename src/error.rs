@@ -9,12 +9,12 @@ quick_error! {
             cause(err)
         }
         InvalidCargoFileFormat {
-            display("Invalid cargo file format")
-            description("Invalid cargo file format")
+            display("Invalid cargo file format.")
+            description("Invalid cargo file format.")
         }
-        UnknownCargoFileKey {
-            display("Unknown cargo key found")
-            description("Unknown config key found")
+        UnknownCargoFileKey(key: String) {
+            display("Unknown cargo key found: {}", key)
+            description("Unknown config key found.")
         }
         FromUtf8Error(err: FromUtf8Error) {
             from()
