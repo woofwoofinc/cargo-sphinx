@@ -40,7 +40,7 @@ RUN     pip install cloud_sptheme
 # Rust
 ################################################################################
 
-RUN    apt-get install -qq curl graphviz
+RUN    apt-get install -qq curl graphviz cmake libssl-dev
 
 RUN    curl https://sh.rustup.rs -sSf | env RUSTUP_INIT_SKIP_SUDO_CHECK=1 sh -s -- -y
 ENV    CARGO_TARGET_DIR targetdocker
