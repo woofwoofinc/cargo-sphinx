@@ -37,96 +37,117 @@ pub static PUSH_REMOTE: &'static str = "push-remote";
 ///
 pub static PUSH_BRANCH: &'static str = "push-branch";
 
-fn load_from_file(path: &Path) -> io::Result<String> {
-    let mut file = try!(File::open(path));
-    let mut contents = String::new();
-    try!(file.read_to_string(&mut contents));
-    Ok(contents)
+pub struct Config {
+    toml: Table,
 }
 
-fn as_table(value: Value) -> Option<Table> {
-    match value {
-        Value::Table(s) => Some(s),
-        _ => None,
+impl Config {
+    fn load_from_file(path: &Path) -> io::Result<String> {
+        let mut file = try!(File::open(path));
+        let mut contents = String::new();
+        try!(file.read_to_string(&mut contents));
+        Ok(contents)
     }
-}
 
-///
-/// Parse the `Cargo.toml` file in the current directory and extract the keys
-/// under `package.metadata.sphinx`. This contains execution parameter defaults
-/// for the project using this cargo plugin.
-///
-pub fn parse_config() -> Result<Table, FatalError> {
-    let cargo_file_path = Path::new("Cargo.toml");
-    let cargo_file_content = try!(load_from_file(&cargo_file_path).map_err(FatalError::from));
+    fn as_table(value: Value) -> Option<Table> {
+        match value {
+            Value::Table(s) => Some(s),
+            _ => None,
+        }
+    }
 
-    let mut parser = Parser::new(&cargo_file_content);
+    ///
+    /// Parse the `Cargo.toml` file in the current directory and extract the keys
+    /// under `package.metadata.sphinx`. This contains execution parameter defaults
+    /// for the project using this cargo plugin.
+    ///
+    pub fn from(path: &str) -> Result<Config, FatalError> {
+        let path = Path::new(path);
+        let contents = try!(Config::load_from_file(&path).map_err(FatalError::from));
 
-    let toml = parser.parse();
-    let package = toml.and_then(|mut table| table.remove("package").and_then(as_table));
-    let metadata = package.and_then(|mut table| table.remove("metadata").and_then(as_table));
-    let sphinx = metadata.and_then(|mut table| table.remove("sphinx").and_then(as_table));
+        let mut parser = Parser::new(&contents);
 
-    sphinx.ok_or(FatalError::InvalidCargoFileFormat)
-}
+        let toml: Option<Table> = parser.parse();
+        let sphinx_toml = toml.and_then(|mut table| table.remove("package"))
+            .and_then(Config::as_table)
+            .and_then(|mut table| table.remove("metadata"))
+            .and_then(Config::as_table)
+            .and_then(|mut table| table.remove("sphinx"))
+            .and_then(Config::as_table);
 
-///
-/// Get a string property from a `parse_config()` response.
-///
-pub fn get_str<'a>(table: &'a Table, key: &'static str) -> Option<&'a str> {
-    table.get(key).and_then(|value| value.as_str())
-}
+        let config: Table = try!(sphinx_toml.ok_or(FatalError::InvalidCargoFileFormat));
 
-///
-/// Get a boolean property from a `parse_config()` response.
-///
-pub fn get_bool(table: &Table, key: &'static str) -> Option<bool> {
-    table.get(key).and_then(|value| value.as_bool())
+        // Verify the TOML configuration.
+        let valid_keys = vec![DOCS_PATH, COMMIT_MESSAGE, SIGN_COMMIT, PUSH_REMOTE, PUSH_BRANCH];
+
+        for key in config.keys() {
+            if !valid_keys.contains(&key.as_ref()) {
+                println!("Unknown key \"{}\"", key);
+                return Err(FatalError::UnknownCargoFileKey);
+            }
+        }
+
+        Ok(Config { toml: config })
+    }
+
+    ///
+    /// Get a string property from this configuration.
+    ///
+    pub fn get_str(&self, key: &'static str) -> Option<&str> {
+        self.toml.get(key).and_then(|value| value.as_str())
+    }
+
+    ///
+    /// Get a boolean property from this configuration.
+    ///
+    pub fn get_bool(&self, key: &'static str) -> Option<bool> {
+        self.toml.get(key).and_then(|value| value.as_bool())
+    }
 }
 
 #[test]
 fn test_docs_path_config() {
     // Check docs_path is set to "docs" in Cargo.toml of this repository.
-    let config: Result<Table, FatalError> = parse_config();
-    let table: Table = config.expect("Parse cargo file failed.");
+    let result: Result<Config, FatalError> = Config::from("Cargo.toml");
+    let config: Config = result.expect("Parse cargo file failed.");
 
-    assert_eq!(get_str(&table, "docs-path"), Some("docs"));
+    assert_eq!(config.get_str("docs-path"), Some("docs"));
 }
 
 #[test]
 fn test_commit_message_config() {
     // Check commit_message is set to "(cargo-sphinx) Generate docs." in
     // Cargo.toml of this repository.
-    let config: Result<Table, FatalError> = parse_config();
-    let table: Table = config.expect("Parse cargo file failed.");
+    let result: Result<Config, FatalError> = Config::from("Cargo.toml");
+    let config: Config = result.expect("Parse cargo file failed.");
 
-    assert_eq!(get_str(&table, "commit-message"),
+    assert_eq!(config.get_str("commit-message"),
                Some("(cargo-sphinx) Generate docs."));
 }
 
 #[test]
 fn test_sign_commit_config() {
     // Check sign-commit is set to false in Cargo.toml of this repository.
-    let config: Result<Table, FatalError> = parse_config();
-    let table: Table = config.expect("Parse cargo file failed.");
+    let result: Result<Config, FatalError> = Config::from("Cargo.toml");
+    let config: Config = result.expect("Parse cargo file failed.");
 
-    assert_eq!(get_bool(&table, "sign-commit"), Some(false));
+    assert_eq!(config.get_bool("sign-commit"), Some(false));
 }
 
 #[test]
 fn test_push_remote_config() {
     // Check push-remote is set to "origin" in Cargo.toml of this repository.
-    let config: Result<Table, FatalError> = parse_config();
-    let table: Table = config.expect("Parse cargo file failed.");
+    let result: Result<Config, FatalError> = Config::from("Cargo.toml");
+    let config: Config = result.expect("Parse cargo file failed.");
 
-    assert_eq!(get_str(&table, "push-remote"), Some("origin"));
+    assert_eq!(config.get_str("push-remote"), Some("origin"));
 }
 
 #[test]
 fn test_push_branch_config() {
     // Check push-branch is set to "gh-pages" in Cargo.toml of this repository.
-    let config: Result<Table, FatalError> = parse_config();
-    let table: Table = config.expect("Parse cargo file failed.");
+    let result: Result<Config, FatalError> = Config::from("Cargo.toml");
+    let config: Config = result.expect("Parse cargo file failed.");
 
-    assert_eq!(get_str(&table, "push-branch"), Some("gh-pages"));
+    assert_eq!(config.get_str("push-branch"), Some("gh-pages"));
 }
