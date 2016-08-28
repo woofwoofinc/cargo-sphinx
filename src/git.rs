@@ -8,9 +8,10 @@ pub fn remote_get_url(remote: &str) -> Result<String, FatalError> {
         .arg("remote")
         .arg("get-url")
         .arg(remote)
-        .output()
-        .map_err(FatalError::from));
-    String::from_utf8(output.stdout).map_err(FatalError::from)
+        .output());
+
+    let url = try!(String::from_utf8(output.stdout));
+    Ok(url)
 }
 
 pub fn init(dir: &str, dry_run: bool) -> Result<bool, FatalError> {

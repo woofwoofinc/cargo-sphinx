@@ -63,7 +63,7 @@ impl Config {
     ///
     pub fn from(path: &str) -> Result<Config, FatalError> {
         let path = Path::new(path);
-        let contents = try!(Config::load_from_file(&path).map_err(FatalError::from));
+        let contents = try!(Config::load_from_file(&path));
 
         let mut parser = Parser::new(&contents);
 
