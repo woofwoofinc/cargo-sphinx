@@ -5,7 +5,6 @@ extern crate clap;
 
 use std::process::exit;
 
-use toml::Table;
 use clap::{App, ArgMatches, SubCommand};
 
 mod config;
@@ -14,6 +13,7 @@ mod cmd;
 mod git;
 
 use cmd::call;
+use config::Config;
 use error::FatalError;
 
 fn build(docs_path: &str, dry_run: bool) -> Result<bool, FatalError> {
@@ -46,43 +46,29 @@ fn publish(docs_path: &str,
 }
 
 fn execute(args: &ArgMatches) -> Result<i32, FatalError> {
-    let properties: Table = try!(config::parse_config());
-
-    // Verify the TOML configuration.
-    let valid_keys = vec![config::DOCS_PATH,
-                          config::COMMIT_MESSAGE,
-                          config::SIGN_COMMIT,
-                          config::PUSH_REMOTE,
-                          config::PUSH_BRANCH];
-
-    for key in properties.keys() {
-        if !valid_keys.contains(&key.as_ref()) {
-            println!("Unknown config key \"{}\" found for [package.metadata.sphinx]",
-                     key);
-            return Ok(109);
-        }
-    }
+    let config: Config = try!(Config::from("Cargo.toml"));
 
     // Find parameters or use defaults.
     let dry_run = args.is_present("dry-run");
 
     let docs_path = args.value_of("docs-path")
-        .or_else(|| config::get_str(&properties, config::DOCS_PATH))
+        .or_else(|| config.get_str(config::DOCS_PATH))
         .unwrap_or("docs");
 
     let push = args.is_present("push");
 
     let commit_msg = args.value_of("commit-message")
-        .or_else(|| config::get_str(&properties, config::COMMIT_MESSAGE))
+        .or_else(|| config.get_str(config::COMMIT_MESSAGE))
         .unwrap_or("(cargo-sphinx) Generate docs.");
-    let sign = args.is_present("sign") ||
-               config::get_bool(&properties, config::SIGN_COMMIT).unwrap_or(false);;
+
+    let sign = args.is_present("sign") || config.get_bool(config::SIGN_COMMIT).unwrap_or(false);
 
     let push_remote = args.value_of("push-remote")
-        .or_else(|| config::get_str(&properties, config::PUSH_REMOTE))
+        .or_else(|| config.get_str(config::PUSH_REMOTE))
         .unwrap_or("origin");
+
     let push_branch = args.value_of("push-branch")
-        .or_else(|| config::get_str(&properties, config::PUSH_BRANCH))
+        .or_else(|| config.get_str(config::PUSH_BRANCH))
         .unwrap_or("gh-pages");
 
     // Generate and publish documentation.
