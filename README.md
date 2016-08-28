@@ -5,8 +5,10 @@
 
 Cargo Sphinx
 ============
-Cargo subcommand for generating and publishing Sphinx documentation to GitHub
-Pages.
+Cargo subcommand for building and publishing Sphinx documentation to
+[GitHub Pages].
+
+[GitHub Pages]: https://pages.github.com
 
 Forked from the [cargo-release] project by [Ning Sun]. Uses the GitHub Pages
 push functionality without the full release management support.
