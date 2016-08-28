@@ -72,22 +72,22 @@ cd docs
 make clean html
 cd -
 Publishing Sphinx docs to GitHub Pages.
-cd docs/_build
+cd docs/_build/html
 touch .nojekyll
 cd -
-cd docs/_build
+cd docs/_build/html
 git init
 cd -
-cd docs/_build
+cd docs/_build/html
 git add .
 cd -
-cd docs/_build
+cd docs/_build/html
 git commit  -am (cargo-sphinx) Generate docs.
 cd -
 cd docs
 git push -f git@github.com:woofwoofinc/cargo-gh-pages.git master:gh-pages
 cd -
-cd docs/_build
+cd docs/_build/html
 rm -fr .nojekyll .git
 cd -
 ```
