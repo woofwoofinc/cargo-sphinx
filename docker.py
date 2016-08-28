@@ -16,15 +16,18 @@ def has_image(name):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('action', nargs='?',
-            help="Either 'shell' or 'docs'")
+            help="Either 'build', 'shell', or 'docs'")
     parser.add_argument('--nocache', action='store_true',
             help="When building containers, don't use cached images.")
 
     args = parser.parse_args()
     action = args.action
 
-    if not has_image(IMAGE_NAME):
+    if not has_image(IMAGE_NAME) or action == 'build':
         run_build(IMAGE_NAME, nocache=args.nocache)
+
+    if action == 'build':
+        return
 
     if action == 'shell':
         run_shell(IMAGE_NAME)
