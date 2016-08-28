@@ -3,7 +3,7 @@
 import argparse
 import subprocess
 
-IMAGE_NAME = 'cargo-gh-pages'
+IMAGE_NAME = 'cargo-sphinx'
 
 
 def has_image(name):
