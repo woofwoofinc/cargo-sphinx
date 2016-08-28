@@ -17,11 +17,14 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('action', nargs='?',
             help="Either 'shell' or 'docs'")
+    parser.add_argument('--nocache', action='store_true',
+            help="When building containers, don't use cached images.")
 
-    action = parser.parse_args().action
+    args = parser.parse_args()
+    action = args.action
 
     if not has_image(IMAGE_NAME):
-        run_build(IMAGE_NAME)
+        run_build(IMAGE_NAME, nocache=args.nocache)
 
     if action == 'shell':
         run_shell(IMAGE_NAME)
@@ -30,8 +33,10 @@ def main():
     else:
         print("Unknown action '{}' specified.")
 
-def run_build(image):
-    cmd = "docker build -t {name} .".format(name=image)
+def run_build(image, nocache=False):
+    nocache_arg = "--no-cache" if nocache else ""
+    cmd = "docker build --rm=true -t {name} {nocache} .".format(
+            name=image, nocache=nocache_arg)
     subprocess.run(cmd, shell=True, check=True)
 
 def run_shell(image):
