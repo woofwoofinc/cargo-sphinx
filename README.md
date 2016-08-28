@@ -1,75 +1,100 @@
-[![Build Status](https://travis-ci.org/woofwoofinc/cargo-gh-pages.svg?branch=master)](https://travis-ci.org/woofwoofinc/cargo-gh-pages)
-[![Dependency Status](https://dependencyci.com/github/woofwoofinc/cargo-gh-pages/badge)](https://dependencyci.com/github/woofwoofinc/cargo-gh-pages)
-[![License](https://img.shields.io/badge/license-Apache--2.0%20OR%20MIT-blue.svg)](https://github.com/woofwoofinc/cargo-gh-pages#license)
+[![Build Status](https://travis-ci.org/woofwoofinc/cargo-sphinx.svg?branch=master)](https://travis-ci.org/woofwoofinc/cargo-sphinx)
+[![Dependency Status](https://dependencyci.com/github/woofwoofinc/cargo-sphinx/badge)](https://dependencyci.com/github/woofwoofinc/cargo-sphinx)
+[![License](https://img.shields.io/badge/license-Apache--2.0%20OR%20MIT-blue.svg)](https://github.com/woofwoofinc/cargo-sphinx#license)
 
 
-Cargo GitHub Pages
-==================
-Forked from the [cargo-release] project by [Ning Sun]. This is the GitHub Pages
-functionality without the full release management.
+Cargo Sphinx
+============
+Cargo subcommand for generating and publishing Sphinx documentation to GitHub
+Pages.
+
+Forked from the [cargo-release] project by [Ning Sun]. Uses the GitHub Pages
+push functionality without the full release management support.
 
 [cargo-release]: https://github.com/sunng87/cargo-release
 [Ning Sun]: https://github.com/sunng87
 
+See an example of the output for this repository published at
+[woofwoofinc.github.io/cargo-sphinx].
 
-Using Cargo GitHub Pages
-------------------------
-Install Cargo GitHub Pages in a Git managed Cargo-based Rust project using:
+[woofwoofinc.github.io/cargo-sphinx]: https://woofwoofinc.github.io/cargo-sphinx
 
-    cargo install cargo-gh-pages
 
-Generate RustDoc and push to GitHub Pages branch using:
+Using Cargo Sphinx
+------------------
+Install Cargo Sphinx in a Git managed Cargo-based Rust project using:
 
-    cargo gh-pages --upload-doc
+    cargo install cargo-sphinx
 
-This will generate RustDoc and commit the doc directory to the `gh-pages`
-branch of the repository. If GitHub Pages are enabled on the repository then you
-will be able to access your RustDoc at
+Build the project Sphinx documentation using:
+
+    cargo sphinx
+
+To also push the documentation to the GitHub Pages branch include the `--push`
+option:
+
+    cargo sphinx --push
+
+This will generate Sphinx documentation and commit it to the `gh-pages` branch
+of the repository. If GitHub Pages are enabled on the repository then you will
+be able to view your documentation at
 https://YOUR-GITHUB-USERNAME.github.io/YOUR-REPOSITORY-NAME.
 
-WARNING: This will override your existed gh-pages branch, use at your own risk.
+WARNING: This will override your existing `gh-pages` branch, use at your own
+risk.
 
-Options for Cargo GitHub Pages can be set in `Cargo.toml` under the custom
-section `package.metadata.gh-pages`:
+Options for Cargo Sphinx can be set in `Cargo.toml` under the custom section
+`package.metadata.sphinx`:
 
+* `docs-path`: string, location of the project Sphinx documentation files.
+  Default "docs".
+* `commit-message`: string, a commit message template for doc import.
+Default "(cargo-sphinx) Generate docs.".
 * `sign-commit`: bool, use GPG to sign git commits. Default false.
 * `push-remote`: string, git remote for push. Default "origin".
-* `doc-branch`: string, default branch to push docs. Default "gh-pages".
-* `doc-commit-message`: string, a commit message template for doc import.
-  Default "(cargo-gh-pages) Generate docs.".
+* `push-branch`: string, default branch to push docs. Default "gh-pages".
 
 ```toml
-[package.metadata.gh-pages] 
+[package.metadata.sphinx] 
+docs-path = "docs"
+commit-message = "(cargo-sphinx) Generate docs."
 sign-commit = false
 push-remote = "origin"
-doc-branch = "gh-pages"
-doc-commit-message = "(cargo-gh-pages) Generate docs."
+push-branch = "gh-pages"
 ```
 
 Include the `--dry-run` option to print all the commands to execute instead of
 performing the generate and upload.
 
 ```
-$ cargo gh-pages --dry-run
-Building and exporting docs.
-cargo doc --no-deps
-cd target/doc/
+Building Sphinx docs.
+cd docs
+make clean html
+cd -
+Publishing Sphinx docs to GitHub Pages.
+cd docs/_build
+touch .nojekyll
+cd -
+cd docs/_build
 git init
 cd -
-cd target/doc/
+cd docs/_build
 git add .
 cd -
-cd target/doc/
-git commit  -am (cargo-gh-pages) Generate docs.
+cd docs/_build
+git commit  -am (cargo-sphinx) Generate docs.
 cd -
-cd target/doc/
+cd docs
 git push -f git@github.com:woofwoofinc/cargo-gh-pages.git master:gh-pages
+cd -
+cd docs/_build
+rm -fr .nojekyll .git
 cd -
 ```
 
 
-Developing Cargo GitHub Pages
------------------------------
+Developing Cargo Sphinx
+-----------------------
 Install the [Rust] development tools on your system with [rustup] if they are
 not already available. Then build and test the project using:
 
@@ -81,17 +106,17 @@ not already available. Then build and test the project using:
 Install a development version of the plugin locally from latest source using:
 
     cargo install
+    
+(`--force` is necessary if Cargo Sphinx is already installed.)
 
 Then test with a dry run:
 
-    cargo gh-pages --dry-run
-
-
+    cargo sphinx --push --dry-run
 
 See further development documentation in the Sphinx documentation for this
-project published at [woofwoofinc.github.io/cargo-gh-pages].
+project published at [woofwoofinc.github.io/cargo-sphinx].
 
-[woofwoofinc.github.io/cargo-gh-pages]: https://woofwoofinc.github.io/cargo-gh-pages
+[woofwoofinc.github.io/cargo-sphinx]: https://woofwoofinc.github.io/cargo-sphinx
 
 
 License

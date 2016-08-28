@@ -1,6 +1,6 @@
 use std::process::Command;
 
-use cmd::call_on_path;
+use cmd::call;
 use error::FatalError;
 
 pub fn status() -> Result<bool, FatalError> {
@@ -23,17 +23,17 @@ pub fn remote_get_url(remote: &str) -> Result<String, FatalError> {
 }
 
 pub fn init(dir: &str, dry_run: bool) -> Result<bool, FatalError> {
-    call_on_path(vec!["git", "init"], dir, dry_run)
+    call(vec!["git", "init"], dir, dry_run)
 }
 
 pub fn add_all(dir: &str, dry_run: bool) -> Result<bool, FatalError> {
-    call_on_path(vec!["git", "add", "."], dir, dry_run)
+    call(vec!["git", "add", "."], dir, dry_run)
 }
 
 pub fn commit_all(dir: &str, msg: &str, sign: bool, dry_run: bool) -> Result<bool, FatalError> {
-    call_on_path(vec!["git", "commit", if sign { "-S" } else { "" }, "-am", msg],
-                 dir,
-                 dry_run)
+    call(vec!["git", "commit", if sign { "-S" } else { "" }, "-am", msg],
+         dir,
+         dry_run)
 }
 
 pub fn force_push(dir: &str,
@@ -41,5 +41,5 @@ pub fn force_push(dir: &str,
                   refspec: &str,
                   dry_run: bool)
                   -> Result<bool, FatalError> {
-    call_on_path(vec!["git", "push", "-f", remote, refspec], dir, dry_run)
+    call(vec!["git", "push", "-f", remote, refspec], dir, dry_run)
 }

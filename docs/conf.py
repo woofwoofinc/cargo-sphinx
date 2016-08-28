@@ -1,4 +1,4 @@
-project = u'Cargo GitHub Pages'
+project = u'Cargo Sphinx'
 copyright = u'2016, Woof Woof, Inc.'
 author = u'Woof Woof, Inc.'
 
