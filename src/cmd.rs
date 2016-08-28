@@ -26,8 +26,8 @@ pub fn call(command: Vec<&str>, path: &str, dry_run: bool) -> Result<bool, Fatal
         }
     }
 
-    let mut child = try!(cmd.spawn().map_err(FatalError::from));
-    let result = try!(child.wait().map_err(FatalError::from));
+    let mut child = try!(cmd.spawn());
+    let result = try!(child.wait());
 
     Ok(result.success())
 }
