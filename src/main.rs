@@ -55,14 +55,6 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
         .or_else(|| config::get_str(&properties, config::PUSH_BRANCH))
         .unwrap_or("gh-pages");
 
-    // Check if working directory is clean.
-    if !try!(git::status()) {
-        println!("Uncommitted changes detected, please commit before release");
-        if !dry_run {
-            return Ok(101);
-        }
-    }
-
     // Generate and upload documentation.
     println!("Building Sphinx docs.");
     try!(call(vec!["make", "clean", "html"], docs_path, dry_run));

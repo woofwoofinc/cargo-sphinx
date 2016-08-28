@@ -3,15 +3,6 @@ use std::process::Command;
 use cmd::call;
 use error::FatalError;
 
-pub fn status() -> Result<bool, FatalError> {
-    let output = try!(Command::new("git")
-        .arg("diff")
-        .arg("--exit-code")
-        .output()
-        .map_err(FatalError::from));
-    Ok(output.status.success())
-}
-
 pub fn remote_get_url(remote: &str) -> Result<String, FatalError> {
     let output = try!(Command::new("git")
         .arg("remote")
