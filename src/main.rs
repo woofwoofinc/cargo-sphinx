@@ -3,6 +3,8 @@ extern crate quick_error;
 extern crate toml;
 extern crate clap;
 
+use std::fs::File;
+use std::path::Path;
 use std::process::exit;
 
 use clap::{App, ArgMatches, SubCommand};
@@ -16,9 +18,17 @@ use cmd::call;
 use config::Config;
 use error::FatalError;
 
-fn build(docs_path: &str, dry_run: bool) -> Result<bool, FatalError> {
+fn build(docs_path: &str, dry_run: bool) -> Result<(), FatalError> {
     println!("Building Sphinx docs.");
-    call(vec!["make", "clean", "html"], docs_path, dry_run)
+    try!(call(vec!["make", "clean", "html"], docs_path, dry_run));
+
+    // A `.nojekyll` file prevents GitHub from ignoring Sphinx CSS files.
+    let nojekyll = Path::new(docs_path).join("_build/html/.nojekyll");
+    if !nojekyll.exists() {
+        try!(File::create(nojekyll));
+    }
+
+    Ok(())
 }
 
 fn publish(docs_path: &str,
@@ -30,9 +40,6 @@ fn publish(docs_path: &str,
            -> Result<bool, FatalError> {
     println!("Publishing Sphinx docs to GitHub Pages.");
     let docs_build_path = format!("{}/_build/html", docs_path);
-
-    // A `.nojekyll` file prevents Github from ignoring Sphinx CSS files.
-    try!(call(vec!["touch", ".nojekyll"], &docs_build_path, dry_run));
 
     try!(git::init(&docs_build_path, dry_run));
     try!(git::add_all(&docs_build_path, dry_run));
