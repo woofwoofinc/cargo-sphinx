@@ -5,6 +5,7 @@ extern crate clap;
 
 use std::process::exit;
 
+use toml::Table;
 use clap::{App, ArgMatches, SubCommand};
 
 mod config;
@@ -14,38 +15,34 @@ mod git;
 mod cargo;
 
 fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
-    let cargo_file = try!(config::parse_cargo_config());
+    let properties: Table = try!(config::parse_config());
 
-    // Verify the TOML configuration if present.
-    if let Some(invalid_keys) = config::verify_release_config(&cargo_file) {
-        for invalid_key in invalid_keys {
+    // Verify the TOML configuration.
+    let valid_keys = vec![config::SIGN_COMMIT,
+                          config::PUSH_REMOTE,
+                          config::DOC_BRANCH,
+                          config::DOC_COMMIT_MESSAGE];
+
+    for key in properties.keys() {
+        if !valid_keys.contains(&key.as_ref()) {
             println!("Unknown config key \"{}\" found for [package.metadata.gh-pages]",
-                     invalid_key);
+                     key);
+            return Ok(109);
         }
-        return Ok(109);
     }
 
     // Find parameters or use defaults.
     let dry_run = args.is_present("dry-run");
     let sign = args.is_present("sign") ||
-               config::get_release_config(&cargo_file, config::SIGN_COMMIT)
-        .and_then(|f| f.as_bool())
-        .unwrap_or(false);
+               config::get_bool(&properties, config::SIGN_COMMIT).unwrap_or(false);
     let git_remote = args.value_of("push-remote")
-        .or_else(|| {
-            config::get_release_config(&cargo_file, config::PUSH_REMOTE).and_then(|f| f.as_str())
-        })
+        .or_else(|| config::get_str(&properties, config::PUSH_REMOTE))
         .unwrap_or("origin");
     let doc_branch = args.value_of("doc-branch")
-        .or_else(|| {
-            config::get_release_config(&cargo_file, config::DOC_BRANCH).and_then(|f| f.as_str())
-        })
+        .or_else(|| config::get_str(&properties, config::DOC_BRANCH))
         .unwrap_or("gh-pages");
     let doc_commit_msg = args.value_of("doc-commit-message")
-        .or_else(|| {
-            config::get_release_config(&cargo_file, config::DOC_COMMIT_MESSAGE)
-                .and_then(|f| f.as_str())
-        })
+        .or_else(|| config::get_str(&properties, config::DOC_COMMIT_MESSAGE))
         .unwrap_or("(cargo-gh-pages) Generate docs.");
 
     // Check if working directory is clean.
