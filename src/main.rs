@@ -61,7 +61,7 @@ fn execute(args: &ArgMatches) -> Result<i32, error::FatalError> {
 
     if push {
         println!("Publishing Sphinx docs to GitHub Pages.");
-        let docs_build_path = format!("{}/_build", docs_path);
+        let docs_build_path = format!("{}/_build/html", docs_path);
 
         // A `.nojekyll` file prevents Github from ignoring Sphinx CSS files.
         try!(call(vec!["touch", ".nojekyll"], &docs_build_path, dry_run));
