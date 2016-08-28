@@ -42,12 +42,7 @@ fn publish(docs_path: &str,
     let mut refspec = String::from("master:");
     refspec.push_str(push_branch);
 
-    try!(git::force_push(docs_path, remote.trim(), &refspec, dry_run));
-
-    // Clean up.
-    call(vec!["rm", "-fr", ".nojekyll", ".git"],
-         &docs_build_path,
-         dry_run)
+    git::force_push(docs_path, remote.trim(), &refspec, dry_run)
 }
 
 fn execute(args: &ArgMatches) -> Result<i32, FatalError> {
