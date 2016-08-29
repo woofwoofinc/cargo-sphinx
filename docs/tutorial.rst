@@ -179,7 +179,7 @@ Find out more about Sphinx and writing RestructuredText at the following:
 * `Sphinx Tutorial <http://www.sphinx-doc.org/en/stable/tutorial.html>`_
 * `Sphinx and RestructuredText Cheatsheet <http://openalea.gforge.inria.fr/doc/openalea/doc/_build/html/source/sphinx/rest_syntax.html>`_
 * `Quick Guide to RestructuredText <http://docutils.sourceforge.net/docs/user/rst/quickref.html>`_
-
+* `RestructuredText Primer <http://sphinx-doc.org/rest.html>`_
 
 6 Help Make Cargo Sphinx Better
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

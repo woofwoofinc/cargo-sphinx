@@ -9,7 +9,7 @@ at `doc.crates.io/crates-io.html`_. First login to the site using:
 
     cargo login <token>
 
-Token can be found from `crates.io/me`_. To make a release, first clean and
+Tokens can be found from `crates.io/me`_. To make a release, first clean and
 build the package:
 
 .. _crates.io/me: https://crates.io/me

@@ -27,6 +27,7 @@ Developing Cargo Sphinx
 .. toctree::
    :maxdepth: 1
 
+   building
    docker
    travis
    releasing
