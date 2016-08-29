@@ -8,6 +8,15 @@ keywords = ["cargo"]
 repository = "https://github.com/woofwoofinc/cargo-sphinx"
 readme = "README.md"
 
+include = [
+    "src/*",
+    "AUTHORS",
+    "Cargo.lock",
+    "Cargo.toml",
+    "LICENSE-*",
+    "README.md",
+]
+
 [dependencies]
 toml = "0.2.0"
 quick-error = "1.1.0"
