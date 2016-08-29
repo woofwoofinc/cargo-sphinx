@@ -21,9 +21,9 @@ by `Ryan Roemer`_. The documentation uses the Simplex theme from Bootswatch_.
 
 README badging provided by `Travis CI`_, `Dependency CI`_, and `Shields.io`_.
 
-.. _Travis CI: http://travis-ci.org
+.. _Travis CI: https://travis-ci.org
 .. _Dependency CI: https://dependencyci.com
-.. _Shields.io: http://shields.io
+.. _Shields.io: https://shields.io
 
 Continuous integration is by `Travis CI`_ and `Dependency CI`_. Project hosting
 and issue tracking is from `GitHub`_ and distribution is provided by
