@@ -1,6 +1,6 @@
 [root]
 name = "cargo-sphinx"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "cargo 0.12.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "clap 2.10.4 (registry+https://github.com/rust-lang/crates.io-index)",
