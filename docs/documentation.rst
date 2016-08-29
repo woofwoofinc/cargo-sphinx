@@ -49,5 +49,5 @@ repository with the documentation HTML committed on ``master``. Push this to
 
 .. code:: bash
 
-    cd docs/_build/html 
+    cd docs/_build/html
     git push -f git@github.com:woofwoofinc/cargo-sphinx.git master:gh-pages
