@@ -42,7 +42,7 @@ RUN     pip install sphinx_bootstrap_theme
 
 RUN    apt-get install -qq curl graphviz cmake libssl-dev
 
-RUN    curl https://sh.rustup.rs -sSf | env RUSTUP_INIT_SKIP_SUDO_CHECK=1 sh -s -- -y
+RUN    curl https://sh.rustup.rs -sSf | sh -s -- -y
 ENV    CARGO_TARGET_DIR targetdocker
 ENV    PATH /root/.cargo/bin:$PATH
 
