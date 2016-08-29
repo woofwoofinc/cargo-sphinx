@@ -29,8 +29,12 @@ fn build(docs_path: &str, shell: &mut MultiShell, dry_run: bool) -> Result<(), F
 
     // A `.nojekyll` file prevents GitHub from ignoring Sphinx CSS files.
     let nojekyll = Path::new(docs_path).join("_build/html/.nojekyll");
-    if !nojekyll.exists() {
-        try!(File::create(nojekyll));
+    if dry_run {
+        try!(shell.say(format!("touch {}", nojekyll.display()), color::GREEN));
+    } else {
+        if !nojekyll.exists() {
+            try!(File::create(nojekyll));
+        }
     }
 
     Ok(())

@@ -5,21 +5,21 @@
 
 Cargo Sphinx
 ============
-Cargo subcommand for building and publishing Sphinx documentation to
-[GitHub Pages].
+Cargo subcommand for building and publishing Sphinx documentation. Includes
+support for publishing to [GitHub Pages].
 
 [GitHub Pages]: https://pages.github.com
 
-Forked from the [cargo-release] project by [Ning Sun]. Uses the GitHub Pages
-push functionality without the full release management support.
+See the User Guide at [woofwoofinc.github.io/cargo-sphinx] for detailed
+documentation.
+
+[woofwoofinc.github.io/cargo-sphinx]: https://woofwoofinc.github.io/cargo-sphinx
+
+Cargo Sphinx was originally forked from the [cargo-release] project by 
+[Ning Sun].
 
 [cargo-release]: https://github.com/sunng87/cargo-release
 [Ning Sun]: https://github.com/sunng87
-
-See an example of the output for this repository published at
-[woofwoofinc.github.io/cargo-sphinx].
-
-[woofwoofinc.github.io/cargo-sphinx]: https://woofwoofinc.github.io/cargo-sphinx
 
 
 Using Cargo Sphinx
@@ -45,54 +45,13 @@ https://YOUR-GITHUB-USERNAME.github.io/YOUR-REPOSITORY-NAME.
 WARNING: This will override your existing `gh-pages` branch, use at your own
 risk.
 
-Options for Cargo Sphinx can be set in `Cargo.toml` under the custom section
-`package.metadata.sphinx`:
-
-* `docs-path`: string, location of the project Sphinx documentation files.
-  Default "docs".
-* `commit-message`: string, a commit message template for doc import.
-Default "(cargo-sphinx) Generate docs.".
-* `sign-commit`: bool, use GPG to sign git commits. Default false.
-* `push-remote`: string, git remote for push. Default "origin".
-* `push-branch`: string, default branch to push docs. Default "gh-pages".
-
-```toml
-[package.metadata.sphinx] 
-docs-path = "docs"
-commit-message = "(cargo-sphinx) Generate docs."
-sign-commit = false
-push-remote = "origin"
-push-branch = "gh-pages"
-```
-
 Include the `--dry-run` option to print all the commands to execute instead of
 performing the generate and upload.
 
-```
-Building Sphinx docs.
-cd docs
-make clean html
-cd -
-Publishing Sphinx docs to GitHub Pages.
-cd docs/_build/html
-touch .nojekyll
-cd -
-cd docs/_build/html
-git init
-cd -
-cd docs/_build/html
-git add .
-cd -
-cd docs/_build/html
-git commit  -am (cargo-sphinx) Generate docs.
-cd -
-cd docs
-git push -f git@github.com:woofwoofinc/cargo-gh-pages.git master:gh-pages
-cd -
-cd docs/_build/html
-rm -fr .nojekyll .git
-cd -
-```
+See further user documentation in the Sphinx documentation for this project
+published at [woofwoofinc.github.io/cargo-sphinx].
+
+[woofwoofinc.github.io/cargo-sphinx]: https://woofwoofinc.github.io/cargo-sphinx
 
 
 Developing Cargo Sphinx
@@ -179,7 +138,7 @@ By participating in this project you agree to abide by its terms. Instances of
 abusive, harassing, or otherwise unacceptable behavior may be reported by
 contacting the project team at woofwoofinc@gmail.com.
 
-[Contributor Code of Conduct]: CODE_OF_CONDUCT.md
+[Contributor Code of Conduct]: docs/conduct.rst
 
 Unless you explicitly state otherwise, any contribution intentionally submitted
 for inclusion in the work by you, as defined in the Apache-2.0 license, shall be
