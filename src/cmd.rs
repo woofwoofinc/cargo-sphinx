@@ -43,10 +43,8 @@ pub fn call(command: Vec<&str>,
             let output = try!(cmd.output());
             if !output.status.success() {
                 try!(shell.error(String::from_utf8_lossy(&output.stderr)));
-                Ok(false)
-            } else {
-                Ok(true)
             }
+            Ok(output.status.success())
         }
     }
 }
