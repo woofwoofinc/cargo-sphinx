@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/woofwoofinc/cargo-sphinx.svg?branch=master)](https://travis-ci.org/woofwoofinc/cargo-sphinx)
+[![Windows Build Status](https://ci.appveyor.com/api/projects/status/395nrdfq1aqdjwd8/branch/master?svg=true)](https://ci.appveyor.com/project/passy/cargo-sphinx)
 [![Dependency Status](https://dependencyci.com/github/woofwoofinc/cargo-sphinx/badge)](https://dependencyci.com/github/woofwoofinc/cargo-sphinx)
 [![License](https://img.shields.io/badge/license-Apache--2.0%20OR%20MIT-blue.svg)](https://github.com/woofwoofinc/cargo-sphinx#license)
 
