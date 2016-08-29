@@ -23,12 +23,16 @@ The following dependencies are needed to run Cargo Sphinx.
   requires this Makefile to function because user Sphinx directory layouts may
   vary significantly. Relying on the Makefile means that Sphinx layout
   parameters do not need to be specified to Cargo Sphinx.
+* CMake_: Needed by Cargo tool library dependency.
+* Libssl_: Needed by Cargo tool library dependency.
 
 .. _Sphinx: http://www.sphinx-doc.org
 .. _Python: https://www.python.org
 .. _Git: https://git-scm.com
 .. _Cargo: http://doc.crates.io
 .. _Rust: http://rust-lang.org
+.. _CMake: https://cmake.org
+.. _Libssl: https://wiki.openssl.org/index.php/Libssl_API
 
 Optionally, you may like to also install packages for extra Sphinx templates
 such as:
