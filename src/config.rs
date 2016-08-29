@@ -66,18 +66,20 @@ impl Config {
         let contents = try!(Config::load_from_file(&path));
 
         let mut parser = Parser::new(&contents);
+        let parsed: Option<Table> = parser.parse();
 
-        let toml: Option<Table> = parser.parse();
-        let sphinx_toml = toml.and_then(|mut table| table.remove("package"))
+        // Verify parsed TOML is valid.
+        let mut toml: Table = try!(parsed.ok_or(FatalError::InvalidCargoFileFormat));
+
+        let config: Table = toml.remove("package")
             .and_then(Config::as_table)
             .and_then(|mut table| table.remove("metadata"))
             .and_then(Config::as_table)
             .and_then(|mut table| table.remove("sphinx"))
-            .and_then(Config::as_table);
+            .and_then(Config::as_table)
+            .unwrap_or(Table::new());
 
-        let config: Table = try!(sphinx_toml.ok_or(FatalError::InvalidCargoFileFormat));
-
-        // Verify the TOML configuration.
+        // Verify the Cargo Sphinx TOML configuration.
         let valid_keys = vec![DOCS_PATH, COMMIT_MESSAGE, SIGN_COMMIT, PUSH_REMOTE, PUSH_BRANCH];
 
         for key in config.keys() {
