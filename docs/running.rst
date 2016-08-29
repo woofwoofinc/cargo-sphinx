@@ -35,7 +35,7 @@ https://YOUR-GITHUB-USERNAME.github.io/YOUR-REPOSITORY-NAME.
 Including the ``--dry-run`` option will print all the commands instead of
 performing them.
 
-::
+.. code:: bash
 
     cd docs
     make clean html
