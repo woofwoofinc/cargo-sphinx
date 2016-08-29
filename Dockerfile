@@ -33,7 +33,7 @@ RUN     apt-get install -qq git
 
 RUN     apt-get install -qq python2.7 python2.7-dev python-pip
 RUN     pip install Sphinx
-RUN     pip install cloud_sptheme
+RUN     pip install sphinx_bootstrap_theme
 
 
 ################################################################################
