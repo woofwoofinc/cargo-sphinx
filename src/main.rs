@@ -24,7 +24,7 @@ use error::FatalError;
 use term::color;
 
 fn build(docs_path: &str, shell: &mut MultiShell, dry_run: bool) -> Result<(), FatalError> {
-    try!(shell.say("Building Sphinx docs.", color::BLUE));
+    try!(shell.verbose(|s| s.say("Building Sphinx docs.", color::BLUE)));
     try!(call(vec!["make", "clean", "html"], docs_path, shell, dry_run));
 
     // A `.nojekyll` file prevents GitHub from ignoring Sphinx CSS files.
@@ -44,7 +44,7 @@ fn publish(docs_path: &str,
            shell: &mut MultiShell,
            dry_run: bool)
            -> Result<bool, FatalError> {
-    try!(shell.say("Publishing Sphinx docs to GitHub Pages.", color::BLUE));
+    try!(shell.verbose(|s| s.say("Publishing Sphinx docs to GitHub Pages.", color::BLUE)));
     let docs_build_path = format!("{}/_build/html", docs_path);
 
     try!(git::init(&docs_build_path, shell, dry_run));
