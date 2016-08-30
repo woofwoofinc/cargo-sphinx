@@ -4,7 +4,6 @@ version = "1.0.0"
 authors = ["Ning Sun <sunng@about.me>", "Pascal Hartig <i@passy.me>", "Daithi O Crualaoich <daithi.ocrualaoich@gmail.com>"]
 license = "MIT OR Apache-2.0"
 description = "Cargo subcommand for building and publishing Sphinx documentation to GitHub Pages."
-keywords = ["cargo"]
 
 homepage = "https://woofwoofinc.github.io/cargo-sphinx"
 documentation = "https://docs.rs/crate/cargo-sphinx"
