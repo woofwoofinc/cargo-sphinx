@@ -8,6 +8,12 @@ matrix:
   allow_failures:
   - rust: nightly
 cache: cargo
+before_script: (cargo install rustfmt || true)
+script:
+- |
+  cargo fmt -- --write-mode=diff &&
+  cargo build &&
+  cargo test
 notifications:
   slack:
     secure: cJlI7yad4btGDvHCBYzIhIp9/TgHaRSDCWX8JQfEbrnurRFhfQcULVmqTXyUVsYxlXu0sDYIf4udRTZkKZJ+XTg6bdo7Q29Nk7BrtOsNDGKUokCCKel22FsNTONHL5BS8ScKKTur40OXQFUv7YaiEc5B3yYWjV4K6a6nsCldV0r9bevKxRnJlP1OxD/euB8m1aD9gLP6K9XNn7wBSuZsWv3chr3ordq11T+MsBiTWlIK3qOg8GDI7XRioJDdmfxZ262joUsZSQ7Zd090GRKTwIus96EfjHGNb2wDIcltfjJrtcO7zSj/F8Fqef9SqT/1XBHpzLlkb8admSLs/0ArEv1+1a+qhqhnTXFyEQB25+SneuX+FbwcEy6zfLEk4pVkFoAj5SJmGnb4hiEEBKSvx2/2lraeHkgDpjPT7Io387VwIugbxGB6Ch2NDDIHl8ZzAzz9pGEsMUlZzbpTSR1KCiRdzcu7x1ojduUKFwXU7OLiuXdTF0WI9klFEBWp1OW2i0LMSrZ9y1R99MPqOwwnKHhphhgTu4P3xh6AENSDoDIJOIxlp+hLyl6GHU5n1B67DZEw2sCbwZACeEhRcjtf8nXcyNsqmqUDS0ssPaGo4a99/FOTbv85NWOZGZAR5wKF/4T1338JAcanIaLoCMJ6Ij5zE/nLc0loYESWWntNsYQ=
