@@ -14,16 +14,19 @@ If this does not work, raise a bug then use the Makefile as fallback.
     cd docs
     make clean html
 
-The Docker container provides an installation of Python and Sphinx which can be
-used to build the documentation also. To make the documentation directly in
-container without an intermediate shell, use:
+The Docker container provides an installation of Python and Sphinx as well as
+the latest Cargo Sphinx published to `crates.io`_. These can be used to build
+the documentation also. To make the documentation directly in container withou
+an intermediate shell, use:
+
+.. _crates.io: https://crates.io
 
 .. code:: bash
 
     docker run -v "$(pwd):/cargo-sphinx" \
-         --workdir=/cargo-sphinx/docs \
+         --workdir=/cargo-sphinx \
          cargo-sphinx \
-         make clean html
+         cargo sphinx
 
 The compiled document is written to the shared location and is available on the
 host machine under ``docs/_build/html``.

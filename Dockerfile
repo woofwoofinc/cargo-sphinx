@@ -52,6 +52,7 @@ RUN    cargo install cargo-outdated
 RUN    cargo install cargo-graph
 RUN    cargo install cargo-modules
 RUN    cargo install cargo-count
+RUN    cargo install cargo-sphinx
 
 RUN    rustup install nightly
 RUN    rustup run nightly cargo install clippy
