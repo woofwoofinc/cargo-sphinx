@@ -3,7 +3,9 @@ use std::io;
 use std::fs::File;
 use std::path::Path;
 
-use toml::{Parser, Value, Table};
+use toml;
+use toml::Value;
+use toml::value::Table;
 use error::FatalError;
 
 
@@ -65,8 +67,7 @@ impl Config {
         let path = Path::new(path);
         let contents = try!(Config::load_from_file(&path));
 
-        let mut parser = Parser::new(&contents);
-        let parsed: Option<Table> = parser.parse();
+        let parsed: Option<Table> = toml::from_str(&contents).ok();
 
         // Verify parsed TOML is valid.
         let mut toml: Table = try!(parsed.ok_or(FatalError::InvalidCargoFileFormat));
