@@ -1,3 +1,18 @@
+
+
+
+
+
+
+
+     ______                        _______       __    __
+    |      .---.-.----.-----.-----|     __.-----|  |--|__.-----.--.--.
+    |   ---|  _  |   _|  _  |  _  |__     |  _  |     |  |     |_   _|
+    |______|___._|__| |___  |_____|_______|   __|__|__|__|__|__|__.__|
+                      |_____|             |__|
+                                                       Woof Woof, Inc.
+
+
 [![Crates.io](https://img.shields.io/crates/v/cargo-sphinx.svg)](https://crates.io/crates/cargo-sphinx)
 [![Build Status](https://travis-ci.org/woofwoofinc/cargo-sphinx.svg?branch=master)](https://travis-ci.org/woofwoofinc/cargo-sphinx)
 [![Windows Build Status](https://ci.appveyor.com/api/projects/status/395nrdfq1aqdjwd8/branch/master?svg=true)](https://ci.appveyor.com/project/passy/cargo-sphinx)
