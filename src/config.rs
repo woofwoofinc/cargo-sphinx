@@ -80,7 +80,13 @@ impl Config {
             .unwrap_or(Table::new());
 
         // Verify the Cargo Sphinx TOML configuration.
-        let valid_keys = vec![DOCS_PATH, COMMIT_MESSAGE, SIGN_COMMIT, PUSH_REMOTE, PUSH_BRANCH];
+        let valid_keys = vec![
+            DOCS_PATH,
+            COMMIT_MESSAGE,
+            SIGN_COMMIT,
+            PUSH_REMOTE,
+            PUSH_BRANCH,
+        ];
 
         for key in config.keys() {
             if !valid_keys.contains(&key.as_ref()) {
@@ -122,8 +128,10 @@ fn test_commit_message_config() {
     let result: Result<Config, FatalError> = Config::from("Cargo.toml");
     let config: Config = result.expect("Parse cargo file failed.");
 
-    assert_eq!(config.get_str("commit-message"),
-               Some("(cargo-sphinx) Generate docs."));
+    assert_eq!(
+        config.get_str("commit-message"),
+        Some("(cargo-sphinx) Generate docs.")
+    );
 }
 
 #[test]

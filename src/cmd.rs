@@ -8,11 +8,12 @@ use term::color;
 /// Shell out and execute the specified command. Change to the path first and
 /// only execute the command if a dry run has not been requested.
 ///
-pub fn call(command: Vec<&str>,
-            path: &str,
-            shell: &mut MultiShell,
-            dry_run: bool)
-            -> Result<bool, FatalError> {
+pub fn call(
+    command: Vec<&str>,
+    path: &str,
+    shell: &mut MultiShell,
+    dry_run: bool,
+) -> Result<bool, FatalError> {
     if dry_run {
         try!(shell.say(format!("cd {}", path), color::GREEN));
         try!(shell.say(format!("{}", command.join(" ")), color::GREEN));

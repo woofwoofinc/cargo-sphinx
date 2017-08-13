@@ -24,13 +24,23 @@ use error::FatalError;
 use term::color;
 
 fn build(docs_path: &str, shell: &mut MultiShell, dry_run: bool) -> Result<(), FatalError> {
-    try!(shell.verbose(|s| s.say("Building Sphinx docs.", color::BLUE)));
-    try!(call(vec!["make", "clean", "html"], docs_path, shell, dry_run));
+    try!(shell.verbose(
+        |s| s.say("Building Sphinx docs.", color::BLUE),
+    ));
+    try!(call(
+        vec!["make", "clean", "html"],
+        docs_path,
+        shell,
+        dry_run,
+    ));
 
     // A `.nojekyll` file prevents GitHub from ignoring Sphinx CSS files.
     let nojekyll = Path::new(docs_path).join("_build/html/.nojekyll");
     if dry_run {
-        try!(shell.say(format!("touch {}", nojekyll.display()), color::GREEN));
+        try!(shell.say(
+            format!("touch {}", nojekyll.display()),
+            color::GREEN,
+        ));
     } else {
         if !nojekyll.exists() {
             try!(File::create(nojekyll));
@@ -40,20 +50,29 @@ fn build(docs_path: &str, shell: &mut MultiShell, dry_run: bool) -> Result<(), F
     Ok(())
 }
 
-fn publish(docs_path: &str,
-           commit_msg: &str,
-           sign: bool,
-           push_remote: &str,
-           push_branch: &str,
-           shell: &mut MultiShell,
-           dry_run: bool)
-           -> Result<bool, FatalError> {
-    try!(shell.verbose(|s| s.say("Publishing Sphinx docs to GitHub Pages.", color::BLUE)));
+fn publish(
+    docs_path: &str,
+    commit_msg: &str,
+    sign: bool,
+    push_remote: &str,
+    push_branch: &str,
+    shell: &mut MultiShell,
+    dry_run: bool,
+) -> Result<bool, FatalError> {
+    try!(shell.verbose(|s| {
+        s.say("Publishing Sphinx docs to GitHub Pages.", color::BLUE)
+    }));
     let docs_build_path = format!("{}/_build/html", docs_path);
 
     try!(git::init(&docs_build_path, shell, dry_run));
     try!(git::add_all(&docs_build_path, shell, dry_run));
-    try!(git::commit_all(&docs_build_path, commit_msg, sign, shell, dry_run));
+    try!(git::commit_all(
+        &docs_build_path,
+        commit_msg,
+        sign,
+        shell,
+        dry_run,
+    ));
     let remote = try!(git::remote_get_url(push_remote));
 
     let mut refspec = String::from("master:");
@@ -63,9 +82,11 @@ fn publish(docs_path: &str,
 }
 
 fn execute(args: &ArgMatches, cargo_config: &CargoConfig) -> Result<i32, FatalError> {
-    try!(cargo_config.configure_shell(args.occurrences_of("verbose") as u32,
-                                      Some(args.is_present("quiet")),
-                                      &args.value_of("color").map(|s| String::from(s))));
+    try!(cargo_config.configure_shell(
+        args.occurrences_of("verbose") as u32,
+        Some(args.is_present("quiet")),
+        &args.value_of("color").map(|s| String::from(s)),
+    ));
 
     let config: Config = try!(Config::from("Cargo.toml"));
 
@@ -95,13 +116,15 @@ fn execute(args: &ArgMatches, cargo_config: &CargoConfig) -> Result<i32, FatalEr
     // Generate and publish documentation.
     try!(build(docs_path, &mut *cargo_config.shell(), dry_run));
     if push {
-        try!(publish(docs_path,
-                     commit_msg,
-                     sign,
-                     push_remote,
-                     push_branch,
-                     &mut *cargo_config.shell(),
-                     dry_run));
+        try!(publish(
+            docs_path,
+            commit_msg,
+            sign,
+            push_remote,
+            push_branch,
+            &mut *cargo_config.shell(),
+            dry_run,
+        ));
     }
 
     Ok(0)
@@ -109,27 +132,38 @@ fn execute(args: &ArgMatches, cargo_config: &CargoConfig) -> Result<i32, FatalEr
 
 fn main() {
     let matches = App::new("cargo")
-        .subcommand(SubCommand::with_name("sphinx")
-            .version(env!("CARGO_PKG_VERSION"))
-            .author("Ning Sun <sunng@about.me>")
-            .author("Woof Woof, Inc.")
-            .about("Cargo subcommand for building and publishing Sphinx documentation to GitHub \
-                    Pages.")
-            .arg_from_usage("--dry-run 'Print commands to execute instead of running.'")
-            .arg_from_usage("-p, --push 'Push generated documentation to git remote.'")
-            .arg_from_usage("-s, --sign 'Sign the git commit.'")
-            .arg_from_usage("-v, --verbose 'Use verbose output.'")
-            .arg_from_usage("-q, --quiet 'Less output printed to stdout.'")
-            .arg_from_usage("--color 'Coloring: auto, always, never.'")
-            .arg_from_usage("--docs-path=[STRING] 'Path of Sphinx documentation to build. \
-                             Defaults to `docs` if not specified.'")
-            .arg_from_usage("--commit-message=[STRING] 'Commit message for the documentation \
-                             change. Defaults to `(cargo-sphinx) Generate docs.` if not \
-                             specified.'")
-            .arg_from_usage("--push-remote=[STRING] 'Git remote to push. \
-                             Defaults to `origin` if not specified.'")
-            .arg_from_usage("--push-branch=[STRING] 'Git branch to push documentation on. \
-                             Defaults to `gh-pages` if not specified.'"))
+        .subcommand(
+            SubCommand::with_name("sphinx")
+                .version(env!("CARGO_PKG_VERSION"))
+                .author("Ning Sun <sunng@about.me>")
+                .author("Woof Woof, Inc.")
+                .about(
+                    "Cargo subcommand for building and publishing Sphinx documentation to GitHub \
+                    Pages.",
+                )
+                .arg_from_usage("--dry-run 'Print commands to execute instead of running.'")
+                .arg_from_usage("-p, --push 'Push generated documentation to git remote.'")
+                .arg_from_usage("-s, --sign 'Sign the git commit.'")
+                .arg_from_usage("-v, --verbose 'Use verbose output.'")
+                .arg_from_usage("-q, --quiet 'Less output printed to stdout.'")
+                .arg_from_usage("--color 'Coloring: auto, always, never.'")
+                .arg_from_usage(
+                    "--docs-path=[STRING] 'Path of Sphinx documentation to build. Defaults to \
+                     `docs` if not specified.'",
+                )
+                .arg_from_usage(
+                    "--commit-message=[STRING] 'Commit message for the documentation change. \
+                     Defaults to `(cargo-sphinx) Generate docs.` if not specified.'",
+                )
+                .arg_from_usage(
+                    "--push-remote=[STRING] 'Git remote to push. Defaults to `origin` if not \
+                     specified.'",
+                )
+                .arg_from_usage(
+                    "--push-branch=[STRING] 'Git branch to push documentation on. Defaults to \
+                     `gh-pages` if not specified.'",
+                ),
+        )
         .get_matches();
 
     let cargo_config = CargoConfig::default().expect("Unable to get config");
