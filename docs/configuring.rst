@@ -7,13 +7,20 @@ The Sphinx source files should be placed in a directory in the same repository
 with the ``Cargo.toml`` and source code being documented.
 
 The Sphinx project should also be configured to use a Makefile. The
-``sphinx-quickstart`` setup tool includes dialogue for generating a Makefile
-which corresponds to the selected Sphinx layout.
+sphinx-quickstart setup tool includes dialogue for generating a Makefile which
+corresponds to the selected Sphinx layout.
 
-For an existing Sphinx project, you may wish to run the ``sphinx-quickstart``
-setup tool in a temporary directory retrospectively to create the Makefile.
+For an existing Sphinx project, you may wish to run the sphinx-quickstart setup
+tool in a temporary directory retrospectively to create the Makefile.
+
+::
+
+    $ sphinx-quickstart
+
 Alternatively, you can adapt the Makefile for this project which is at
-https://github.com/woofwoofinc/cargo-sphinx/blob/master/docs/Makefile.
+`github.com/woofwoofinc/cargo-sphinx/blob/master/docs/Makefile`_.
+
+.. _github.com/woofwoofinc/cargo-sphinx/blob/master/docs/Makefile: https://github.com/woofwoofinc/cargo-sphinx/blob/master/docs/Makefile
 
 It is useful to configure the Sphinx project to include the Sphinx extension
 for GitHub Pages. This will create ``.nojekyll`` files in the output. This is
@@ -21,8 +28,8 @@ required in GitHub Pages to bypass Jekyll processing, otherwise Sphinx files
 and directories which start with underscores will be purged. (Jekyll convention
 does not copy these to the final site.) 
 
-Either select the ``githubpages`` option in the ``sphinx-quickstart`` dialogue
-or include the following in the ``conf.py`` for your Sphinx project.
+Either select the githubpages option in the sphinx-quickstart dialogue or
+include the following in the ``conf.py`` for your Sphinx project.
 
 .. code:: python
 

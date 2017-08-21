@@ -25,11 +25,11 @@ to add a new Sphinx project at ``docs`` to document this Rust project.
 
 3 Sphinx QuickStart
 ^^^^^^^^^^^^^^^^^^^
-Use the ``sphinx-quickstart`` tool to get started with Sphinx.
+Use the sphinx-quickstart tool to get started with Sphinx.
 
 .. code:: bash
 
-    # sphinx-quickstart
+    $ sphinx-quickstart
     Welcome to the Sphinx 1.4.6 quickstart utility.
 
     Please enter values for the following settings (just press Enter to
@@ -105,10 +105,10 @@ complete them as you prefer.
 The Sphinx quickstart asks about whether to include a number of extensions.
 Mostly these depend on whether you will use the functionality they support.
 
-It is a good idea to include the ``githubpages`` extension even though Cargo
-Sphinx provides support for generating ``.nojekyll`` files also. These are
-needed so the GitHub Pages Jekyll processor doesn't delete files needed by
-the Sphinx output. (``githubpages`` is the last extension in the block below.))
+It is a good idea to include the githubpages extension even though Cargo Sphinx
+provides support for generating ``.nojekyll`` files also. These are needed so
+the GitHub Pages Jekyll processor doesn't delete files needed by the Sphinx
+output. (githubpages is the last extension in the block below.)
 
 .. code:: bash
 

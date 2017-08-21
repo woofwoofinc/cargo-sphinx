@@ -1,8 +1,9 @@
 Releasing
 ---------
-Instructions for uploading to the crate repository at ``crates.io`` are
+Instructions for uploading to the crate repository at `crates.io`_ are
 at `doc.crates.io/crates-io.html`_. First login to the site using:
 
+.. _crates.io: http://crates.io
 .. _doc.crates.io/crates-io.html: http://doc.crates.io/crates-io.html#publishing-crates
 
 .. code:: bash
