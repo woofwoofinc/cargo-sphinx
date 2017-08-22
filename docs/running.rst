@@ -17,7 +17,7 @@ defaults for Sphinx and Cargo Sphinx will result in output at
 Publishing
 ^^^^^^^^^^ 
 .. WARNING::
-   This will override your existing ``gh-pages`` branch, use at your own risk.
+   This will override your existing gh-pages branch, use at your own risk.
 
 To push the generated documentation to the GitHub Pages branch include the 
 ``--push`` option:
@@ -27,8 +27,8 @@ To push the generated documentation to the GitHub Pages branch include the
     cargo sphinx --push
 
 This will generate Sphinx documentation and commit it locally to the
-``gh-pages`` branch of the repository. Then the branch is force pushed to the
-``origin`` remote. If the origin is GitHub and GitHub Pages are enabled on the
+gh-pages branch of the repository. Then the branch is force pushed to the
+origin remote. If the origin is GitHub and GitHub Pages are enabled on the
 repository then you will be able to view your documentation at
 https://YOUR-GITHUB-USERNAME.github.io/YOUR-REPOSITORY-NAME.
 

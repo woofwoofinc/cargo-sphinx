@@ -47,8 +47,8 @@ container.
     cargo sphinx --push
 
 Then on the host, change to ``docs/_build/html` which is now a new Git
-repository with the documentation HTML committed on ``master``. Push this to
-``origin`` by specifying the remote.
+repository with the documentation HTML committed on master. Push this to origin
+by specifying the remote.
 
 .. code:: bash
 
