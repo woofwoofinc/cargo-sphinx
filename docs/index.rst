@@ -1,5 +1,5 @@
-Cargo Sphinx
-============
+.. image:: assets/title.png
+
 Cargo Sphinx is an extension to the Rust_ language Cargo_ build tool which adds
 features for building and publishing Sphinx_ documentation.
 
