@@ -1,6 +1,6 @@
 [package]
 name = "cargo-sphinx"
-version = "1.0.0"
+version = "1.1.0"
 authors = ["Ning Sun <sunng@about.me>", "Pascal Hartig <i@passy.me>", "Daithi O Crualaoich <daithi.ocrualaoich@gmail.com>"]
 license = "MIT OR Apache-2.0"
 description = "Cargo subcommand for building and publishing Sphinx documentation to GitHub Pages."
