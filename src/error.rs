@@ -17,7 +17,7 @@ quick_error! {
             display("Unknown cargo key found: {}", key)
             description("Unknown config key found.")
         }
-        CargoError(err: Box<CargoError>) {
+        CargoError(err: CargoError) {
             from()
             cause(err)
         }

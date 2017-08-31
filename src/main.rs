@@ -82,10 +82,12 @@ fn publish(
 }
 
 fn execute(args: &ArgMatches, cargo_config: &CargoConfig) -> Result<i32, FatalError> {
-    try!(cargo_config.configure_shell(
+    try!(cargo_config.configure(
         args.occurrences_of("verbose") as u32,
         Some(args.is_present("quiet")),
         &args.value_of("color").map(|s| String::from(s)),
+        false,
+        false,
     ));
 
     let config: Config = try!(Config::from("Cargo.toml"));
