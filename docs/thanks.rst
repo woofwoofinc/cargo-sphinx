@@ -12,8 +12,9 @@ Other contributors include:
 - `Pascal Hartig <https://github.com/passy>`_
 - `Daithi O Crualaoich <https://github.com/daithiocrualaoich>`_
 
-The `Sphinx Bootstrap Theme`_ used in generating Cargo Sphinx documentation is
-by `Ryan Roemer`_. The documentation uses the Simplex theme from Bootswatch_.
+The `Sphinx Bootstrap Theme`_ used in generating the documentation is by
+`Ryan Roemer`_. The documentation uses the Simplex theme from Bootswatch_ with
+additional custom styles.
 
 .. _Sphinx Bootstrap Theme: https://github.com/ryan-roemer/sphinx-bootstrap-theme
 .. _Ryan Roemer: https://github.com/ryan-roemer
