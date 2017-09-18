@@ -1,12 +1,12 @@
 Releasing
----------
+=========
 Instructions for uploading to the crate repository at `crates.io`_ are
 at `doc.crates.io/crates-io.html`_. First login to the site using:
 
 .. _crates.io: http://crates.io
 .. _doc.crates.io/crates-io.html: http://doc.crates.io/crates-io.html#publishing-crates
 
-.. code:: bash
+::
 
     cargo login <token>
 
@@ -15,7 +15,7 @@ build the package:
 
 .. _crates.io/me: https://crates.io/me
 
-.. code:: bash
+::
 
     git stash
     cargo clean
@@ -24,7 +24,7 @@ build the package:
 Examine the built package under ``target/package/cargo-sphinx-<version>``.
 And when happy to publish:
 
-.. code:: bash
+::
 
     cargo publish
 

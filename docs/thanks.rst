@@ -1,5 +1,5 @@
 Thanks
-------
+======
 Cargo Sphinx was originally forked from the `cargo-release`_ project by 
 `Ning Sun`_.
 

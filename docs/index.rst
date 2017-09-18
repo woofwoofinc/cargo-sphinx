@@ -12,6 +12,7 @@ features for building and publishing Sphinx_ documentation.
 .. _GitHub Pages: https://pages.github.com
 .. _woofwoofinc.github.io/cargo-sphinx: https://woofwoofinc.github.io/cargo-sphinx
 
+
 Using Cargo Sphinx
 ------------------
 .. toctree::
@@ -22,18 +23,20 @@ Using Cargo Sphinx
    configuring
    running
 
-Developing Cargo Sphinx
------------------------
+
+Development
+-----------
 .. toctree::
    :maxdepth: 1
 
    building
    docker
    travis
-   releasing
    documentation
+   releasing
    clippy
-   
+
+
 Other Topics
 ------------
 .. toctree::
@@ -43,4 +46,3 @@ Other Topics
    conduct
    thanks
    license
-
