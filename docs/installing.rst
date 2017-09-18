@@ -1,9 +1,9 @@
 Installing
-----------
+==========
 Cargo Sphinx is designed for use in Git managed Cargo-based Rust projects. To
 install it, use:
 
-.. code:: bash
+::
 
     cargo install cargo-sphinx
 

@@ -1,8 +1,8 @@
 Configuring
------------
+===========
 
 Sphinx Project Setup
-^^^^^^^^^^^^^^^^^^^^
+--------------------
 The Sphinx source files should be placed in a directory in the same repository
 with the ``Cargo.toml`` and source code being documented.
 
@@ -42,9 +42,9 @@ generated output if they are not present.
 
 
 Cargo Sphinx Options
-^^^^^^^^^^^^^^^^^^^^
+--------------------
 You may choose any directory for the Sphinx source files. Cargo Sphinx uses
-`docs` at the top level as the default but can be easily configured in
+``docs`` at the top level as the default but can be easily configured in
 ``Cargo.toml`` or by commandline invocation parameters to use another location.
 
 Options for Cargo Sphinx can be set in ``Cargo.toml`` under the custom section

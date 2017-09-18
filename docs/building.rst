@@ -1,5 +1,5 @@
 Building
---------
+========
 Install the Rust_ development tools on your system with rustup_ if they are
 not already available.
 
@@ -16,14 +16,14 @@ The following dependencies are also needed to build Cargo Sphinx.
 
 To build and test the project, use:
 
-.. code:: bash
+::
 
     cargo test
 
 A development version of the Cargo Sphinx extension can be installed locally
 using:
 
-.. code:: bash
+::
 
     cargo install
 
@@ -31,12 +31,12 @@ using:
 
 Run an installed development version to test the Sphinx generation:
 
-.. code:: bash
+::
 
     cargo sphinx
 
 Use ``--dry-run`` to see the ``--push`` steps.
     
-.. code:: bash
+::
 
     cargo sphinx --push --dry-run

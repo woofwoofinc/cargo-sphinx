@@ -1,11 +1,11 @@
 .. _running:
 
 Running
--------
+=======
 Once installed and configured, you can build your project Sphinx documentation
 using:
 
-.. code:: bash
+::
 
     cargo sphinx
 
@@ -15,14 +15,14 @@ defaults for Sphinx and Cargo Sphinx will result in output at
 
 
 Publishing
-^^^^^^^^^^ 
+----------
 .. WARNING::
    This will override your existing gh-pages branch, use at your own risk.
 
 To push the generated documentation to the GitHub Pages branch include the 
 ``--push`` option:
 
-.. code:: bash
+::
 
     cargo sphinx --push
 
@@ -35,7 +35,7 @@ https://YOUR-GITHUB-USERNAME.github.io/YOUR-REPOSITORY-NAME.
 Including the ``--dry-run`` option will print all the commands instead of
 performing them.
 
-.. code:: bash
+::
 
     cd docs
     make clean html
@@ -56,7 +56,7 @@ performing them.
 
 
 Commandline Options
-^^^^^^^^^^^^^^^^^^^
+-------------------
 The following commandline options are supported by Cargo Sphinx. These allow
 defaults and ``Cargo.toml`` configurations to be overriden.
 

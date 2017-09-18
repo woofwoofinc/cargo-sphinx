@@ -1,20 +1,20 @@
 Tutorial
---------
+========
 
 1 Install Cargo Sphinx
-^^^^^^^^^^^^^^^^^^^^^^
+----------------------
 If not already available, start by installing the Cargo Sphinx extension.
 
-.. code:: bash
+::
 
     cargo install cargo-sphinx
 
 
 2 Make a New Cargo Project
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------
 Begin in a new cargo project.
 
-.. code:: bash
+::
 
     cargo new cargo-sphinx-tutorial
     cd cargo-sphinx-tutorial
@@ -24,10 +24,10 @@ to add a new Sphinx project at ``docs`` to document this Rust project.
 
 
 3 Sphinx QuickStart
-^^^^^^^^^^^^^^^^^^^
+-------------------
 Use the sphinx-quickstart tool to get started with Sphinx.
 
-.. code:: bash
+::
 
     $ sphinx-quickstart
     Welcome to the Sphinx 1.4.6 quickstart utility.
@@ -41,7 +41,7 @@ default, Cargo Sphinx assumes the Sphinx files are located in ``docs``. This
 can be overridden by configuration but it's easier to use the default if we
 can.
 
-.. code:: bash
+::
 
     Enter the root path for documentation.
     > Root path for the documentation [.]: docs
@@ -52,7 +52,7 @@ documentation files.
 
 Answer ``n`` to separate source and build directories when asked.
 
-.. code:: bash
+::
 
     You have two options for placing the build directory for Sphinx output.
     Either, you use a directory "_build" within the root path, or you separate
@@ -62,7 +62,7 @@ Answer ``n`` to separate source and build directories when asked.
 This is followed by a series of questions that don't matter for Cargo Sphinx,
 complete them as you prefer.
 
-.. code:: bash
+::
 
     Inside the root directory, two more directories will be created; "_templates"
     for custom HTML templates and "_static" for custom stylesheets and other static
@@ -110,7 +110,7 @@ provides support for generating ``.nojekyll`` files also. These are needed so
 the GitHub Pages Jekyll processor doesn't delete files needed by the Sphinx
 output. (githubpages is the last extension in the block below.)
 
-.. code:: bash
+::
 
     Please indicate if you want to use one of the following Sphinx extensions:
     > autodoc: automatically insert docstrings from modules (y/n) [n]: 
@@ -129,7 +129,7 @@ this is a convenience but is necessary in the case of Cargo Sphinx.
 
 Answer yes to creating a Makefile. The Windows command file is up to you.
 
-.. code:: bash
+::
 
     A Makefile and a Windows command file can be generated for you so that you
     only have to run e.g. `make html' instead of invoking sphinx-build
@@ -139,7 +139,7 @@ Answer yes to creating a Makefile. The Windows command file is up to you.
 
 Finally, Sphinx quickstart generates the Sphinx source files under ``docs``.
 
-.. code:: bash
+::
 
     Creating file docs/conf.py.
     Creating file docs/index.rst.
@@ -155,10 +155,10 @@ Finally, Sphinx quickstart generates the Sphinx source files under ``docs``.
 
 
 4 Run Cargo Sphinx
-^^^^^^^^^^^^^^^^^^
+------------------
 We are now ready to run Cargo Sphinx.
 
-.. code:: bash
+::
 
     cargo sphinx
 
@@ -169,7 +169,7 @@ You are now all setup and ready to document!
 
 
 5 Find Out More
-^^^^^^^^^^^^^^^
+---------------
 To find out more about running Cargo Sphinx, and in particular about uploading
 the generated output to GitHub Pages, see the section on
 :ref:`running` Cargo Sphinx.
@@ -181,8 +181,9 @@ Find out more about Sphinx and writing RestructuredText at the following:
 * `Quick Guide to RestructuredText <http://docutils.sourceforge.net/docs/user/rst/quickref.html>`_
 * `RestructuredText Primer <http://sphinx-doc.org/rest.html>`_
 
+
 6 Help Make Cargo Sphinx Better
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------
 We'd love you to contribute to Cargo Sphinx. We value questions, feedback,
 suggestions, bug reports, and patches on our `GitHub Issues`_. This is a small
 and friendly project that welcomes all contributions.

@@ -1,14 +1,14 @@
 .. _contributing:
 
 Contributing
-------------
-Contributions welcome! Please help us make Cargo Sphinx better and more useful.
-The project `GitHub Issues`_ is the best place to start with questions.
+============
+Contributions welcome! Please help us make this project better. The project
+`GitHub Issues`_ is a great place to start with questions.
 
 .. _GitHub Issues: https://github.com/woofwoofinc/cargo-sphinx/issues
 
 Please note that this project is released with a `Contributor Code of Conduct`_.
-By participating in this project you agree to abide by its terms. Instances of 
+By participating in this project you agree to abide by its terms. Instances of
 abusive, harassing, or otherwise unacceptable behavior may be reported by
 contacting the project team at woofwoofinc@gmail.com.
 
