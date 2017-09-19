@@ -30,10 +30,10 @@ Development
    :maxdepth: 1
 
    building
-   docker
-   travis
    documentation
    releasing
+   docker
+   travis
    clippy
 
 
