@@ -9,7 +9,8 @@ RUN     apt-get update -qq
 RUN     apt-get upgrade -qq
 
 RUN     apt-get install -qq wget
-RUN     apt-get install -qq build-essential gcc
+RUN     apt-get install -qq build-essential
+RUN     apt-get install -qq git
 
 
 ################################################################################
@@ -18,13 +19,6 @@ RUN     apt-get install -qq build-essential gcc
 
 RUN     apt-get install -qq ruby ruby-dev
 RUN     gem install --no-ri --no-rdoc travis travis-lint
-
-
-################################################################################
-# git
-################################################################################
-
-RUN     apt-get install -qq git
 
 
 ################################################################################

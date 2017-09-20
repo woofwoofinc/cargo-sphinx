@@ -11,9 +11,10 @@ support for publishing to [GitHub Pages].
 
 [GitHub Pages]: https://pages.github.com
 
-See the User Guide at [woofwoofinc.github.io/cargo-sphinx] for detailed
-documentation.
+Detailed documentation is provided in the [docs] directories and at
+[woofwoofinc.github.io/cargo-sphinx].
 
+[docs]: docs
 [woofwoofinc.github.io/cargo-sphinx]: https://woofwoofinc.github.io/cargo-sphinx
 
 Cargo Sphinx was originally forked from the [cargo-release] project by 
@@ -23,8 +24,8 @@ Cargo Sphinx was originally forked from the [cargo-release] project by
 [Ning Sun]: https://github.com/sunng87
 
 
-Using Cargo Sphinx
-------------------
+Installing
+----------
 Install Cargo Sphinx in a Git managed Cargo-based Rust project using:
 
     cargo install cargo-sphinx
@@ -55,8 +56,8 @@ published at [woofwoofinc.github.io/cargo-sphinx].
 [woofwoofinc.github.io/cargo-sphinx]: https://woofwoofinc.github.io/cargo-sphinx
 
 
-Developing Cargo Sphinx
------------------------
+Development
+-----------
 Install the [Rust] development tools on your system with [rustup] if they are
 not already available. Then build and test the project using:
 
@@ -86,7 +87,7 @@ License
 This work is dual-licensed under the Apache License, Version 2.0 and under the
 MIT Licence.
 
-You may licence this work under the Apache License, Version 2.0.
+You may license this work under the Apache License, Version 2.0.
 
     Copyright 2016 Ning Sun and tojson_macros contributors
 
@@ -102,20 +103,20 @@ You may licence this work under the Apache License, Version 2.0.
     See the License for the specific language governing permissions and
     limitations under the License.
 
-Alternatively, you may licence this work under the MIT Licence at your option.
+Alternatively, you may license this work under the MIT Licence at your option.
 
     Copyright (c) 2016 Ning Sun and tojson_macros contributors
-    
+
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
     in the Software without restriction, including without limitation the rights
     to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
     copies of the Software, and to permit persons to whom the Software is
     furnished to do so, subject to the following conditions:
-    
+
     The above copyright notice and this permission notice shall be included in all
     copies or substantial portions of the Software.
-    
+
     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
     IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
     FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -124,7 +125,7 @@ Alternatively, you may licence this work under the MIT Licence at your option.
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-The licence explainers at [Choose a License] may be helpful. They have 
+The license explainers at [Choose a License] may be helpful. They have
 descriptions for both the [Apache 2.0 Licence] and [MIT Licence] conditions.
 
 [Choose a License]: http://choosealicense.com
@@ -135,7 +136,7 @@ descriptions for both the [Apache 2.0 Licence] and [MIT Licence] conditions.
 Contributing
 ------------
 Please note that this project is released with a [Contributor Code of Conduct].
-By participating in this project you agree to abide by its terms. Instances of 
+By participating in this project you agree to abide by its terms. Instances of
 abusive, harassing, or otherwise unacceptable behavior may be reported by
 contacting the project team at woofwoofinc@gmail.com.
 
