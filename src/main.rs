@@ -2,7 +2,7 @@ extern crate cargo;
 extern crate clap;
 #[macro_use]
 extern crate quick_error;
-extern crate term;
+extern crate termcolor;
 extern crate toml;
 
 use std::fs::File;
@@ -11,7 +11,7 @@ use std::process::exit;
 
 use clap::{App, ArgMatches, SubCommand};
 use cargo::util::Config as CargoConfig;
-use cargo::core::MultiShell;
+use cargo::core::shell::Shell;
 
 mod config;
 mod error;
@@ -21,12 +21,12 @@ mod git;
 use cmd::call;
 use config::Config;
 use error::FatalError;
-use term::color;
+use termcolor::Color::{Green, Blue};
 
-fn build(docs_path: &str, shell: &mut MultiShell, dry_run: bool) -> Result<(), FatalError> {
-    try!(shell.verbose(
-        |s| s.say("Building Sphinx docs.", color::BLUE),
-    ));
+fn build(docs_path: &str, shell: &mut Shell, dry_run: bool) -> Result<(), FatalError> {
+    try!(shell.verbose(|s| {
+        s.status_with_color("", "Building Sphinx docs.", Blue)
+    }));
     try!(call(
         vec!["make", "clean", "html"],
         docs_path,
@@ -37,9 +37,10 @@ fn build(docs_path: &str, shell: &mut MultiShell, dry_run: bool) -> Result<(), F
     // A `.nojekyll` file prevents GitHub from ignoring Sphinx CSS files.
     let nojekyll = Path::new(docs_path).join("_build/html/.nojekyll");
     if dry_run {
-        try!(shell.say(
+        try!(shell.status_with_color(
+            "",
             format!("touch {}", nojekyll.display()),
-            color::GREEN,
+            Green,
         ));
     } else {
         if !nojekyll.exists() {
@@ -56,11 +57,11 @@ fn publish(
     sign: bool,
     push_remote: &str,
     push_branch: &str,
-    shell: &mut MultiShell,
+    shell: &mut Shell,
     dry_run: bool,
 ) -> Result<bool, FatalError> {
     try!(shell.verbose(|s| {
-        s.say("Publishing Sphinx docs to GitHub Pages.", color::BLUE)
+        s.status_with_color("", "Publishing Sphinx docs to GitHub Pages.", Blue)
     }));
     let docs_build_path = format!("{}/_build/html", docs_path);
 
