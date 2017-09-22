@@ -29,10 +29,10 @@ Development
 .. toctree::
    :maxdepth: 1
 
+   dev
    building
    documentation
    releasing
-   docker
    travis
    clippy
 
