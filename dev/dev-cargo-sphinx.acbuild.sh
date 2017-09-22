@@ -76,7 +76,7 @@ acbuild run -- rm rustup.sh
 
 # The PATH locations for the Rust binaries are automatically added to .profile
 # but this isn't read when the Bash entry point is executed in the container.
-acbuild run -- echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> /root/.bashrc
+acbuild run -- bash -c 'echo "export PATH=\"\$HOME/.cargo/bin:\$PATH\"" >> /root/.bashrc'
 
 acbuild run -- /root/.cargo/bin/cargo install rustfmt
 acbuild run -- /root/.cargo/bin/cargo install cargo-outdated
