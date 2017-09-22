@@ -1,8 +1,8 @@
 use std::process::Command;
 use error::FatalError;
-use cargo::core::MultiShell;
+use cargo::core::shell::Shell;
 use cargo::core::shell::Verbosity::{Verbose, Normal, Quiet};
-use term::color;
+use termcolor::Color::Green;
 
 ///
 /// Shell out and execute the specified command. Change to the path first and
@@ -11,13 +11,17 @@ use term::color;
 pub fn call(
     command: Vec<&str>,
     path: &str,
-    shell: &mut MultiShell,
+    shell: &mut Shell,
     dry_run: bool,
 ) -> Result<bool, FatalError> {
     if dry_run {
-        try!(shell.say(format!("cd {}", path), color::GREEN));
-        try!(shell.say(format!("{}", command.join(" ")), color::GREEN));
-        try!(shell.say("cd -", color::GREEN));
+        try!(shell.status_with_color("", format!("cd {}", path), Green));
+        try!(shell.status_with_color(
+            "",
+            format!("{}", command.join(" ")),
+            Green,
+        ));
+        try!(shell.status_with_color("", "cd -", Green));
 
         return Ok(true);
     }
@@ -34,7 +38,7 @@ pub fn call(
         }
     }
 
-    match shell.get_verbose() {
+    match shell.verbosity() {
         Verbose | Normal => {
             let mut child = try!(cmd.spawn());
             let result = try!(child.wait());

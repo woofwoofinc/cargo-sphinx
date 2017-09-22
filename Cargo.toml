@@ -22,11 +22,11 @@ include = [
 ]
 
 [dependencies]
-toml = "0.4.4"
-quick-error = "1.2.0"
-clap = "2.26.0"
-cargo = "0.20.0"
-term = "0.4.6"
+toml = "0.4.5"
+quick-error = "1.2.1"
+clap = "2.26.2"
+cargo = "0.21.1"
+termcolor = "0.3.3"
 
 [package.metadata.sphinx]
 docs-path = "docs"
