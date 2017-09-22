@@ -4,5 +4,4 @@
 
 # Build artifacts
 docs/_build
-/target/
-/targetdocker/
+target
