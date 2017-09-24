@@ -1,12 +1,12 @@
 Thanks
 ======
-Cargo Sphinx was originally forked from the `cargo-release`_ project by 
+Cargo Sphinx was originally forked from the `cargo-release`_ project by
 `Ning Sun`_.
 
 .. _cargo-release: https://github.com/sunng87/cargo-release
 .. _Ning Sun: https://github.com/sunng87
 
-Other contributors include:
+Thank you to the project contributors including:
 
 - `Daniel Goertzen <https://github.com/goertzenator>`_
 - `Pascal Hartig <https://github.com/passy>`_

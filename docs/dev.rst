@@ -3,7 +3,7 @@
 Development Tools Container
 ===========================
 The project source comes with a ``dev`` directory which contains a script for
-building a rkt Ubuntu container with useful development tools for development.
+building a rkt Ubuntu container with useful development tools.
 
 To build this you must have a system with an installation of rkt and acbuild.
 For macOS, the RktMachine_ project provides an xhyve-based VM running CoreOS
