@@ -28,16 +28,16 @@ Installing
 ----------
 Install Cargo Sphinx in a Git managed Cargo-based Rust project using:
 
-    cargo install cargo-sphinx
+    $ cargo install cargo-sphinx
 
 Build the project Sphinx documentation using:
 
-    cargo sphinx
+    $ cargo sphinx
 
 To also push the documentation to the GitHub Pages branch include the `--push`
 option:
 
-    cargo sphinx --push
+    $ cargo sphinx --push
 
 This will generate Sphinx documentation and commit it to the `gh-pages` branch
 of the repository. If GitHub Pages are enabled on the repository then you will
@@ -50,36 +50,46 @@ risk.
 Include the `--dry-run` option to print all the commands to execute instead of
 performing the generate and upload.
 
-See further user documentation in the Sphinx documentation for this project
-published at [woofwoofinc.github.io/cargo-sphinx].
 
-[woofwoofinc.github.io/cargo-sphinx]: https://woofwoofinc.github.io/cargo-sphinx
-
-
-Development
------------
+Developing
+----------
 Install the [Rust] development tools on your system with [rustup] if they are
-not already available. Then build and test the project using:
-
-    cargo test
+not already available.
 
 [Rust]: https://www.rust-lang.org
 [rustup]: https://www.rustup.rs
 
+A [rkt] container build script is included in the project repository and
+provides an installation which can be used to build the project also. See the
+description on building and running the container in the Development Tools
+Container section of the documentation for more information.
+
+[rkt]: https://coreos.com/rkt
+
+For macOS, [RktMachine] provides a CoreOS VM which supports developing using
+the rkt container system.
+
+[RktMachine]: https://github.com/woofwoofinc/rktmachine
+
+Build and test the project using:
+
+    $ cargo test
+
 Install a development version of the plugin locally from latest source using:
 
-    cargo install
+    $ cargo install
     
 (`--force` is necessary if Cargo Sphinx is already installed.)
 
 Then test with a dry run:
 
-    cargo sphinx --push --dry-run
+    $ cargo sphinx --push --dry-run
 
-See further development documentation in the Sphinx documentation for this
-project published at [woofwoofinc.github.io/cargo-sphinx].
+If you want to help extend and improve this project, then your contributions
+would be greatly appreciated. Check out our [GitHub issues] for ideas or a
+place to ask questions. Welcome to the team!
 
-[woofwoofinc.github.io/cargo-sphinx]: https://woofwoofinc.github.io/cargo-sphinx
+[GitHub issues]: https://github.com/woofwoofinc/cargo-sphinx/issues
 
 
 License
