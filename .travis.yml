@@ -18,9 +18,6 @@ script:
   cargo fmt -- --write-mode=diff &&
   cargo build &&
   cargo test
-notifications:
-  slack:
-    secure: BsH2wvXCRA8d28J4bsbegizRMm+lm64p6XHVOlh+QC+JWMR5DMiOGJJ9cIkDC9+S+BgEUq2iYPSA6lmNe7Zlvzg89b38xhIZuKN5SVm9LPVLQ1gE8Sy/Gt8Ml9MvLbDsJsUA0Y6wLAgpmUwGrN+s8za0sZLT33WaHUuZVQfW7OuvXmWkoSnqyHjWUSi8wMiaMBGhUTEITUb6mPoVQ0J/NNOfgHOoK+Z00Q1PB6birZ87e0PYQoXbYefyOSS/ryaGUJgQJsO1PEL+n6uxfbA2hnx8rMFK3eTd5u00zGNpZOFo5h8/F01j30EpgDKKdtRcjXJfjmhkuz8AKpJCmOTMogo9AX6ZTPHilZrE944ynUO+Ha0jI4W0Uur5tAgB1tDkpvxf7qxR6pPTN64tp0/7LzjRaImYTxm7CYphskHAuSzRKcak1sO3ffGsagLHmh7NIz80MRpf9g6fX9qfhgGM6XPXa6ecsIumP7JVYf8g2aAvIIChj6Ys8h6rkxIWuuS5NhTB6jWL/JCiqBcLp0AJfMVWPW2LfY8EaUQkkqp+WrwPoIXCcm5S9v5Dhp5Uj+G8HADPogcNalT5iI8xl8qVzBLZxygXqEVfLQy4cFaDjXggOi5JfDgLcpdqszcEw/VZatFmlNsYFZprV3sB5jdmaiaOfy4nziemoH2vwnXld18=
 addons:
   apt:
     sources:
