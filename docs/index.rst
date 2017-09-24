@@ -33,7 +33,6 @@ Development
    building
    documentation
    releasing
-   travis
    clippy
 
 
