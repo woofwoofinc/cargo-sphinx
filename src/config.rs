@@ -51,7 +51,7 @@ impl Config {
         Ok(contents)
     }
 
-    fn as_table(value: Value) -> Option<Table> {
+    fn value_to_table(value: Value) -> Option<Table> {
         match value {
             Value::Table(s) => Some(s),
             _ => None,
@@ -65,7 +65,7 @@ impl Config {
     ///
     pub fn from(path: &str) -> Result<Config, FatalError> {
         let path = Path::new(path);
-        let contents = try!(Config::load_from_file(&path));
+        let contents = try!(Config::load_from_file(path));
 
         let parsed: Option<Table> = toml::from_str(&contents).ok();
 
@@ -73,12 +73,12 @@ impl Config {
         let mut toml: Table = try!(parsed.ok_or(FatalError::InvalidCargoFileFormat));
 
         let config: Table = toml.remove("package")
-            .and_then(Config::as_table)
+            .and_then(Config::value_to_table)
             .and_then(|mut table| table.remove("metadata"))
-            .and_then(Config::as_table)
+            .and_then(Config::value_to_table)
             .and_then(|mut table| table.remove("sphinx"))
-            .and_then(Config::as_table)
-            .unwrap_or(Table::new());
+            .and_then(Config::value_to_table)
+            .unwrap_or_default();
 
         // Verify the Cargo Sphinx TOML configuration.
         let valid_keys = vec![

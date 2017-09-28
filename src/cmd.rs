@@ -9,7 +9,7 @@ use termcolor::Color::Green;
 /// only execute the command if a dry run has not been requested.
 ///
 pub fn call(
-    command: Vec<&str>,
+    command: &[&str],
     path: &str,
     shell: &mut Shell,
     dry_run: bool,
