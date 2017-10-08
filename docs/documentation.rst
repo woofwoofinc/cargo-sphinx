@@ -20,8 +20,8 @@ The development container provides an installation of Python and Sphinx which
 can be used to build this documentation also. The latest published Cargo Sphinx
 is also included.
 
-Build the container as described in :ref:`dev`. Then change to the Cargo Sphinx
-root directory and start the container with this directory mounted at
+Build the container as described in :ref:`dev`. Then change to the project root
+directory and start the container with this directory mounted at
 ``/cargo-sphinx``.
 
 ::
