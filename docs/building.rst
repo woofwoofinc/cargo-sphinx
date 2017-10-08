@@ -6,7 +6,7 @@ on your system with rustup_ if they are not already available.
 .. _Rust: https://www.rust-lang.org
 .. _rustup: https://www.rustup.rs
 
-The following dependencies are also needed to build Cargo Sphinx.
+The following dependencies are also needed to build the project.
 
 * CMake_: Needed by Cargo tool library dependency.
 * Libssl_: Needed by Cargo tool library dependency.
