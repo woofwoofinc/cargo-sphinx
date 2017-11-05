@@ -89,6 +89,7 @@ fn execute(args: &ArgMatches, cargo_config: &CargoConfig) -> Result<i32, FatalEr
         &args.value_of("color").map(|s| String::from(s)),
         false,
         false,
+        &[],
     ));
 
     let config: Config = try!(Config::from("Cargo.toml"));
