@@ -1,27 +1,27 @@
 language: rust
 rust:
-- stable
-- beta
-- nightly
+  - stable
+  - beta
+  - nightly
 matrix:
   fast_finish: true
   allow_failures:
-  - rust: nightly
+    - rust: nightly
 cache: cargo
 before_script:
-- |
-  (cargo install rustfmt || true) &&
-  export PATH=$HOME/.cargo/bin:$PATH
+  - |
+    (cargo install rustfmt || true) &&
+    export PATH=$HOME/.cargo/bin:$PATH
 
 script:
-- |
-  cargo fmt -- --write-mode=diff &&
-  cargo build &&
-  cargo test
+  - |
+    cargo fmt -- --write-mode=diff &&
+    cargo build &&
+    cargo test
 addons:
   apt:
     sources:
-    - kalakris-cmake
+      - kalakris-cmake
     packages:
-    - cmake
-    - libssl-dev
+      - cmake
+      - libssl-dev

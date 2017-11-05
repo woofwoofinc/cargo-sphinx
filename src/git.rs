@@ -18,11 +18,11 @@ pub fn remote_get_url(remote: &str) -> Result<String, FatalError> {
 }
 
 pub fn init(dir: &str, shell: &mut Shell, dry_run: bool) -> Result<bool, FatalError> {
-    call(vec!["git", "init"], dir, shell, dry_run)
+    call(&["git", "init"], dir, shell, dry_run)
 }
 
 pub fn add_all(dir: &str, shell: &mut Shell, dry_run: bool) -> Result<bool, FatalError> {
-    call(vec!["git", "add", "."], dir, shell, dry_run)
+    call(&["git", "add", "."], dir, shell, dry_run)
 }
 
 pub fn commit_all(
@@ -33,7 +33,7 @@ pub fn commit_all(
     dry_run: bool,
 ) -> Result<bool, FatalError> {
     call(
-        vec!["git", "commit", if sign { "-S" } else { "" }, "-am", msg],
+        &["git", "commit", if sign { "-S" } else { "" }, "-am", msg],
         dir,
         shell,
         dry_run,
@@ -47,10 +47,5 @@ pub fn force_push(
     shell: &mut Shell,
     dry_run: bool,
 ) -> Result<bool, FatalError> {
-    call(
-        vec!["git", "push", "-f", remote, refspec],
-        dir,
-        shell,
-        dry_run,
-    )
+    call(&["git", "push", "-f", remote, refspec], dir, shell, dry_run)
 }

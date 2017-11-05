@@ -53,8 +53,8 @@ performing the generate and upload.
 
 Developing
 ----------
-Install the [Rust] development tools on your system with [rustup] if they are
-not already available.
+The project build stack uses the [Rust] development tools. Install these on your
+system with [rustup] if they are not already available.
 
 [Rust]: https://www.rust-lang.org
 [rustup]: https://www.rustup.rs
@@ -78,7 +78,7 @@ Build and test the project using:
 Install a development version of the plugin locally from latest source using:
 
     $ cargo install
-    
+
 (`--force` is necessary if Cargo Sphinx is already installed.)
 
 Then test with a dry run:

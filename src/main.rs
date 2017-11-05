@@ -27,12 +27,7 @@ fn build(docs_path: &str, shell: &mut Shell, dry_run: bool) -> Result<(), FatalE
     try!(shell.verbose(|s| {
         s.status_with_color("", "Building Sphinx docs.", Blue)
     }));
-    try!(call(
-        vec!["make", "clean", "html"],
-        docs_path,
-        shell,
-        dry_run,
-    ));
+    try!(call(&["make", "clean", "html"], docs_path, shell, dry_run));
 
     // A `.nojekyll` file prevents GitHub from ignoring Sphinx CSS files.
     let nojekyll = Path::new(docs_path).join("_build/html/.nojekyll");
@@ -42,10 +37,8 @@ fn build(docs_path: &str, shell: &mut Shell, dry_run: bool) -> Result<(), FatalE
             format!("touch {}", nojekyll.display()),
             Green,
         ));
-    } else {
-        if !nojekyll.exists() {
-            try!(File::create(nojekyll));
-        }
+    } else if !nojekyll.exists() {
+        try!(File::create(nojekyll));
     }
 
     Ok(())
@@ -86,7 +79,7 @@ fn execute(args: &ArgMatches, cargo_config: &CargoConfig) -> Result<i32, FatalEr
     try!(cargo_config.configure(
         args.occurrences_of("verbose") as u32,
         Some(args.is_present("quiet")),
-        &args.value_of("color").map(|s| String::from(s)),
+        &args.value_of("color").map(String::from),
         false,
         false,
         &[],
