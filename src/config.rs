@@ -8,7 +8,6 @@ use toml::Value;
 use toml::value::Table;
 use error::FatalError;
 
-
 ///
 /// `Cargo.toml` key under `package.metadata.sphinx` for specifying a default
 /// location for the project Sphinx documentation files.
@@ -65,7 +64,7 @@ impl Config {
     ///
     pub fn from(path: &str) -> Result<Config, FatalError> {
         let path = Path::new(path);
-        let contents = try!(Config::load_from_file(path));
+        let contents = try!(Config::load_from_file(path).map_err(|e| FatalError::IO(e)));
 
         let parsed: Option<Table> = toml::from_str(&contents).ok();
 
@@ -91,7 +90,7 @@ impl Config {
 
         for key in config.keys() {
             if !valid_keys.contains(&key.as_ref()) {
-                return Err(FatalError::UnknownCargoFileKey(key.to_string()));
+                return Err(FatalError::UnknownCargoFileKey { key: key.to_string() });
             }
         }
 

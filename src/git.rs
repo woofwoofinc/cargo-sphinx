@@ -1,10 +1,10 @@
 use std::process::Command;
 
-use cmd::call;
-use error::FatalError;
 use cargo::core::shell::Shell;
+use cmd::call;
+use failure::Error;
 
-pub fn remote_get_url(remote: &str) -> Result<String, FatalError> {
+pub fn remote_get_url(remote: &str) -> Result<String, Error> {
     let output = try!(
         Command::new("git")
             .arg("remote")
@@ -17,11 +17,11 @@ pub fn remote_get_url(remote: &str) -> Result<String, FatalError> {
     Ok(url)
 }
 
-pub fn init(dir: &str, shell: &mut Shell, dry_run: bool) -> Result<bool, FatalError> {
+pub fn init(dir: &str, shell: &mut Shell, dry_run: bool) -> Result<bool, Error> {
     call(&["git", "init"], dir, shell, dry_run)
 }
 
-pub fn add_all(dir: &str, shell: &mut Shell, dry_run: bool) -> Result<bool, FatalError> {
+pub fn add_all(dir: &str, shell: &mut Shell, dry_run: bool) -> Result<bool, Error> {
     call(&["git", "add", "."], dir, shell, dry_run)
 }
 
@@ -31,7 +31,7 @@ pub fn commit_all(
     sign: bool,
     shell: &mut Shell,
     dry_run: bool,
-) -> Result<bool, FatalError> {
+) -> Result<bool, Error> {
     call(
         &["git", "commit", if sign { "-S" } else { "" }, "-am", msg],
         dir,
@@ -46,6 +46,6 @@ pub fn force_push(
     refspec: &str,
     shell: &mut Shell,
     dry_run: bool,
-) -> Result<bool, FatalError> {
+) -> Result<bool, Error> {
     call(&["git", "push", "-f", remote, refspec], dir, shell, dry_run)
 }

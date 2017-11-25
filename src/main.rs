@@ -1,9 +1,9 @@
 extern crate cargo;
 extern crate clap;
-#[macro_use]
-extern crate quick_error;
 extern crate termcolor;
 extern crate toml;
+extern crate failure;
+#[macro_use] extern crate failure_derive;
 
 use std::fs::File;
 use std::path::Path;
@@ -20,13 +20,15 @@ mod git;
 
 use cmd::call;
 use config::Config;
-use error::FatalError;
+use failure::{Error, SyncFailure};
 use termcolor::Color::{Green, Blue};
 
-fn build(docs_path: &str, shell: &mut Shell, dry_run: bool) -> Result<(), FatalError> {
+fn build(docs_path: &str, shell: &mut Shell, dry_run: bool) -> Result<(), Error> {
+    // TODO: Remove the SyncFailure mapping once Cargo got updated. This is likely
+    // going to happen with Cargo 0.23.
     try!(shell.verbose(|s| {
         s.status_with_color("", "Building Sphinx docs.", Blue)
-    }));
+    }).map_err(SyncFailure::new));
     try!(call(&["make", "clean", "html"], docs_path, shell, dry_run));
 
     // A `.nojekyll` file prevents GitHub from ignoring Sphinx CSS files.
@@ -36,7 +38,7 @@ fn build(docs_path: &str, shell: &mut Shell, dry_run: bool) -> Result<(), FatalE
             "",
             format!("touch {}", nojekyll.display()),
             Green,
-        ));
+        ).map_err(SyncFailure::new));
     } else if !nojekyll.exists() {
         try!(File::create(nojekyll));
     }
@@ -52,10 +54,10 @@ fn publish(
     push_branch: &str,
     shell: &mut Shell,
     dry_run: bool,
-) -> Result<bool, FatalError> {
+) -> Result<bool, Error> {
     try!(shell.verbose(|s| {
         s.status_with_color("", "Publishing Sphinx docs to GitHub Pages.", Blue)
-    }));
+    }).map_err(SyncFailure::new));
     let docs_build_path = format!("{}/_build/html", docs_path);
 
     try!(git::init(&docs_build_path, shell, dry_run));
@@ -75,7 +77,7 @@ fn publish(
     git::force_push(docs_path, remote.trim(), &refspec, shell, dry_run)
 }
 
-fn execute(args: &ArgMatches, cargo_config: &CargoConfig) -> Result<i32, FatalError> {
+fn execute(args: &ArgMatches, cargo_config: &CargoConfig) -> Result<i32, Error> {
     try!(cargo_config.configure(
         args.occurrences_of("verbose") as u32,
         Some(args.is_present("quiet")),
@@ -83,7 +85,7 @@ fn execute(args: &ArgMatches, cargo_config: &CargoConfig) -> Result<i32, FatalEr
         false,
         false,
         &[],
-    ));
+    ).map_err(SyncFailure::new));
 
     let config: Config = try!(Config::from("Cargo.toml"));
 
