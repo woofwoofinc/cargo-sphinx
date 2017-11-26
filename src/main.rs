@@ -25,8 +25,6 @@ use failure::{Error, SyncFailure};
 use termcolor::Color::{Blue, Green};
 
 fn build(docs_path: &str, shell: &mut Shell, dry_run: bool) -> Result<(), Error> {
-    // TODO: Remove the SyncFailure mapping once Cargo got updated. This is likely
-    // going to happen with Cargo 0.23.
     try!(
         shell
             .verbose(|s| {
