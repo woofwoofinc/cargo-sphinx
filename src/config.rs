@@ -90,7 +90,9 @@ impl Config {
 
         for key in config.keys() {
             if !valid_keys.contains(&key.as_ref()) {
-                return Err(FatalError::UnknownCargoFileKey { key: key.to_string() });
+                return Err(FatalError::UnknownCargoFileKey {
+                    key: key.to_string(),
+                });
             }
         }
 

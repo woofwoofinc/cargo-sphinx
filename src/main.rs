@@ -1,9 +1,10 @@
 extern crate cargo;
 extern crate clap;
+extern crate failure;
+#[macro_use]
+extern crate failure_derive;
 extern crate termcolor;
 extern crate toml;
-extern crate failure;
-#[macro_use] extern crate failure_derive;
 
 use std::fs::File;
 use std::path::Path;
@@ -21,24 +22,28 @@ mod git;
 use cmd::call;
 use config::Config;
 use failure::{Error, SyncFailure};
-use termcolor::Color::{Green, Blue};
+use termcolor::Color::{Blue, Green};
 
 fn build(docs_path: &str, shell: &mut Shell, dry_run: bool) -> Result<(), Error> {
     // TODO: Remove the SyncFailure mapping once Cargo got updated. This is likely
     // going to happen with Cargo 0.23.
-    try!(shell.verbose(|s| {
-        s.status_with_color("", "Building Sphinx docs.", Blue)
-    }).map_err(SyncFailure::new));
+    try!(
+        shell
+            .verbose(|s| {
+                s.status_with_color("", "Building Sphinx docs.", Blue)
+            })
+            .map_err(SyncFailure::new)
+    );
     try!(call(&["make", "clean", "html"], docs_path, shell, dry_run));
 
     // A `.nojekyll` file prevents GitHub from ignoring Sphinx CSS files.
     let nojekyll = Path::new(docs_path).join("_build/html/.nojekyll");
     if dry_run {
-        try!(shell.status_with_color(
-            "",
-            format!("touch {}", nojekyll.display()),
-            Green,
-        ).map_err(SyncFailure::new));
+        try!(
+            shell
+                .status_with_color("", format!("touch {}", nojekyll.display()), Green)
+                .map_err(SyncFailure::new)
+        );
     } else if !nojekyll.exists() {
         try!(File::create(nojekyll));
     }
@@ -55,9 +60,13 @@ fn publish(
     shell: &mut Shell,
     dry_run: bool,
 ) -> Result<bool, Error> {
-    try!(shell.verbose(|s| {
-        s.status_with_color("", "Publishing Sphinx docs to GitHub Pages.", Blue)
-    }).map_err(SyncFailure::new));
+    try!(
+        shell
+            .verbose(|s| {
+                s.status_with_color("", "Publishing Sphinx docs to GitHub Pages.", Blue)
+            })
+            .map_err(SyncFailure::new)
+    );
     let docs_build_path = format!("{}/_build/html", docs_path);
 
     try!(git::init(&docs_build_path, shell, dry_run));
@@ -78,14 +87,18 @@ fn publish(
 }
 
 fn execute(args: &ArgMatches, cargo_config: &CargoConfig) -> Result<i32, Error> {
-    try!(cargo_config.configure(
-        args.occurrences_of("verbose") as u32,
-        Some(args.is_present("quiet")),
-        &args.value_of("color").map(String::from),
-        false,
-        false,
-        &[],
-    ).map_err(SyncFailure::new));
+    try!(
+        cargo_config
+            .configure(
+                args.occurrences_of("verbose") as u32,
+                Some(args.is_present("quiet")),
+                &args.value_of("color").map(String::from),
+                false,
+                false,
+                &[]
+            )
+            .map_err(SyncFailure::new)
+    );
 
     let config: Config = try!(Config::from("Cargo.toml"));
 
@@ -138,7 +151,7 @@ fn main() {
                 .author("Woof Woof, Inc.")
                 .about(
                     "Cargo subcommand for building and publishing Sphinx documentation to GitHub \
-                    Pages.",
+                     Pages.",
                 )
                 .arg_from_usage("--dry-run 'Print commands to execute instead of running.'")
                 .arg_from_usage("-p, --push 'Push generated documentation to git remote.'")
