@@ -61,13 +61,7 @@ fn publish(
 
     git::init(&docs_build_path, shell, dry_run)?;
     git::add_all(&docs_build_path, shell, dry_run)?;
-    git::commit_all(
-        &docs_build_path,
-        commit_msg,
-        sign,
-        shell,
-        dry_run,
-    )?;
+    git::commit_all(&docs_build_path, commit_msg, sign, shell, dry_run)?;
     let remote = git::remote_get_url(push_remote)?;
 
     let mut refspec = String::from("master:");

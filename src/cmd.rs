@@ -44,9 +44,9 @@ pub fn call(command: &[&str], path: &str, shell: &mut Shell, dry_run: bool) -> R
         Quiet => {
             let output = cmd.output()?;
             if !output.status.success() {
-                    shell
-                        .error(String::from_utf8_lossy(&output.stderr))
-                        .map_err(SyncFailure::new)?;
+                shell
+                    .error(String::from_utf8_lossy(&output.stderr))
+                    .map_err(SyncFailure::new)?;
             }
             Ok(output.status.success())
         }
