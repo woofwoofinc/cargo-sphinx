@@ -71,23 +71,26 @@ impl Config {
         // Verify parsed TOML is valid.
         let mut toml: Table = try!(parsed.ok_or(FatalError::InvalidCargoFileFormat));
 
-        let config: Table = toml.remove("package").and_then(Config::value_to_table)
-                                .and_then(|mut table| table.remove("metadata"))
-                                .and_then(Config::value_to_table)
-                                .and_then(|mut table| table.remove("sphinx"))
-                                .and_then(Config::value_to_table)
-                                .unwrap_or_default();
+        let config: Table = toml.remove("package")
+            .and_then(Config::value_to_table)
+            .and_then(|mut table| table.remove("metadata"))
+            .and_then(Config::value_to_table)
+            .and_then(|mut table| table.remove("sphinx"))
+            .and_then(Config::value_to_table)
+            .unwrap_or_default();
 
         // Verify the Cargo Sphinx TOML configuration.
-        let valid_keys = vec![DOCS_PATH,
-                              COMMIT_MESSAGE,
-                              SIGN_COMMIT,
-                              PUSH_REMOTE,
-                              PUSH_BRANCH];
+        let valid_keys = vec![
+            DOCS_PATH,
+            COMMIT_MESSAGE,
+            SIGN_COMMIT,
+            PUSH_REMOTE,
+            PUSH_BRANCH,
+        ];
 
         for key in config.keys() {
             if !valid_keys.contains(&key.as_ref()) {
-                return Err(FatalError::UnknownCargoFileKey { key: key.to_string(), });
+                return Err(FatalError::UnknownCargoFileKey { key: key.to_string() });
             }
         }
 
@@ -125,8 +128,10 @@ fn test_commit_message_config() {
     let result: Result<Config, FatalError> = Config::from("Cargo.toml");
     let config: Config = result.expect("Parse cargo file failed.");
 
-    assert_eq!(config.get_str("commit-message"),
-               Some("(cargo-sphinx) Generate docs."));
+    assert_eq!(
+        config.get_str("commit-message"),
+        Some("(cargo-sphinx) Generate docs.")
+    );
 }
 
 #[test]
