@@ -10,19 +10,15 @@ use termcolor::Color::Green;
 ///
 pub fn call(command: &[&str], path: &str, shell: &mut Shell, dry_run: bool) -> Result<bool, Error> {
     if dry_run {
-        try!(
-            shell
-                .status_with_color("", format!("cd {}", path), Green)
-                .map_err(SyncFailure::new)
-        );
-        try!(
-            shell
-                .status_with_color("", format!("{}", command.join(" ")), Green)
-                .map_err(SyncFailure::new)
-        );
-        try!(shell.status_with_color("", "cd -", Green).map_err(
+        shell
+            .status_with_color("", format!("cd {}", path), Green)
+            .map_err(SyncFailure::new)?;
+        shell
+            .status_with_color("", format!("{}", command.join(" ")), Green)
+            .map_err(SyncFailure::new)?;
+        shell.status_with_color("", "cd -", Green).map_err(
             SyncFailure::new,
-        ));
+        )?;
 
         return Ok(true);
     }
@@ -41,18 +37,16 @@ pub fn call(command: &[&str], path: &str, shell: &mut Shell, dry_run: bool) -> R
 
     match shell.verbosity() {
         Verbose | Normal => {
-            let mut child = try!(cmd.spawn());
-            let result = try!(child.wait());
+            let mut child = cmd.spawn()?;
+            let result = child.wait()?;
             Ok(result.success())
         }
         Quiet => {
-            let output = try!(cmd.output());
+            let output = cmd.output()?;
             if !output.status.success() {
-                try!(
                     shell
                         .error(String::from_utf8_lossy(&output.stderr))
-                        .map_err(SyncFailure::new)
-                );
+                        .map_err(SyncFailure::new)?;
             }
             Ok(output.status.success())
         }

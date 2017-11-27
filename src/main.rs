@@ -25,23 +25,19 @@ use failure::{Error, SyncFailure};
 use termcolor::Color::{Blue, Green};
 
 fn build(docs_path: &str, shell: &mut Shell, dry_run: bool) -> Result<(), Error> {
-    try!(
-        shell
-            .verbose(|s| s.status_with_color("", "Building Sphinx docs.", Blue))
-            .map_err(SyncFailure::new)
-    );
-    try!(call(&["make", "clean", "html"], docs_path, shell, dry_run));
+    shell
+        .verbose(|s| s.status_with_color("", "Building Sphinx docs.", Blue))
+        .map_err(SyncFailure::new)?;
+    call(&["make", "clean", "html"], docs_path, shell, dry_run)?;
 
     // A `.nojekyll` file prevents GitHub from ignoring Sphinx CSS files.
     let nojekyll = Path::new(docs_path).join("_build/html/.nojekyll");
     if dry_run {
-        try!(
-            shell
-                .status_with_color("", format!("touch {}", nojekyll.display()), Green)
-                .map_err(SyncFailure::new)
-        );
+        shell
+            .status_with_color("", format!("touch {}", nojekyll.display()), Green)
+            .map_err(SyncFailure::new)?
     } else if !nojekyll.exists() {
-        try!(File::create(nojekyll));
+        File::create(nojekyll)?;
     }
 
     Ok(())
@@ -56,25 +52,23 @@ fn publish(
     shell: &mut Shell,
     dry_run: bool,
 ) -> Result<bool, Error> {
-    try!(
-        shell
-            .verbose(|s| {
-                s.status_with_color("", "Publishing Sphinx docs to GitHub Pages.", Blue)
-            })
-            .map_err(SyncFailure::new)
-    );
+    shell
+        .verbose(|s| {
+            s.status_with_color("", "Publishing Sphinx docs to GitHub Pages.", Blue)
+        })
+        .map_err(SyncFailure::new)?;
     let docs_build_path = format!("{}/_build/html", docs_path);
 
-    try!(git::init(&docs_build_path, shell, dry_run));
-    try!(git::add_all(&docs_build_path, shell, dry_run));
-    try!(git::commit_all(
+    git::init(&docs_build_path, shell, dry_run)?;
+    git::add_all(&docs_build_path, shell, dry_run)?;
+    git::commit_all(
         &docs_build_path,
         commit_msg,
         sign,
         shell,
         dry_run,
-    ));
-    let remote = try!(git::remote_get_url(push_remote));
+    )?;
+    let remote = git::remote_get_url(push_remote)?;
 
     let mut refspec = String::from("master:");
     refspec.push_str(push_branch);
@@ -83,20 +77,18 @@ fn publish(
 }
 
 fn execute(args: &ArgMatches, cargo_config: &CargoConfig) -> Result<i32, Error> {
-    try!(
-        cargo_config
-            .configure(
-                args.occurrences_of("verbose") as u32,
-                Some(args.is_present("quiet")),
-                &args.value_of("color").map(String::from),
-                false,
-                false,
-                &[],
-            )
-            .map_err(SyncFailure::new)
-    );
+    cargo_config
+        .configure(
+            args.occurrences_of("verbose") as u32,
+            Some(args.is_present("quiet")),
+            &args.value_of("color").map(String::from),
+            false,
+            false,
+            &[],
+        )
+        .map_err(SyncFailure::new)?;
 
-    let config: Config = try!(Config::from("Cargo.toml"));
+    let config: Config = Config::from("Cargo.toml")?;
 
     // Find parameters or use defaults.
     let dry_run = args.is_present("dry-run");
@@ -122,9 +114,9 @@ fn execute(args: &ArgMatches, cargo_config: &CargoConfig) -> Result<i32, Error> 
         .unwrap_or("gh-pages");
 
     // Generate and publish documentation.
-    try!(build(docs_path, &mut *cargo_config.shell(), dry_run));
+    build(docs_path, &mut *cargo_config.shell(), dry_run)?;
     if push {
-        try!(publish(
+        publish(
             docs_path,
             commit_msg,
             sign,
@@ -132,7 +124,7 @@ fn execute(args: &ArgMatches, cargo_config: &CargoConfig) -> Result<i32, Error> 
             push_branch,
             &mut *cargo_config.shell(),
             dry_run,
-        ));
+        )?;
     }
 
     Ok(0)

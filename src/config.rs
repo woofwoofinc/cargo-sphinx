@@ -44,9 +44,9 @@ pub struct Config {
 
 impl Config {
     fn load_from_file(path: &Path) -> io::Result<String> {
-        let mut file = try!(File::open(path));
+        let mut file = File::open(path)?;
         let mut contents = String::new();
-        try!(file.read_to_string(&mut contents));
+        file.read_to_string(&mut contents)?;
         Ok(contents)
     }
 
@@ -64,12 +64,12 @@ impl Config {
     ///
     pub fn from(path: &str) -> Result<Config, FatalError> {
         let path = Path::new(path);
-        let contents = try!(Config::load_from_file(path).map_err(|e| FatalError::IO(e)));
+        let contents = Config::load_from_file(path).map_err(|e| FatalError::IO(e))?;
 
         let parsed: Option<Table> = toml::from_str(&contents).ok();
 
         // Verify parsed TOML is valid.
-        let mut toml: Table = try!(parsed.ok_or(FatalError::InvalidCargoFileFormat));
+        let mut toml: Table = parsed.ok_or(FatalError::InvalidCargoFileFormat)?;
 
         let config: Table = toml.remove("package")
             .and_then(Config::value_to_table)
