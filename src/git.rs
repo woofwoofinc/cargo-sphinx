@@ -5,15 +5,13 @@ use cmd::call;
 use failure::Error;
 
 pub fn remote_get_url(remote: &str) -> Result<String, Error> {
-    let output = try!(
-        Command::new("git")
-            .arg("remote")
-            .arg("get-url")
-            .arg(remote)
-            .output()
-    );
+    let output = Command::new("git")
+        .arg("remote")
+        .arg("get-url")
+        .arg(remote)
+        .output()?;
 
-    let url = try!(String::from_utf8(output.stdout));
+    let url = String::from_utf8(output.stdout)?;
     Ok(url)
 }
 
