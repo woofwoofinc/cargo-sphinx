@@ -10,13 +10,12 @@ matrix:
 cache: cargo
 before_script:
   - |
-    mkdir -p $HOME/.local/bin/ &&
-    curl -s -L -o $HOME/.local/bin/cargo-fmt https://github.com/woofwoofinc/rustfmt/releases/download/0.2.16/cargo-fmt.lnx64 &&
-    export PATH=$HOME/.local/bin:$PATH
+    rustup install nightly &&
+    rustup component add --toolchain nightly rustfmt-preview
 
 script:
   - |
-    cargo fmt -- --write-mode=diff &&
+    cargo +nightly fmt -- --write-mode=diff &&
     cargo build &&
     cargo test
 addons:
