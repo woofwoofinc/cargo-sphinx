@@ -53,9 +53,7 @@ fn publish(
     dry_run: bool,
 ) -> Result<bool, Error> {
     shell
-        .verbose(|s| {
-            s.status_with_color("", "Publishing Sphinx docs to GitHub Pages.", Blue)
-        })
+        .verbose(|s| s.status_with_color("", "Publishing Sphinx docs to GitHub Pages.", Blue))
         .map_err(SyncFailure::new)?;
     let docs_build_path = format!("{}/_build/html", docs_path);
 

@@ -80,8 +80,8 @@ buildah run $IMAGE -- /root/.cargo/bin/cargo install cargo-outdated
 buildah run $IMAGE -- /root/.cargo/bin/cargo install cargo-sphinx
 
 buildah run $IMAGE -- /root/.cargo/bin/rustup install nightly
-buildah run $IMAGE -- /root/.cargo/bin/rustup run nightly cargo install rustfmt-nightly --force
-buildah run $IMAGE -- /root/.cargo/bin/rustup run nightly cargo install clippy
+buildah run $IMAGE -- /root/.cargo/bin/cargo +nightly install rustfmt-nightly --force
+buildah run $IMAGE -- /root/.cargo/bin/cargo +nightly install clippy
 
 
 ################################################################################

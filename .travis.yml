@@ -11,7 +11,7 @@ cache: cargo
 before_script:
   - |
     rustup install nightly &&
-    rustup component add --toolchain nightly rustfmt-preview
+    cargo +nightly install rustfmt-nightly --force
 
 script:
   - |

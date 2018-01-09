@@ -16,9 +16,9 @@ pub fn call(command: &[&str], path: &str, shell: &mut Shell, dry_run: bool) -> R
         shell
             .status_with_color("", format!("{}", command.join(" ")), Green)
             .map_err(SyncFailure::new)?;
-        shell.status_with_color("", "cd -", Green).map_err(
-            SyncFailure::new,
-        )?;
+        shell
+            .status_with_color("", "cd -", Green)
+            .map_err(SyncFailure::new)?;
 
         return Ok(true);
     }
