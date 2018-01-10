@@ -6,6 +6,6 @@ is easy with rustup - use the following to lint the repository:
 
 ::
 
-    rustup run nightly cargo clippy
+    cargo +nightly clippy
 
 .. _Clippy: https://github.com/Manishearth/rust-clippy
