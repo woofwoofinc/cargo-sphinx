@@ -86,7 +86,7 @@ buildah run $IMAGE -- /root/.cargo/bin/cargo +nightly install clippy
 
 ################################################################################
 # Finalise Image
-###############################################################################
+################################################################################
 
 buildah run $IMAGE -- apt-get -qq autoremove
 buildah run $IMAGE -- apt-get -qq clean
