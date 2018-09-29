@@ -21,17 +21,17 @@ include = [
     "README.md",
 ]
 
-[dependencies]
-toml = "0.4.5"
-failure = "0.1.0"
-failure_derive = "0.1.0"
-clap = "2.26.2"
-cargo = "0.22.0"
-termcolor = "0.3.3"
-
 [package.metadata.sphinx]
 docs-path = "docs"
 commit-message = "(cargo-sphinx) Generate docs."
 sign-commit = false
 push-remote = "origin"
 push-branch = "gh-pages"
+
+[dependencies]
+toml = "0.4.7"
+failure = "0.1.2"
+failure_derive = "0.1.2"
+clap = "2.32.0"
+cargo = "0.30.0"
+termcolor = "1.0.4"
