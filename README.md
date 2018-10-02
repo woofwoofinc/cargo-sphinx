@@ -17,7 +17,7 @@ Detailed documentation is provided in the [docs] directories and at
 [docs]: docs
 [woofwoofinc.github.io/cargo-sphinx]: https://woofwoofinc.github.io/cargo-sphinx
 
-Cargo Sphinx was originally forked from the [cargo-release] project by 
+Cargo Sphinx was originally forked from the [cargo-release] project by
 [Ning Sun].
 
 [cargo-release]: https://github.com/sunng87/cargo-release
