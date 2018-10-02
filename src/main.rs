@@ -21,21 +21,19 @@ mod git;
 
 use cmd::call;
 use config::Config;
-use failure::{Error, SyncFailure};
+use failure::Error;
 use termcolor::Color::{Blue, Green};
 
 fn build(docs_path: &str, shell: &mut Shell, dry_run: bool) -> Result<(), Error> {
     shell
-        .verbose(|s| s.status_with_color("", "Building Sphinx docs.", Blue))
-        .map_err(SyncFailure::new)?;
+        .verbose(|s| s.status_with_color("", "Building Sphinx docs.", Blue))?;
     call(&["make", "clean", "html"], docs_path, shell, dry_run)?;
 
     // A `.nojekyll` file prevents GitHub from ignoring Sphinx CSS files.
     let nojekyll = Path::new(docs_path).join("_build/html/.nojekyll");
     if dry_run {
         shell
-            .status_with_color("", format!("touch {}", nojekyll.display()), Green)
-            .map_err(SyncFailure::new)?
+            .status_with_color("", format!("touch {}", nojekyll.display()), Green)?;
     } else if !nojekyll.exists() {
         File::create(nojekyll)?;
     }
@@ -53,8 +51,7 @@ fn publish(
     dry_run: bool,
 ) -> Result<bool, Error> {
     shell
-        .verbose(|s| s.status_with_color("", "Publishing Sphinx docs to GitHub Pages.", Blue))
-        .map_err(SyncFailure::new)?;
+        .verbose(|s| s.status_with_color("", "Publishing Sphinx docs to GitHub Pages.", Blue))?;
     let docs_build_path = format!("{}/_build/html", docs_path);
 
     git::init(&docs_build_path, shell, dry_run)?;
@@ -68,7 +65,7 @@ fn publish(
     git::force_push(docs_path, remote.trim(), &refspec, shell, dry_run)
 }
 
-fn execute(args: &ArgMatches, cargo_config: &CargoConfig) -> Result<i32, Error> {
+fn execute(args: &ArgMatches, cargo_config: &mut CargoConfig) -> Result<i32, Error> {
     cargo_config
         .configure(
             args.occurrences_of("verbose") as u32,
@@ -76,9 +73,9 @@ fn execute(args: &ArgMatches, cargo_config: &CargoConfig) -> Result<i32, Error> 
             &args.value_of("color").map(String::from),
             false,
             false,
+            &None,
             &[],
-        )
-        .map_err(SyncFailure::new)?;
+        )?;
 
     let config: Config = Config::from("Cargo.toml")?;
 
@@ -158,10 +155,10 @@ fn main() {
         )
         .get_matches();
 
-    let cargo_config = CargoConfig::default().expect("Unable to get config");
+    let mut cargo_config = CargoConfig::default().expect("Unable to get config");
 
     if let Some(sphinx_matches) = matches.subcommand_matches("sphinx") {
-        match execute(sphinx_matches, &cargo_config) {
+        match execute(sphinx_matches, &mut cargo_config) {
             Ok(code) => exit(code),
             Err(e) => {
                 cargo_config.shell().error(format!("Fatal: {}", e)).unwrap();

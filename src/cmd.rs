@@ -1,6 +1,6 @@
 use cargo::core::shell::Shell;
 use cargo::core::shell::Verbosity::{Normal, Quiet, Verbose};
-use failure::{Error, SyncFailure};
+use failure::Error;
 use std::process::Command;
 use termcolor::Color::Green;
 
@@ -11,14 +11,11 @@ use termcolor::Color::Green;
 pub fn call(command: &[&str], path: &str, shell: &mut Shell, dry_run: bool) -> Result<bool, Error> {
     if dry_run {
         shell
-            .status_with_color("", format!("cd {}", path), Green)
-            .map_err(SyncFailure::new)?;
+            .status_with_color("", format!("cd {}", path), Green)?;
         shell
-            .status_with_color("", format!("{}", command.join(" ")), Green)
-            .map_err(SyncFailure::new)?;
+            .status_with_color("", format!("{}", command.join(" ")), Green)?;
         shell
-            .status_with_color("", "cd -", Green)
-            .map_err(SyncFailure::new)?;
+            .status_with_color("", "cd -", Green)?;
 
         return Ok(true);
     }
@@ -45,8 +42,7 @@ pub fn call(command: &[&str], path: &str, shell: &mut Shell, dry_run: bool) -> R
             let output = cmd.output()?;
             if !output.status.success() {
                 shell
-                    .error(String::from_utf8_lossy(&output.stderr))
-                    .map_err(SyncFailure::new)?;
+                    .error(String::from_utf8_lossy(&output.stderr))?;
             }
             Ok(output.status.success())
         }
