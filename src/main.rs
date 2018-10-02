@@ -10,13 +10,13 @@ use std::fs::File;
 use std::path::Path;
 use std::process::exit;
 
-use clap::{App, ArgMatches, SubCommand};
-use cargo::util::Config as CargoConfig;
 use cargo::core::shell::Shell;
+use cargo::util::Config as CargoConfig;
+use clap::{App, ArgMatches, SubCommand};
 
+mod cmd;
 mod config;
 mod error;
-mod cmd;
 mod git;
 
 use cmd::call;
@@ -25,15 +25,13 @@ use failure::Error;
 use termcolor::Color::{Blue, Green};
 
 fn build(docs_path: &str, shell: &mut Shell, dry_run: bool) -> Result<(), Error> {
-    shell
-        .verbose(|s| s.status_with_color("", "Building Sphinx docs.", Blue))?;
+    shell.verbose(|s| s.status_with_color("", "Building Sphinx docs.", Blue))?;
     call(&["make", "clean", "html"], docs_path, shell, dry_run)?;
 
     // A `.nojekyll` file prevents GitHub from ignoring Sphinx CSS files.
     let nojekyll = Path::new(docs_path).join("_build/html/.nojekyll");
     if dry_run {
-        shell
-            .status_with_color("", format!("touch {}", nojekyll.display()), Green)?;
+        shell.status_with_color("", format!("touch {}", nojekyll.display()), Green)?;
     } else if !nojekyll.exists() {
         File::create(nojekyll)?;
     }
@@ -50,8 +48,7 @@ fn publish(
     shell: &mut Shell,
     dry_run: bool,
 ) -> Result<bool, Error> {
-    shell
-        .verbose(|s| s.status_with_color("", "Publishing Sphinx docs to GitHub Pages.", Blue))?;
+    shell.verbose(|s| s.status_with_color("", "Publishing Sphinx docs to GitHub Pages.", Blue))?;
     let docs_build_path = format!("{}/_build/html", docs_path);
 
     git::init(&docs_build_path, shell, dry_run)?;
@@ -66,39 +63,42 @@ fn publish(
 }
 
 fn execute(args: &ArgMatches, cargo_config: &mut CargoConfig) -> Result<i32, Error> {
-    cargo_config
-        .configure(
-            args.occurrences_of("verbose") as u32,
-            Some(args.is_present("quiet")),
-            &args.value_of("color").map(String::from),
-            false,
-            false,
-            &None,
-            &[],
-        )?;
+    cargo_config.configure(
+        args.occurrences_of("verbose") as u32,
+        Some(args.is_present("quiet")),
+        &args.value_of("color").map(String::from),
+        false,
+        false,
+        &None,
+        &[],
+    )?;
 
     let config: Config = Config::from("Cargo.toml")?;
 
     // Find parameters or use defaults.
     let dry_run = args.is_present("dry-run");
 
-    let docs_path = args.value_of("docs-path")
+    let docs_path = args
+        .value_of("docs-path")
         .or_else(|| config.get_str(config::DOCS_PATH))
         .unwrap_or("docs");
 
     let push = args.is_present("push");
 
-    let commit_msg = args.value_of("commit-message")
+    let commit_msg = args
+        .value_of("commit-message")
         .or_else(|| config.get_str(config::COMMIT_MESSAGE))
         .unwrap_or("(cargo-sphinx) Generate docs.");
 
     let sign = args.is_present("sign") || config.get_bool(config::SIGN_COMMIT).unwrap_or(false);
 
-    let push_remote = args.value_of("push-remote")
+    let push_remote = args
+        .value_of("push-remote")
         .or_else(|| config.get_str(config::PUSH_REMOTE))
         .unwrap_or("origin");
 
-    let push_branch = args.value_of("push-branch")
+    let push_branch = args
+        .value_of("push-branch")
         .or_else(|| config.get_str(config::PUSH_BRANCH))
         .unwrap_or("gh-pages");
 

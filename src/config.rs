@@ -1,12 +1,12 @@
-use std::io::prelude::*;
-use std::io;
 use std::fs::File;
+use std::io;
+use std::io::prelude::*;
 use std::path::Path;
 
-use toml;
-use toml::Value;
-use toml::value::Table;
 use error::FatalError;
+use toml;
+use toml::value::Table;
+use toml::Value;
 
 ///
 /// `Cargo.toml` key under `package.metadata.sphinx` for specifying a default
@@ -71,7 +71,8 @@ impl Config {
         // Verify parsed TOML is valid.
         let mut toml: Table = parsed.ok_or(FatalError::InvalidCargoFileFormat)?;
 
-        let config: Table = toml.remove("package")
+        let config: Table = toml
+            .remove("package")
             .and_then(Config::value_to_table)
             .and_then(|mut table| table.remove("metadata"))
             .and_then(Config::value_to_table)
