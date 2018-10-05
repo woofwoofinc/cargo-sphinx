@@ -15,7 +15,7 @@ before_script:
 
 script:
   - |
-    cargo +nightly fmt -- --write-mode=diff &&
+    cargo +nightly fmt -- --check &&
     cargo build &&
     cargo test
 addons:
