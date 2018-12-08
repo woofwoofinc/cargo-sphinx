@@ -9,13 +9,11 @@ matrix:
     - rust: nightly
 cache: cargo
 before_script:
-  - |
-    rustup install nightly &&
-    cargo +nightly install rustfmt-nightly --force
+  - rustup component add rustfmt
 
 script:
   - |
-    cargo +nightly fmt -- --check &&
+    cargo fmt -- --check &&
     cargo build &&
     cargo test
 addons:
