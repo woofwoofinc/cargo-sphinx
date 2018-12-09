@@ -19,8 +19,8 @@ mod config;
 mod error;
 mod git;
 
-use cmd::call;
-use config::Config;
+use crate::cmd::call;
+use crate::config::Config;
 use failure::Error;
 use termcolor::Color::{Blue, Green};
 

@@ -3,7 +3,7 @@ use std::io;
 use std::io::prelude::*;
 use std::path::Path;
 
-use error::FatalError;
+use crate::error::FatalError;
 use toml;
 use toml::value::Table;
 use toml::Value;

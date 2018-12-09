@@ -1,7 +1,7 @@
 use std::process::Command;
 
+use crate::cmd::call;
 use cargo::core::shell::Shell;
-use cmd::call;
 use failure::Error;
 
 pub fn remote_get_url(remote: &str) -> Result<String, Error> {
