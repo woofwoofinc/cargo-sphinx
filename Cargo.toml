@@ -32,7 +32,7 @@ push-branch = "gh-pages"
 [dependencies]
 toml = "0.4.7"
 failure = "0.1.2"
-failure_derive = "0.1.2"
+failure_derive = "0.1.5"
 clap = "2.32.0"
 cargo = "0.30.0"
 termcolor = "1.0.4"
