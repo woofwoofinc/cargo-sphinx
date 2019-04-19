@@ -30,7 +30,7 @@ push-remote = "origin"
 push-branch = "gh-pages"
 
 [dependencies]
-toml = "0.4.10"
+toml = "0.5.0"
 failure = "0.1.5"
 failure_derive = "0.1.2"
 clap = "2.33.0"
