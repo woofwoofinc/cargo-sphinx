@@ -69,6 +69,7 @@ fn execute(args: &ArgMatches, cargo_config: &mut CargoConfig) -> Result<i32, Err
         &args.value_of("color").map(String::from),
         false,
         false,
+        false,
         &None,
         &[],
     )?;
