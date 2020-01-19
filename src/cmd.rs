@@ -11,7 +11,7 @@ use termcolor::Color::Green;
 pub fn call(command: &[&str], path: &str, shell: &mut Shell, dry_run: bool) -> Result<bool, Error> {
     if dry_run {
         shell.status_with_color("", format!("cd {}", path), Green)?;
-        shell.status_with_color("", format!("{}", command.join(" ")), Green)?;
+        shell.status_with_color("", command.join(" "), Green)?;
         shell.status_with_color("", "cd -", Green)?;
 
         return Ok(true);
