@@ -9,7 +9,7 @@ You may license this work under the Apache License, Version 2.0.
 
 ::
 
-    Copyright 2016 Cargo Sphinx Contributors
+    Copyright 2020 Woof Woof, Inc. contributors
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ Alternatively, you may license this work under the MIT Licence at your option.
 
 ::
 
-    Copyright (c) 2016 Cargo Sphinx Contributors
+    Copyright (c) 2020 Woof Woof, Inc. contributors
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
