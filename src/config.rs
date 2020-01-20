@@ -12,31 +12,31 @@ use toml::Value;
 /// `Cargo.toml` key under `package.metadata.sphinx` for specifying a default
 /// location for the project Sphinx documentation files.
 ///
-pub static DOCS_PATH: &'static str = "docs-path";
+pub static DOCS_PATH: &str = "docs-path";
 
 ///
 /// `Cargo.toml` key under `package.metadata.sphinx` for specifying a default
 /// Git commit message for documentation commits.
 ///
-pub static COMMIT_MESSAGE: &'static str = "commit-message";
+pub static COMMIT_MESSAGE: &str = "commit-message";
 
 ///
 /// `Cargo.toml` key under `package.metadata.sphinx` for specifying a default
 /// boolean value for whether to sign documentation commits.
 ///
-pub static SIGN_COMMIT: &'static str = "sign-commit";
+pub static SIGN_COMMIT: &str = "sign-commit";
 
 ///
 /// `Cargo.toml` key under `package.metadata.sphinx` for specifying a default
 /// Git remote name for pushing documentation commits.
 ///
-pub static PUSH_REMOTE: &'static str = "push-remote";
+pub static PUSH_REMOTE: &str = "push-remote";
 
 ///
 /// `Cargo.toml` key under `package.metadata.sphinx` for specifying a default
 /// branch for pushing documentation commits.
 ///
-pub static PUSH_BRANCH: &'static str = "push-branch";
+pub static PUSH_BRANCH: &str = "push-branch";
 
 pub struct Config {
     toml: Table,
@@ -64,7 +64,7 @@ impl Config {
     ///
     pub fn from(path: &str) -> Result<Config, FatalError> {
         let path = Path::new(path);
-        let contents = Config::load_from_file(path).map_err(|e| FatalError::IO(e))?;
+        let contents = Config::load_from_file(path).map_err(FatalError::IO)?;
 
         let parsed: Option<Table> = toml::from_str(&contents).ok();
 
