@@ -3,7 +3,7 @@ import sphinx_bootstrap_theme
 needs_sphinx = '1.6.1'
 
 project = u'Cargo Sphinx'
-copyright = u'2017, Woof Woof, Inc.'
+copyright = u'2020, Woof Woof, Inc.'
 author = u'Woof Woof, Inc.'
 
 version = '1.0.0'
