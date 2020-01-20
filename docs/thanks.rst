@@ -20,15 +20,14 @@ additional custom styles.
 .. _Ryan Roemer: https://github.com/ryan-roemer
 .. _Bootswatch: http://bootswatch.com
 
-README badging provided by `Travis CI`_, `Dependency CI`_, and `Shields.io`_.
+README badging provided by `Travis CI`_, `AppVeyor`_, and `Shields.io`_.
 
 .. _Travis CI: https://travis-ci.org
-.. _Dependency CI: https://dependencyci.com
+.. _AppVeyor: https://www.appveyor.com/
 .. _Shields.io: https://shields.io
 
-Continuous integration is by `Travis CI`_ and `Dependency CI`_. Project hosting
-and issue tracking is from `GitHub`_ and distribution is provided by
-`Crates.io`_.
+Continuous integration is by `Travis CI`_ and `AppVeyor`_. Project hosting and
+issue tracking is from `GitHub`_ and distribution is provided by `Crates.io`_.
 
 .. _GitHub: https://github.com
 .. _Crates.io: https://crates.io
