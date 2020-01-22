@@ -59,7 +59,7 @@ fn publish(
     let mut refspec = String::from("master:");
     refspec.push_str(push_branch);
 
-    git::force_push(docs_path, remote.trim(), &refspec, shell, dry_run)
+    git::force_push(&docs_build_path, remote.trim(), &refspec, shell, dry_run)
 }
 
 fn execute(args: &ArgMatches, cargo_config: &mut CargoConfig) -> Result<i32, Error> {
