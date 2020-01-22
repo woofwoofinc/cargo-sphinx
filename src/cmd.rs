@@ -12,7 +12,7 @@ pub fn call(command: &[&str], path: &str, shell: &mut Shell, dry_run: bool) -> R
     if dry_run {
         shell.status_with_color("", format!("cd {}", path), Green)?;
         shell.status_with_color("", command.join(" "), Green)?;
-        shell.status_with_color("", format!("cd -"), Green)?;
+        shell.status_with_color("", "cd -", Green)?;
 
         return Ok(true);
     }
