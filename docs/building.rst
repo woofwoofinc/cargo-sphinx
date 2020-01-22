@@ -37,7 +37,7 @@ using:
 
 ::
 
-    cargo install
+    cargo install --path .
 
 (``--force`` is necessary if Cargo Sphinx has previously been installed.)
 
