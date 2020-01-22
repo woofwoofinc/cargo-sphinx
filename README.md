@@ -76,7 +76,7 @@ Build and test the project using:
 
 Install a development version of the plugin locally from latest source using:
 
-    $ cargo install
+    $ cargo install --path .
 
 (`--force` is necessary if Cargo Sphinx is already installed.)
 
