@@ -14,7 +14,8 @@ pub fn call(command: &[&str], path: &str, shell: &mut Shell, dry_run: bool) -> R
     if !Path::new(path).exists() {
         return Err(FatalError::DocumentationPathNotPresent {
             path: path.to_string(),
-        }.into());
+        }
+        .into());
     }
 
     if dry_run {
