@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Tutorial &#8212; Cargo Sphinx</title>
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/woofwoofinc.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installing" href="installing.html" />
+    <link rel="prev" title="Using Cargo Sphinx" href="index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Cargo Sphinx</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.3.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Contents <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#install-cargo-sphinx">1 Install Cargo Sphinx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#make-a-new-cargo-project">2 Make a New Cargo Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sphinx-quickstart">3 Sphinx QuickStart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#run-cargo-sphinx">4 Run Cargo Sphinx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#find-out-more">5 Find Out More</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#help-make-cargo-sphinx-better">6 Help Make Cargo Sphinx Better</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuring.html">Configuring</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="configuring.html#sphinx-project-setup">Sphinx Project Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuring.html#cargo-sphinx-options">Cargo Sphinx Options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">Running</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="running.html#publishing">Publishing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running.html#commandline-options">Commandline Options</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dev.html">Development Tools Container</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dev.html#building">Building</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="building.html">Building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="documentation.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="releasing.html">Releasing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="releasing.html#publishing-to-crates-io">Publishing to Crates.io</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releasing.html#publishing-the-documentation">Publishing the Documentation</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conduct.html">Contributor Covenant Code of Conduct</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="conduct.html#our-pledge">Our Pledge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="conduct.html#our-standards">Our Standards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="conduct.html#our-responsibilities">Our Responsibilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="conduct.html#scope">Scope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="conduct.html#enforcement">Enforcement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="conduct.html#attribution">Attribution</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="thanks.html">Thanks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="index.html" title="Previous Chapter: Using Cargo Sphinx"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Using Cargo Sphinx</span>
+    </a>
+  </li>
+  <li>
+    <a href="installing.html" title="Next Chapter: Installing"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Installing &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <div class="section" id="tutorial">
+<h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="install-cargo-sphinx">
+<h2>1 Install Cargo Sphinx<a class="headerlink" href="#install-cargo-sphinx" title="Permalink to this headline">¶</a></h2>
+<p>If not already available, start by installing the Cargo Sphinx extension.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cargo</span> <span class="n">install</span> <span class="n">cargo</span><span class="o">-</span><span class="n">sphinx</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="make-a-new-cargo-project">
+<h2>2 Make a New Cargo Project<a class="headerlink" href="#make-a-new-cargo-project" title="Permalink to this headline">¶</a></h2>
+<p>Begin in a new cargo project.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cargo</span> <span class="n">new</span> <span class="n">cargo</span><span class="o">-</span><span class="n">sphinx</span><span class="o">-</span><span class="n">tutorial</span>
+<span class="n">cd</span> <span class="n">cargo</span><span class="o">-</span><span class="n">sphinx</span><span class="o">-</span><span class="n">tutorial</span>
+</pre></div>
+</div>
+<p>There will be a <code class="docutils literal notranslate"><span class="pre">Cargo.toml</span></code> and skeleton Rust <code class="docutils literal notranslate"><span class="pre">src</span></code> directory. We are going
+to add a new Sphinx project at <code class="docutils literal notranslate"><span class="pre">docs</span></code> to document this Rust project.</p>
+</div>
+<div class="section" id="sphinx-quickstart">
+<h2>3 Sphinx QuickStart<a class="headerlink" href="#sphinx-quickstart" title="Permalink to this headline">¶</a></h2>
+<p>Use the sphinx-quickstart tool to get started with Sphinx.</p>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">By default, Cargo Sphinx assumes the Sphinx files are located in <code class="docutils literal notranslate"><span class="pre">docs</span></code>.
+This can be overridden by configuration but it’s easier to use the default
+if we can. This documentation directory path must be provided to the
+sphinx-quickstart command.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sphinx-quickstart docs
+Welcome to the Sphinx 1.8.5 quickstart utility.
+
+Please enter values for the following settings (just press Enter to
+accept a default value, if one is given in brackets).
+
+Selected root path: docs
+</pre></div>
+</div>
+<p>The tool now asks a series of questions and configures a Sphinx layout and
+project for the answers.</p>
+<p>Cargo Sphinx current assumes there is no separate build directory for Sphinx
+output, i.e. output is to <code class="docutils literal notranslate"><span class="pre">_build</span></code> in the same directory as the source
+documentation files.</p>
+<p>Answer <code class="docutils literal notranslate"><span class="pre">n</span></code> to separate source and build directories when asked.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">You</span> <span class="n">have</span> <span class="n">two</span> <span class="n">options</span> <span class="k">for</span> <span class="n">placing</span> <span class="n">the</span> <span class="n">build</span> <span class="n">directory</span> <span class="k">for</span> <span class="n">Sphinx</span> <span class="n">output</span><span class="o">.</span>
+<span class="n">Either</span><span class="p">,</span> <span class="n">you</span> <span class="n">use</span> <span class="n">a</span> <span class="n">directory</span> <span class="s2">&quot;_build&quot;</span> <span class="n">within</span> <span class="n">the</span> <span class="n">root</span> <span class="n">path</span><span class="p">,</span> <span class="ow">or</span> <span class="n">you</span> <span class="n">separate</span>
+<span class="s2">&quot;source&quot;</span> <span class="ow">and</span> <span class="s2">&quot;build&quot;</span> <span class="n">directories</span> <span class="n">within</span> <span class="n">the</span> <span class="n">root</span> <span class="n">path</span><span class="o">.</span>
+<span class="o">&gt;</span> <span class="n">Separate</span> <span class="n">source</span> <span class="ow">and</span> <span class="n">build</span> <span class="n">directories</span> <span class="p">(</span><span class="n">y</span><span class="o">/</span><span class="n">n</span><span class="p">)</span> <span class="p">[</span><span class="n">n</span><span class="p">]:</span> <span class="n">n</span>
+</pre></div>
+</div>
+<p>This is followed by a series of questions that don’t matter for Cargo Sphinx,
+complete them as you prefer.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Inside the root directory, two more directories will be created; &quot;_templates&quot;
+for custom HTML templates and &quot;_static&quot; for custom stylesheets and other static
+files. You can enter another prefix (such as &quot;.&quot;) to replace the underscore.
+&gt; Name prefix for templates and static dir [_]:
+
+The project name will occur in several places in the built documentation.
+&gt; Project name: My Cargo Sphinx Project
+&gt; Author name(s): Me!
+&gt; Project release []: 1.0
+
+If the documents are to be written in a language other than English,
+you can select a language here by its language code. Sphinx will then
+translate text that it generates into that language.
+
+For a list of supported codes, see
+http://sphinx-doc.org/config.html#confval-language.
+&gt; Project language [en]:
+
+The file name suffix for source files. Commonly, this is either &quot;.txt&quot;
+or &quot;.rst&quot;.  Only files with this suffix are considered documents.
+&gt; Source file suffix [.rst]:
+</pre></div>
+</div>
+<p>The Sphinx quickstart asks about whether to include a number of extensions.
+Mostly these depend on whether you will use the functionality they support.</p>
+<p>It is a good idea to include the githubpages extension even though Cargo Sphinx
+provides support for generating <code class="docutils literal notranslate"><span class="pre">.nojekyll</span></code> files also. These are needed so
+the GitHub Pages Jekyll processor doesn’t delete files needed by the Sphinx
+output. (githubpages is the last extension in the block below.)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Indicate</span> <span class="n">which</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">Sphinx</span> <span class="n">extensions</span> <span class="n">should</span> <span class="n">be</span> <span class="n">enabled</span><span class="p">:</span>
+<span class="o">&gt;</span> <span class="n">autodoc</span><span class="p">:</span> <span class="n">automatically</span> <span class="n">insert</span> <span class="n">docstrings</span> <span class="kn">from</span> <span class="nn">modules</span> <span class="p">(</span><span class="n">y</span><span class="o">/</span><span class="n">n</span><span class="p">)</span> <span class="p">[</span><span class="n">n</span><span class="p">]:</span>
+<span class="o">&gt;</span> <span class="n">doctest</span><span class="p">:</span> <span class="n">automatically</span> <span class="n">test</span> <span class="n">code</span> <span class="n">snippets</span> <span class="ow">in</span> <span class="n">doctest</span> <span class="n">blocks</span> <span class="p">(</span><span class="n">y</span><span class="o">/</span><span class="n">n</span><span class="p">)</span> <span class="p">[</span><span class="n">n</span><span class="p">]:</span>
+<span class="o">&gt;</span> <span class="n">intersphinx</span><span class="p">:</span> <span class="n">link</span> <span class="n">between</span> <span class="n">Sphinx</span> <span class="n">documentation</span> <span class="n">of</span> <span class="n">different</span> <span class="n">projects</span> <span class="p">(</span><span class="n">y</span><span class="o">/</span><span class="n">n</span><span class="p">)</span> <span class="p">[</span><span class="n">n</span><span class="p">]:</span>
+<span class="o">&gt;</span> <span class="n">todo</span><span class="p">:</span> <span class="n">write</span> <span class="s2">&quot;todo&quot;</span> <span class="n">entries</span> <span class="n">that</span> <span class="n">can</span> <span class="n">be</span> <span class="n">shown</span> <span class="ow">or</span> <span class="n">hidden</span> <span class="n">on</span> <span class="n">build</span> <span class="p">(</span><span class="n">y</span><span class="o">/</span><span class="n">n</span><span class="p">)</span> <span class="p">[</span><span class="n">n</span><span class="p">]:</span>
+<span class="o">&gt;</span> <span class="n">coverage</span><span class="p">:</span> <span class="n">checks</span> <span class="k">for</span> <span class="n">documentation</span> <span class="n">coverage</span> <span class="p">(</span><span class="n">y</span><span class="o">/</span><span class="n">n</span><span class="p">)</span> <span class="p">[</span><span class="n">n</span><span class="p">]:</span>
+<span class="o">&gt;</span> <span class="n">imgmath</span><span class="p">:</span> <span class="n">include</span> <span class="n">math</span><span class="p">,</span> <span class="n">rendered</span> <span class="k">as</span> <span class="n">PNG</span> <span class="ow">or</span> <span class="n">SVG</span> <span class="n">images</span> <span class="p">(</span><span class="n">y</span><span class="o">/</span><span class="n">n</span><span class="p">)</span> <span class="p">[</span><span class="n">n</span><span class="p">]:</span>
+<span class="o">&gt;</span> <span class="n">mathjax</span><span class="p">:</span> <span class="n">include</span> <span class="n">math</span><span class="p">,</span> <span class="n">rendered</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">browser</span> <span class="n">by</span> <span class="n">MathJax</span> <span class="p">(</span><span class="n">y</span><span class="o">/</span><span class="n">n</span><span class="p">)</span> <span class="p">[</span><span class="n">n</span><span class="p">]:</span>
+<span class="o">&gt;</span> <span class="n">ifconfig</span><span class="p">:</span> <span class="n">conditional</span> <span class="n">inclusion</span> <span class="n">of</span> <span class="n">content</span> <span class="n">based</span> <span class="n">on</span> <span class="n">config</span> <span class="n">values</span> <span class="p">(</span><span class="n">y</span><span class="o">/</span><span class="n">n</span><span class="p">)</span> <span class="p">[</span><span class="n">n</span><span class="p">]:</span>
+<span class="o">&gt;</span> <span class="n">viewcode</span><span class="p">:</span> <span class="n">include</span> <span class="n">links</span> <span class="n">to</span> <span class="n">the</span> <span class="n">source</span> <span class="n">code</span> <span class="n">of</span> <span class="n">documented</span> <span class="n">Python</span> <span class="n">objects</span> <span class="p">(</span><span class="n">y</span><span class="o">/</span><span class="n">n</span><span class="p">)</span> <span class="p">[</span><span class="n">n</span><span class="p">]:</span>
+<span class="o">&gt;</span> <span class="n">githubpages</span><span class="p">:</span> <span class="n">create</span> <span class="o">.</span><span class="n">nojekyll</span> <span class="n">file</span> <span class="n">to</span> <span class="n">publish</span> <span class="n">the</span> <span class="n">document</span> <span class="n">on</span> <span class="n">GitHub</span> <span class="n">pages</span> <span class="p">(</span><span class="n">y</span><span class="o">/</span><span class="n">n</span><span class="p">)</span> <span class="p">[</span><span class="n">n</span><span class="p">]:</span> <span class="n">y</span>
+</pre></div>
+</div>
+<p>Next, Sphinx quickstart asks whether a Makefile should be generated. Usually
+this is a convenience but is necessary in the case of Cargo Sphinx.</p>
+<p>Answer yes to creating a Makefile. The Windows command file is up to you.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>A Makefile and a Windows command file can be generated for you so that you
+only have to run e.g. `make html&#39; instead of invoking sphinx-build
+directly.
+&gt; Create Makefile? (y/n) [y]: y
+&gt; Create Windows command file? (y/n) [y]:
+</pre></div>
+</div>
+<p>Finally, Sphinx quickstart generates the Sphinx source files under <code class="docutils literal notranslate"><span class="pre">docs</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Creating</span> <span class="n">file</span> <span class="n">docs</span><span class="o">/</span><span class="n">conf</span><span class="o">.</span><span class="n">py</span><span class="o">.</span>
+<span class="n">Creating</span> <span class="n">file</span> <span class="n">docs</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span><span class="o">.</span>
+<span class="n">Creating</span> <span class="n">file</span> <span class="n">docs</span><span class="o">/</span><span class="n">Makefile</span><span class="o">.</span>
+<span class="n">Creating</span> <span class="n">file</span> <span class="n">docs</span><span class="o">/</span><span class="n">make</span><span class="o">.</span><span class="n">bat</span><span class="o">.</span>
+
+<span class="n">Finished</span><span class="p">:</span> <span class="n">An</span> <span class="n">initial</span> <span class="n">directory</span> <span class="n">structure</span> <span class="n">has</span> <span class="n">been</span> <span class="n">created</span><span class="o">.</span>
+
+<span class="n">You</span> <span class="n">should</span> <span class="n">now</span> <span class="n">populate</span> <span class="n">your</span> <span class="n">master</span> <span class="n">file</span> <span class="n">docs</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span> <span class="ow">and</span> <span class="n">create</span> <span class="n">other</span> <span class="n">documentation</span>
+<span class="n">source</span> <span class="n">files</span><span class="o">.</span> <span class="n">Use</span> <span class="n">the</span> <span class="n">Makefile</span> <span class="n">to</span> <span class="n">build</span> <span class="n">the</span> <span class="n">docs</span><span class="p">,</span> <span class="n">like</span> <span class="n">so</span><span class="p">:</span>
+   <span class="n">make</span> <span class="n">builder</span>
+<span class="n">where</span> <span class="s2">&quot;builder&quot;</span> <span class="ow">is</span> <span class="n">one</span> <span class="n">of</span> <span class="n">the</span> <span class="n">supported</span> <span class="n">builders</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span> <span class="n">html</span><span class="p">,</span> <span class="n">latex</span> <span class="ow">or</span> <span class="n">linkcheck</span><span class="o">.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="run-cargo-sphinx">
+<h2>4 Run Cargo Sphinx<a class="headerlink" href="#run-cargo-sphinx" title="Permalink to this headline">¶</a></h2>
+<p>We are now ready to run Cargo Sphinx.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cargo</span> <span class="n">sphinx</span>
+</pre></div>
+</div>
+<p>The generated site can be inspected by loading <code class="docutils literal notranslate"><span class="pre">docs/_build/html/index.html</span></code>
+in a browser.</p>
+<p>You are now all setup and ready to document!</p>
+</div>
+<div class="section" id="find-out-more">
+<h2>5 Find Out More<a class="headerlink" href="#find-out-more" title="Permalink to this headline">¶</a></h2>
+<p>To find out more about running Cargo Sphinx, and in particular about uploading
+the generated output to GitHub Pages, see the section on
+<a class="reference internal" href="running.html#running"><span class="std std-ref">Running</span></a> Cargo Sphinx.</p>
+<p>Find out more about Sphinx and writing RestructuredText at the following:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.sphinx-doc.org/en/stable/tutorial.html">Sphinx Tutorial</a></li>
+<li><a class="reference external" href="http://openalea.gforge.inria.fr/doc/openalea/doc/_build/html/source/sphinx/rest_syntax.html">Sphinx and RestructuredText Cheatsheet</a></li>
+<li><a class="reference external" href="http://docutils.sourceforge.net/docs/user/rst/quickref.html">Quick Guide to RestructuredText</a></li>
+<li><a class="reference external" href="http://sphinx-doc.org/rest.html">RestructuredText Primer</a></li>
+</ul>
+</div>
+<div class="section" id="help-make-cargo-sphinx-better">
+<h2>6 Help Make Cargo Sphinx Better<a class="headerlink" href="#help-make-cargo-sphinx-better" title="Permalink to this headline">¶</a></h2>
+<p>We’d love you to contribute to Cargo Sphinx. We value questions, feedback,
+suggestions, bug reports, and patches on our <a class="reference external" href="https://github.com/woofwoofinc/cargo-sphinx/issues">GitHub Issues</a>. This is a small
+and friendly project that welcomes all contributions.</p>
+<p>See <a class="reference internal" href="contributing.html#contributing"><span class="std std-ref">Contributing</span></a> for particulars about the community guidelines.</p>
+<p>Enjoy documenting with Cargo Sphinx!</p>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
