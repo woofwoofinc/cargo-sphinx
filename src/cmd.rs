@@ -1,6 +1,7 @@
 use cargo::core::shell::Shell;
 use cargo::core::shell::Verbosity::{Normal, Quiet, Verbose};
 use failure::Error;
+use std::path::Path;
 use std::process::Command;
 use termcolor::Color::Green;
 
@@ -9,6 +10,15 @@ use termcolor::Color::Green;
 /// only execute the command if a dry run has not been requested.
 ///
 pub fn call(command: &[&str], path: &str, shell: &mut Shell, dry_run: bool) -> Result<bool, Error> {
+    if !Path::new(path).exists() {
+        shell.error(format!(
+            "Documentation path '{}' not present. \
+             Was this included as argument to `sphinx-generate`?",
+            path
+        ))?;
+        return Ok(false);
+    }
+
     if dry_run {
         shell.status_with_color("", format!("cd {}", path), Green)?;
         shell.status_with_color("", command.join(" "), Green)?;
