@@ -1,7 +1,7 @@
 # ![Cargo Sphinx](https://raw.githubusercontent.com/woofwoofinc/cargo-sphinx/master/docs/assets/title.png)
 
 [![Crates.io](https://img.shields.io/crates/v/cargo-sphinx.svg)](https://crates.io/crates/cargo-sphinx)
-[![Docs.rs](https://docs.rs/cargo-sphinx/badge.svg)](https://docs.rs/cargo-sphinx)
+[![Github Pages](https://img.shields.io/badge/docs-Github%20Pages-informational)](https://woofwoofinc.github.io/cargo-sphinx)
 [![Build Status](https://travis-ci.org/woofwoofinc/cargo-sphinx.svg?branch=master)](https://travis-ci.org/woofwoofinc/cargo-sphinx)
 [![Windows Build Status](https://ci.appveyor.com/api/projects/status/395nrdfq1aqdjwd8/branch/master?svg=true)](https://ci.appveyor.com/project/passy/cargo-sphinx)
 [![License](https://img.shields.io/badge/license-Apache--2.0%20OR%20MIT-blue.svg)](https://github.com/woofwoofinc/cargo-sphinx#license)
