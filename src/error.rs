@@ -10,4 +10,11 @@ pub enum FatalError {
 
     #[fail(display = "Unknown cargo key found: {}", key)]
     UnknownCargoFileKey { key: String },
+
+    #[fail(
+        display = "Documentation path '{}' not present. \
+                   Was this included as argument to `sphinx-generate`?",
+        path
+    )]
+    DocumentationPathNotPresent { path: String },
 }

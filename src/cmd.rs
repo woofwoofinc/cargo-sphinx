@@ -1,3 +1,4 @@
+use crate::error::FatalError;
 use cargo::core::shell::Shell;
 use cargo::core::shell::Verbosity::{Normal, Quiet, Verbose};
 use failure::Error;
@@ -11,12 +12,9 @@ use termcolor::Color::Green;
 ///
 pub fn call(command: &[&str], path: &str, shell: &mut Shell, dry_run: bool) -> Result<bool, Error> {
     if !Path::new(path).exists() {
-        shell.error(format!(
-            "Documentation path '{}' not present. \
-             Was this included as argument to `sphinx-generate`?",
-            path
-        ))?;
-        return Ok(false);
+        return Err(FatalError::DocumentationPathNotPresent {
+            path: path.to_string(),
+        }.into());
     }
 
     if dry_run {
