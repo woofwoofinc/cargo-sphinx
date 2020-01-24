@@ -13,7 +13,7 @@ pub enum FatalError {
 
     #[fail(
         display = "Documentation path '{}' not present. \
-                   Was this included as argument to `sphinx-generate`?",
+                   Was this included as argument to `sphinx-quickstart`?",
         path
     )]
     DocumentationPathNotPresent { path: String },
