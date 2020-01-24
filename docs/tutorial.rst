@@ -27,24 +27,24 @@ to add a new Sphinx project at ``docs`` to document this Rust project.
 -------------------
 Use the sphinx-quickstart tool to get started with Sphinx.
 
+.. CAUTION::
+   By default, Cargo Sphinx assumes the Sphinx files are located in ``docs``.
+   This can be overridden by configuration but it's easier to use the default
+   if we can. This documentation directory path must be provided to the
+   sphinx-quickstart command.
+
 ::
 
-    $ sphinx-quickstart
-    Welcome to the Sphinx 1.4.6 quickstart utility.
+    $ sphinx-quickstart docs
+    Welcome to the Sphinx 1.8.5 quickstart utility.
 
     Please enter values for the following settings (just press Enter to
     accept a default value, if one is given in brackets).
 
-This tool asks a series of questions and configures a Sphinx layout and project
-for the answers. The first question is where to put the project files. By
-default, Cargo Sphinx assumes the Sphinx files are located in ``docs``. This
-can be overridden by configuration but it's easier to use the default if we
-can.
+    Selected root path: docs
 
-::
-
-    Enter the root path for documentation.
-    > Root path for the documentation [.]: docs
+The tool now asks a series of questions and configures a Sphinx layout and
+project for the answers.
 
 Cargo Sphinx current assumes there is no separate build directory for Sphinx
 output, i.e. output is to ``_build`` in the same directory as the source
@@ -57,7 +57,7 @@ Answer ``n`` to separate source and build directories when asked.
     You have two options for placing the build directory for Sphinx output.
     Either, you use a directory "_build" within the root path, or you separate
     "source" and "build" directories within the root path.
-    > Separate source and build directories (y/n) [n]:
+    > Separate source and build directories (y/n) [n]: n
 
 This is followed by a series of questions that don't matter for Cargo Sphinx,
 complete them as you prefer.
@@ -67,40 +67,24 @@ complete them as you prefer.
     Inside the root directory, two more directories will be created; "_templates"
     for custom HTML templates and "_static" for custom stylesheets and other static
     files. You can enter another prefix (such as ".") to replace the underscore.
-    > Name prefix for templates and static dir [_]: 
-    
+    > Name prefix for templates and static dir [_]:
+
     The project name will occur in several places in the built documentation.
     > Project name: My Cargo Sphinx Project
     > Author name(s): Me!
-    
-    Sphinx has the notion of a "version" and a "release" for the
-    software. Each version can have multiple releases. For example, for
-    Python the version is something like 2.5 or 3.0, while the release is
-    something like 2.5.1 or 3.0a1.  If you don't need this dual structure,
-    just set both to the same value.
-    > Project version: 1.0
-    > Project release [1.0]:
-    
+    > Project release []: 1.0
+
     If the documents are to be written in a language other than English,
     you can select a language here by its language code. Sphinx will then
     translate text that it generates into that language.
-    
+
     For a list of supported codes, see
     http://sphinx-doc.org/config.html#confval-language.
-    > Project language [en]: 
-    
+    > Project language [en]:
+
     The file name suffix for source files. Commonly, this is either ".txt"
     or ".rst".  Only files with this suffix are considered documents.
-    > Source file suffix [.rst]: 
-    
-    One document is special in that it is considered the top node of the
-    "contents tree", that is, it is the root of the hierarchical structure
-    of the documents. Normally, this is "index", but if your "index"
-    document is a custom template, you can also set this to another filename.
-    > Name of your master document (without suffix) [index]: 
-    
-    Sphinx can also add configuration for epub output:
-    > Do you want to use the epub builder (y/n) [n]: 
+    > Source file suffix [.rst]:
 
 The Sphinx quickstart asks about whether to include a number of extensions.
 Mostly these depend on whether you will use the functionality they support.
@@ -112,16 +96,16 @@ output. (githubpages is the last extension in the block below.)
 
 ::
 
-    Please indicate if you want to use one of the following Sphinx extensions:
-    > autodoc: automatically insert docstrings from modules (y/n) [n]: 
-    > doctest: automatically test code snippets in doctest blocks (y/n) [n]: 
-    > intersphinx: link between Sphinx documentation of different projects (y/n) [n]: 
-    > todo: write "todo" entries that can be shown or hidden on build (y/n) [n]: 
-    > coverage: checks for documentation coverage (y/n) [n]: 
-    > imgmath: include math, rendered as PNG or SVG images (y/n) [n]: 
-    > mathjax: include math, rendered in the browser by MathJax (y/n) [n]: 
-    > ifconfig: conditional inclusion of content based on config values (y/n) [n]: 
-    > viewcode: include links to the source code of documented Python objects (y/n) [n]: 
+    Indicate which of the following Sphinx extensions should be enabled:
+    > autodoc: automatically insert docstrings from modules (y/n) [n]:
+    > doctest: automatically test code snippets in doctest blocks (y/n) [n]:
+    > intersphinx: link between Sphinx documentation of different projects (y/n) [n]:
+    > todo: write "todo" entries that can be shown or hidden on build (y/n) [n]:
+    > coverage: checks for documentation coverage (y/n) [n]:
+    > imgmath: include math, rendered as PNG or SVG images (y/n) [n]:
+    > mathjax: include math, rendered in the browser by MathJax (y/n) [n]:
+    > ifconfig: conditional inclusion of content based on config values (y/n) [n]:
+    > viewcode: include links to the source code of documented Python objects (y/n) [n]:
     > githubpages: create .nojekyll file to publish the document on GitHub pages (y/n) [n]: y
 
 Next, Sphinx quickstart asks whether a Makefile should be generated. Usually
@@ -135,7 +119,7 @@ Answer yes to creating a Makefile. The Windows command file is up to you.
     only have to run e.g. `make html' instead of invoking sphinx-build
     directly.
     > Create Makefile? (y/n) [y]: y
-    > Create Windows command file? (y/n) [y]: 
+    > Create Windows command file? (y/n) [y]:
 
 Finally, Sphinx quickstart generates the Sphinx source files under ``docs``.
 
@@ -145,9 +129,9 @@ Finally, Sphinx quickstart generates the Sphinx source files under ``docs``.
     Creating file docs/index.rst.
     Creating file docs/Makefile.
     Creating file docs/make.bat.
-    
+
     Finished: An initial directory structure has been created.
-    
+
     You should now populate your master file docs/index.rst and create other documentation
     source files. Use the Makefile to build the docs, like so:
        make builder
