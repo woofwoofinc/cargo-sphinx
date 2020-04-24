@@ -4,6 +4,7 @@
 [![Github Pages](https://img.shields.io/badge/docs-Github%20Pages-informational)](https://woofwoofinc.github.io/cargo-sphinx)
 [![Build Status](https://travis-ci.org/woofwoofinc/cargo-sphinx.svg?branch=master)](https://travis-ci.org/woofwoofinc/cargo-sphinx)
 [![Windows Build Status](https://ci.appveyor.com/api/projects/status/395nrdfq1aqdjwd8/branch/master?svg=true)](https://ci.appveyor.com/project/passy/cargo-sphinx)
+[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=woofwoofinc/cargo-sphinx)](https://dependabot.com)
 [![License](https://img.shields.io/badge/license-Apache--2.0%20OR%20MIT-blue.svg)](https://github.com/woofwoofinc/cargo-sphinx#license)
 
 Cargo subcommand for building and publishing Sphinx documentation. Includes
