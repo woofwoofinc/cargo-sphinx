@@ -4,7 +4,6 @@ use std::io::prelude::*;
 use std::path::Path;
 
 use crate::error::FatalError;
-use toml;
 use toml::value::Table;
 use toml::Value;
 
